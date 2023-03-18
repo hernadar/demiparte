@@ -1,0 +1,54 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Registrar una recomendacion </h1>
+    <br>
+ 
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    
+    <div> 
+        
+        <form action="/users/recommendation/register" method="post"  > 
+            <div class='form'>
+                <label>Usuario: </label>
+                <select name="users_id">
+                    <% for (let i = 0; i<users.length; i ++) { %>
+                        <option value="<%= users[i].id%>"><%= users[i].id %></option>
+
+                    <% } %>
+                </select>
+            </div>
+            <div class='form'>
+                <label>Empresa: </label>
+                <select name="companies_id">
+                    <% for (let i=0; i<companies.length; i ++) {%>
+                        <option value="<%= companies[i].id%>"><%= companies[i].id %></option>
+
+                    <% } %>
+                </select>
+            </div>
+            
+            <div class='form'>
+                <label>Fecha de Creación: </label>
+                <input type="date" name="dateCreate" ><br>
+            </div>
+            
+            <button type="submit">Crear</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>
+

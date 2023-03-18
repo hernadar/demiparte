@@ -1,0 +1,68 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+    <h1>Editar Usuario</h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    <div>
+        <img style='width:100px'src="/images/avatars/<%= user.image %>">
+    </div>
+    <div> 
+        <form action="/users/profile/edit/<%=user.id%>" method="post" enctype="multipart/form-data" > 
+            <div class='form'>
+                <label>Nombre: </label>
+                <input type="text" name="name" value="<%=user.name %>"><br>
+            </div>
+            <div class='form'>
+                <label>Apellido: </label>
+                <input type="text" name="lastname" value="<%=user.lastname %>"><br>
+            <div class='form'>
+                <label>Telefono: </label>
+                <input class='form'type="text" name="phone" value="<%=user.phone %>"><br>
+            </div> 
+            <div class='form'>
+                <label>Email: </label>
+                <input type="text" name="email" value="<%=user.email %>"><br>
+            </div>
+            <div class='form'>
+                <label>Password: </label>
+                <input type="password" name="password" value="<%=user.password %>"><br>
+            </div>
+            <div class='form'>
+                <label>Tipo de Usuario: </label>
+                <select name="privileges_id" >
+                    <% for  (let i = 0; i < privileges.length; i++ ) { %>
+                        <% if (privileges[i].id==user.privileges_id) { %>
+                            <option value="<%=privileges[i].id%>" selected>
+                                <%=privileges[i].name%>
+                            </option>
+                         <%} else { %>
+                            <option value="<%=privileges[i].id%>" >
+                                <%=privileges[i].name%>
+                            </option>
+                            <% } %>
+                        <% } %>
+            
+                </select> <br>
+            </div>
+            <div class='form'>
+                <label>Imagen: </label>
+                <input type="file" name="image" value="<%=user.image %>"><br>
+            </div>
+            <button type="submit">Confirmar Cambios</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>

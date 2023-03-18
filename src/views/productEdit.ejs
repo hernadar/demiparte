@@ -1,0 +1,53 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Editar producto <%= product.name %> de la Empresa <%= company.name %></h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    <div>
+        <img style='width:100px'src="/images/products/<%= product.image %>">
+    </div>
+    <div> 
+        <form action="/companies/<%= company.id %>/products/edit/<%=product.id%>" method="post" enctype="multipart/form-data" > 
+            <div class='form'>
+                <label>Nombre: </label>
+                <input type="text" name="name" value="<%=product.name %>"><br>
+            </div>
+            <div class='form'>
+                <label>Descripción: </label>
+                <input type="text" name="description" value="<%=product.description %>"><br>
+            </div>
+            <div class='form'>
+                <label>Categoria: </label>
+                <input type="text" name="category" value="<%=product.category %>" ><br>
+            </div>
+            <div class='form'>
+                <label>Precio: </label>
+                <input type="number" name="price" value="<%=product.price %>"><br>
+            </div>
+            <div class='form'>
+                <label>Puntos para canje: </label>
+                <input type="number" name="points" value="<%=product.points %>"><br>
+            </div>
+            <div class='form'>
+                <label>Imagen: </label>
+                <input type="file" name="image" value="<%=product.image %>"><br>
+            </div>
+            <button type="submit">Confirmar Cambios</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>

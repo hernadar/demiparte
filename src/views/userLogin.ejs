@@ -1,0 +1,40 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+    <h1>Inciar Sesion</h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    
+    <div> 
+        <form action="/users/login" method="post" > 
+            
+            <div class='form'>
+                <label>Email: </label>
+                <input type="text" name="email" ><br>
+            </div>
+            <div class='form'>
+                <label>Password: </label>
+                <input class='form'type="password" name="password" ><br>
+            </div>
+            <div class='form'>
+                <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" name="remember_user">Recordar mi usuario
+            </label>
+            </div> 
+            <button type="submit">Iniciar Sesion</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>

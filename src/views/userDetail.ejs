@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Perfil del Usuario</h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    <div>
+        <img style='width:100px'src="../../../../recomendaMe/src/assets/images/avatars/<%= user.image %>">
+    </div>
+    <div>
+    <label>Nombre: </label>
+    <label><%=user.name %></label><br>
+    <label>Apellido: </label>
+    <label><%=user.lastname %></label><br>
+    <label>Telefono: </label>
+    <label><%=user.phone %></label><br>
+    <label>Email: </label>
+    <label><%=user.email %></label><br>
+    <label>Puntos Acumulados: </label>
+    <label><%=user.points %></label><br>
+    <label>Tipo de Usuario: </label>
+    <label><%=user.privileges.name %></label><br>
+
+        <a href="/users/profile/edit/<%=user.id %>">
+            <button>Editar</button>
+        </a>
+    </div>   
+    <form action="/users/profile/delete/<%=user.id %>" method="post"  >
+        <button type="submit">Eliminar</button>
+    </form>   
+        
+    </body>
+
+</html>

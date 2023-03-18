@@ -1,0 +1,30 @@
+<body>
+
+  
+        <nav class="navbar">
+            <figure >
+                <img src="/images/logos/logoRecomendame.png" style='width:300px' alt="Logo Recomendame">
+            </figure>
+            <ul>
+                <li><a class="botonVolver" href="/">Inicio</a></li>
+                <% if (locals.isLogged) { %>
+                    <li><a class="nav-link dropdown-toggle" href="#" id="dropUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../../../recomendaMe/src/assets/images/logos/<%= locals.userLogged.image %>" width="40" style="border-radius: 100%;">
+                        Hola <%= locals.userLogged.name %> 
+                    </a></li>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="../../../../recomendaMe/src/assets/images/avatars/<%= locals.userLogged.id %>">Mi perfil</a>
+                        <li><hr class="dropdown-divider"></li>
+                        <a class="dropdown-item" href="/users/logout">Logout</a>
+                    </ul>
+                    <li><a href='/users'>Usuarios</a></li>
+                    <li><a href='/companies'>Empresas</a></li>
+                    <li><a href='/users/recommendation'>Recomendaciones</a></li>
+                        
+                <% } else {%>
+                    <li><a class="botonVolver" href="/users/login">Login</a></li>
+                    <li><a class="botonVolver" href="/users/register">Registrarse</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    

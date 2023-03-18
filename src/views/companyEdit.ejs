@@ -1,0 +1,62 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Editar Empresa</h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    <div>
+        <img style='width:100px'src="/images/logos/<%= company.image %>">
+    </div>
+    <div> 
+        <form action="/companies/profile/edit/<%=company.id%>" method="post" enctype="multipart/form-data" > 
+            <div class='form'>
+                <label>Nombre: </label>
+                <input type="text" name="name" value="<%=company.name %>"><br>
+            </div>
+            <div class='form'>
+                <label>Area/Rubro </label>
+                <select name="areas_id" >
+                    <% for  (let i = 0; i < areas.length; i++ ) { %>
+                        <% if (areas[i].id==company.areas_id) { %>
+                            <option value="<%=areas[i].id%>" selected>
+                                <%=areas[i].name%>
+                            </option>
+                         <%} else { %>
+                            <option value="<%=areas[i].id%>" >
+                                <%=areas[i].name%>
+                            </option>
+                            <% } %>
+                        <% } %>
+            
+                </select> <br>
+            </div>
+            <div class='form'>
+                <label>Descripción: </label>
+                <input type="text" name="description" value="<%=company.description %>"><br>
+            </div>
+            <div class='form'>
+                <label>Precio de punto de recomendación: </label>
+                <input type="number" name="pricePoint" value="<%=company.pricePoint %>"><br>
+            </div>
+            <div class='form'>
+                <label>Imagen: </label>
+                <input type="file" name="image"value="<%=company.image %>" ><br>
+            </div>
+            <button type="submit">Crear</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>

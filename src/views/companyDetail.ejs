@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Perfil de Empresa <%=company.name %></h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    <div>
+        <img style='width:100px'src="/images/logos/<%= company.image %>">
+    </div>
+    <div>
+    <label>Nombre: </label>
+    <label><%=company.name %></label><br>
+    <label>Rubro/Area: </label>
+    <label><%=company.areas.name %></label><br>
+    <label>Descripcion: </label>
+    <label><%=company.description %></label><br>
+    <label>Recomendaciones: </label>
+    <label><%=company.recomendations %></label><br>
+    <label>Precio del punto recomendado </label>
+    <label><%=company.pricePoint %></label><br>
+    
+
+        <a href="/companies/profile/edit/<%=company.id %>">
+            <button>Editar</button>
+        </a>
+        <ul>
+            <li><a href='/companies/<%=company.id %>/products'>Productos</a></li>
+        </ul>
+    </div>   
+    <form action="/companies/profile/delete/<%=company.id %>" method="post"  >
+        <button type="submit">Eliminar</button>
+    </form>   
+        
+    </body>
+
+</html>

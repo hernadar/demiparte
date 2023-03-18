@@ -1,0 +1,60 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Registro de Usuario</h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    
+    <div> 
+        <form action="/users/register" method="post" enctype="multipart/form-data" > 
+            <div class='form'>
+                <label>Nombre: </label>
+                <input type="text" name="name"><br>
+            </div>
+            <div class='form'>
+                <label>Apellido: </label>
+                <input type="text" name="lastname" ><br>
+            </div>
+            <div class='form'>
+                <label>Telefono: </label>
+                <input class='form'type="text" name="phone" ><br>
+            </div> 
+            <div class='form'>
+                <label>Email: </label>
+                <input type="text" name="email" ><br>
+            </div>
+            <div class='form'>
+                <label>Password: </label>
+                <input class='form'type="password" name="password" ><br>
+            </div> 
+            <div class='form'>
+                <label>Tipo de Usuario: </label>
+                <select name="privileges_id">
+                    <% for  (let i = 0; i < privileges.length; i++ ) { %>
+                        <option value="<%=privileges[i].id%>"><%=privileges[i].name%></option>
+                    <% } %>
+            
+            </select> <br>
+            </div>
+            <div class='form'>
+                <label>Imagen: </label>
+                <input type="file" name="image" ><br>
+            </div>
+            <button type="submit">Crear</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>

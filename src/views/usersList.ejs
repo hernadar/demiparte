@@ -1,0 +1,25 @@
+
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>LISTADO DE USUARIOS</h1>
+    <br>
+    <p>
+        <a class="botonAgregar" href="/users/register">Agregar un usuario</a>
+       
+
+    </p>
+    <br>
+    <ul>
+        <% for( let i = 0; i < users.length; i++ ) { %>
+        <li>
+            <a href="users/profile/<%= users[i].id %>"><%= users[i].email %></a>
+        </li>
+        <% } %>
+
+    </ul>
+</body>
+
+</html>

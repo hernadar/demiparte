@@ -1,0 +1,54 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Registrar producto de Empresa <%=company.name%></h1>
+    <br>
+ 
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    
+    <div> 
+        <form action="/companies/<%=company.id%>/products/register" method="post" enctype="multipart/form-data" > 
+            <div class='form'>
+                <label>Nombre: </label>
+                <input type="text" name="name"><br>
+            </div>
+            
+            <div class='form'>
+                <label>Descripción: </label>
+                <input type="text" name="description" ><br>
+            </div>
+            <div class='form'>
+                <label>Categoria: </label>
+                <input type="text" name="category" ><br>
+            </div>
+            <div class='form'>
+                <label>Precio: </label>
+                <input type="number" name="price" ><br>
+            </div>
+            <div class='form'>
+                <label>Puntos para canje: </label>
+                <input type="number" name="points" ><br>
+            </div>
+            <div class='form'>
+                <label>Imagen: </label>
+                <input type="file" name="image" ><br>
+            </div>
+            <button type="submit">Crear</button>
+        </form>
+    
+        
+            
+        
+    </div>   
+    
+</body>
+
+</html>
+

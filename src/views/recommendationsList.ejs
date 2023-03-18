@@ -1,0 +1,25 @@
+
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>LISTADO DE RECOMENDACIONES</h1>
+    <br>
+    <p>
+        <a class="botonAgregar" href="/users/recommendation/register">Agregar una recomendacion</a>
+       
+
+    </p>
+    <br>
+    <ul>
+        <% for( let i = 0; i < recommendations.length; i++ ) { %>
+        <li>
+            <a href="/users/recommendation/detail/<%= recommendations[i].id %>"><%= recommendations[i].dateCreate + "  - " + recommendations[i].users.name + "   " + recommendations[i].users.lastname + " -  " + recommendations[i].companies.name %></a>
+        </li>
+        <% } %>
+
+    </ul>
+</body>
+
+</html>

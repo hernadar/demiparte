@@ -1,0 +1,49 @@
+<%- include('partials/head') %>
+
+<%- include('partials/header') %>
+
+
+    <h1>Detalle de recomendación de la empresa <%= recommendation.companies.name %> emitida por <%= recommendation.users.name + " " + recommendation.users.lastname %></h1>
+    <br>
+    <p>
+        
+        <a class="botonVolver" href="/">Inicio</a>
+
+    </p>
+    <br>
+    
+    <div>
+    <label>Nombre: </label>
+    <label><%=recommendation.users.name %></label><br>
+    <label>Apellido: </label>
+    <label><%=recommendation.users.lastname %></label><br>
+    <label>email: </label>
+    <label><%=recommendation.users.email %></label><br>
+    <label>Empresa: </label>
+    <label><%=recommendation.companies.name %></label><br>
+    <label>Fecha de creación de la Recomendación: </label>
+    <label><%=recommendation.dateCreate %></label><br>
+    <label>Fecha de presentación de la Recomendación: </label>
+    <label><%=recommendation.datePresent %></label><br>
+    <label>Fecha de confirmación de la Recomendación: </label>
+    <label><%=recommendation.dateConfirm %></label><br>
+    <label>Estado: </label>
+    <label><%=recommendation.status %></label><br>
+        
+    </div> 
+    <% if( recommendation.status===null) { %>  
+    <form action="/users/recommendation/updatePresentar/<%=recommendation.id %>" method="post"  >
+        <button type="submit">Presentar</button>
+    </form> 
+    <% } else if (recommendation.status==='pendiente') {  %> 
+        <form action="/users/recommendation/updateConfirmar/<%=recommendation.id %>" method="post"  >
+            <button type="submit">Confirmar</button>
+        </form> 
+    <% } %>
+    <form action="/users/recommendation/delete/<%=recommendation.id %>" method="post"  >
+        <button type="submit">Eliminar</button>
+    </form>   
+        
+    </body>
+
+</html>
