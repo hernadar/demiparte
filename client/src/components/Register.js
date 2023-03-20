@@ -39,7 +39,7 @@ function Register() {
                     if(password.value.length>7){
                          password=password.value
                         if(privileges.value==="2") {
-                             var privileges_id=2
+                             privileges_id=2
                         } else { var privileges_id=1}
                         var formData=new FormData();
                         var fileField=image.files[0];
