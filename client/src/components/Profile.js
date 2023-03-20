@@ -52,7 +52,7 @@ function Profile() {
 // busca en la base de datos las recomendaciones que tiene ese usuario
 
 	const recommendationByUser = () => {
-		fetch('/api/users/' + user.id + '/recommendation/')
+		fetch('/api/users/' + user[0].id + '/recommendation/')
 			.then(response => response.json())
 			.then(recomendaciones => {
 				setRecommendations(recomendaciones.data)
@@ -75,15 +75,15 @@ function Profile() {
 					<div className="container" Style="margin-top: 40px;">
 						<div className="row">
 
-							<h2>Hola {user.name} </h2>
+							<h2>Hola {user[0].name} </h2>
 							<p className=' p-10'>Esta es tu identificación de usuario, con ella podrás canjear tus puntos acumulados, solo debes descargarla y la presentás en el comercio adherido</p>
 							<div ref={identificacion} className="rounded border sombra row justify-content-around align-items-center border-left-warning m-4 text-center" >
 								<div className=" col-sm justify-content-around" >
-									<img className="w-75" src={imagenes(`./avatars/${user.image}`)} alt='Imagen de Perfil' />
-									<div className='text-xs font-weight-bold text-center '>{user.name}   {user.lastname}</div>
+									<img className="w-75" src={imagenes(`./avatars/${user[0].image}`)} alt='Imagen de Perfil' />
+									<div className='text-xs font-weight-bold text-center '>{user[0].name}   {user.lastname}</div>
 								</div>
 								<div className="col-sm align-middle" >
-									<QRCodeCanvas value={user.password}
+									<QRCodeCanvas value={user[0].password}
 										id="qrUser"
 										size={200}
 									/>
@@ -98,7 +98,7 @@ function Profile() {
 
 						</div>
 						<div>
-							<h3>Puntos acumulados: <span className='text-success'>{(user.points===null)?0:user.points}</span></h3>
+							<h3>Puntos acumulados: <span className='text-success'>{(user[0].points===null)?0:user[0].points}</span></h3>
 						</div>
 						<div className=" m-2 ">
 
@@ -118,13 +118,13 @@ function Profile() {
 							<tbody>
 								{recommendations.map ((recomendacion,i) =>{
 									
-									let fecha = new Date(recomendacion.dateCreate).toLocaleDateString()
+									let fecha = new Date(recomendacion.dateCreate).toLocaleDateString('es-AR')
 								
 									return( 
 										<tr>
 												<th scope="row">{recomendacion.id}</th>
 												<td>{fecha}</td>
-												<td>{recomendacion.companies.name}</td>
+												<td>{recomendacion.companies_name}</td>
 												<td>{recomendacion.status}</td>
 										</tr>
 									)

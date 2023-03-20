@@ -1,51 +1,135 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import {useNavigate} from "react-router-dom"
 
-function CompanyRegister() {
+
+function RegisterCompany() {
+
+    const [errorMessages, setErrorMessages] = useState({});
+
+    const [companies, setCompanies] = useState([])
+    const [areas, setAreas] = useState([])
+
+
+    useEffect(() => {
+
+        fetch('/api/companies')
+            .then(response => response.json())
+            .then(companies => {
+                setCompanies(companies.data)
+            })
+            .catch(function (e) {
+                console.log(e)
+            })
+    }, [])
+
+    useEffect(() => {
+
+        fetch('/api/companies/areas')
+            .then(response => response.json())
+            .then(areas => {
+                setAreas(areas.data)
+            })
+            .catch(function (e) {
+                console.log(e)
+            })
+    }, [])
+
+
+    const navigate = useNavigate()
+    
+    
+    const errors = {
+        name: "La empresa ya está registrada",
+        
+    };
+
+    const handleSubmit = (event) => {
+        //Prevent page reload
+        event.preventDefault();
+
+        var { name, description, image, areas_id, pricePoint } = document.forms[0];
+        // Find user login info
+        const companyData = companies.find((company) => company.name === name.value);
+
+        if (!companyData) {
+               
+                        var formData=new FormData();
+                        var fileField=image.files[0];
+                        var nombre=name.value;
+                        var descripcion=description.value;
+                        var area=areas_id.value;
+                        var precioPunto=pricePoint.value;
+                     console.log(area)
+                    
+                    formData.append('name',nombre);
+                    formData.append('description',descripcion);
+                    formData.append('image',fileField);
+                    formData.append('areas_id', area);
+                    formData.append('pricePoint',precioPunto);
+                    
+                    fetch('/api/companies/register',{
+                        method:'POST',
+                        body: formData
+                        })
+                        .then(response => response.json())
+                        .then(respuesta => {
+                            console.log(respuesta)
+                         })
+                        .catch(function (e) {
+                            console.log(e)
+                        })
+
+
+                        navigate("/")}
+                               
+            
+         
+         else {
+            // Empresa ya existente
+            setErrorMessages({ name: "name", message: errors.name });
+        }
+    };
+
+    // Generate JSX code for error message
+    const renderErrorMessage = (name) =>
+        name === errorMessages.name && (
+            <div className="text-danger">{errorMessages.message}</div>
+        );
+
+console.log(areas)
     return (
+    <>
+        {areas.length!==0 &&(
+        <>
         <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <h2>Formulario de registro de Empresa</h2>
 
-                    <form method="POST" action="/user/register" enctype="multipart/form-data">
+                    <form onSubmit={handleSubmit} action="" >
                         <div className="row">
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
-                                    <label><b>Nombre de Empresa:</b></label>
+                                    <label><b>Nombre:</b></label>
                                     <input
                                         type="text"
                                         name="name"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
-
+                                    {renderErrorMessage("name")}
                                     </div>
 
                                 </div>
                             </div>
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
-                                    <label><b>Rubro:</b></label>
-                                    <input
-                                        type="text"
-                                        name="area"
-                                        className="form-control"
-                                    />
-
-                                    <div className="text-danger">
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div className="col-md-6 my-1">
-                                <div className="form-group">
-                                    <label><b>Descripcion:</b></label>
+                                    <label><b>Descripción:</b></label>
                                     <input
                                         type="text"
                                         name="description"
-                                        className="form-control"
+                                        className="form-control"required
                                     />
 
                                     <div className="text-danger">
@@ -56,23 +140,46 @@ function CompanyRegister() {
                             </div>
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
-                                    <label><b>Precio del punto de recomendación:</b></label>
+                                <label><b>Area/Rubro:</b></label>
+                                <select  type="number"
+                                        name="areas_id"
+                                        className="form-control" required>
+                                    { areas.map((area)=>{
+
+                                        return(
+                                        <option value={area.id}>{area.name}</option>
+                                        )
+                                    })}
+                                 </select>
+                                    
+                                    
+                                    
+                                   
+                                    <div className="text-danger">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="col-md-6 my-1">
+                                <div className="form-group">
+                                    <label><b>Precio del punto de Recomendación:</b></label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="pricePoint"
-                                        className="form-control"
+                                        className="form-control" required
                                     />
 
                                     <div className="text-danger">
-
+                                      
                                     </div>
 
                                 </div>
                             </div>
-                            
+
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
-                                    <label><b>logo de la Empresa:</b></label>
+                                    <label><b>Logo de Empresa:</b></label>
                                     <input
                                         type="file"
                                         name="image"
@@ -85,15 +192,20 @@ function CompanyRegister() {
 
                                 </div>
                             </div>
+
+    
                             <div className="col-12 my-3">
-                                <button type="submit" className="btn btn-warning">Registrar</button>
+                                <button type="submit" className="btn btn-warning">Registrarse</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    )
+    </>
+    )}
+   </> 
+        )
 }
 
-export default CompanyRegister
+export default RegisterCompany;

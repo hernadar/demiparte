@@ -2,23 +2,51 @@ const { validationResult }=require ('express-validator')
 const db= require('../../database/models');
 
 const controller = {
-    list: (req,res) => {
-        db.Company.findAll()
-            .then(function (companies) {
-                let response = {
+    
+    list: async (req, res) => {
+        let consulta = "SELECT * FROM `companies`"
+        const [companies, metadata] = await db.sequelize.query(consulta)
+                 let response = {
                     meta: {
                         status : 200,
                         total: companies.length,
                         url: 'api/companies'
                     },
                     data: companies
-                }
-                    res.json(response);
-                })
-        .catch(function (e) {
-            console.log(e)
-        })
-    }, 
+                    }
+                    res.json(response);               
+            },
+            listAreas: async (req, res) => {
+                let consulta = "SELECT * FROM `areas`"
+                const [areas, metadata] = await db.sequelize.query(consulta)
+                         let response = {
+                            meta: {
+                                status : 200,
+                                total: areas.length,
+                                url: 'api/companies/areas'
+                            },
+                            data: areas
+                            }
+                            res.json(response);
+                        },  
+    // listAreas:(req,res) => {
+    //     console.log('estoy llegando')
+    //     db.Area.findAll()
+    //         .then(function (areas) {
+    //             let response = {
+    //                 meta: {
+    //                     status : 200,
+    //                     total: areas.length,
+    //                     url: 'api/areas'
+    //                 },
+    //                 data: areas
+    //             }
+    //                 res.json(response);
+    //             })
+    //     .catch(function (e) {
+    //         console.log(e)
+    //     })
+    // },  
     register: (req,res) => {
         db.Area.findAll()
             .then(function (areas) {
@@ -28,73 +56,92 @@ const controller = {
                 console.log(e)
             })
     }, 
-    processRegister: (req,res) => {
+    create: async (req, res) => {
+        
+    
         const resultValidation = validationResult(req);
-       console.log(resultValidation.errors)
-        if(resultValidation.errors.length > 0) {
+
+        if (resultValidation.errors.length > 0) {
             //debería analizar cada uno de los errores cargando en una variable
             // errors:resultValidation.mapped(), esta última función me convierte
             // el array en un objeto literal, para luego trabajarlo más comodo
-            return res.send('se registró algún error en los datos recibidos del formulario de Registro de usuario')
+            return res.send(resultValidation)
         }
-       // Verifico si el usuario ya existe en la DB
+       
+        let imageCompany
 
-       db.Company.findOne({ where: { name: req.body.name } })
-       .then(function (companyInDB) {
-           if (companyInDB) {
-               return res.send('la empresa ya existe');//le tengo que decir al front que el usuario ya existe
-           } else {
-               let imageProfile
-
-               if (req.file == undefined) {
-                   imageProfile = 'company.webp'
-               } else {
-                   imageProfile = req.file.filename
-               }
-               parseInt(req.body.pricePoint)
-               let companyToCreate = {
-                ...req.body,
-                image: imageProfile,
-            }
-            db.Company.create(companyToCreate)
-                .then(function (response) {
-                    return res.redirect('/companies')
-                })
-                .catch(function (e) {
-                    console.log(e)
-                })
-            }
-        })
-        .catch(function (e) {
-            console.log(e)
-        })
-
-    }, 
-    
-    profile: (req, res) => {
-        db.Company.findByPk(req.params.idCompany, {
-            include: [{ association: 'areas' }]
-        })
-            .then(function (company) {
-                
-                let companyWithArea ={
-                    ...company,
-                    areas_id:company.areas.name
+            if (req.file == undefined) {
+                imageCompany = 'company.webp'
+                } else {
+                imageCompany = req.file.filename
                 }
-                let response = {
+
+               
+                parseInt(req.body.pricePoint)
+        
+        let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + parseInt(req.body.pricePoint) + `")`
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+          
+        return recomendaciones
+ 
+       
+    },
+    // create: (req,res) => {
+    //     const resultValidation = validationResult(req);
+    //    console.log(resultValidation.errors)
+    //     if(resultValidation.errors.length > 0) {
+    //         //debería analizar cada uno de los errores cargando en una variable
+    //         // errors:resultValidation.mapped(), esta última función me convierte
+    //         // el array en un objeto literal, para luego trabajarlo más comodo
+    //         return res.send('se registró algún error en los datos recibidos del formulario de Registro de usuario')
+    //     }
+    //    //No es necesario esta verificación porque ya se realizó en el Front
+
+    // //    db.Company.findOne({ where: { name: req.body.name } })
+    // //    .then(function (companyInDB) {
+    // //        if (companyInDB) {
+    // //            return res.send('la empresa ya existe');//le tengo que decir al front que el usuario ya existe
+    // //        } else {
+    //            let imageCompany
+
+    //            if (req.file == undefined) {
+    //                imageCompany = 'company.webp'
+    //            } else {
+    //                imageCompany = req.file.filename
+    //            }
+               
+    //            let companyToCreate = {
+    //             ...req.body,
+    //             pricePoint:parseInt(req.body.pricePoint),
+    //             image: imageCompany,
+    //         }
+    //         db.Company.create(companyToCreate)
+    //             .then(function (response) {
+    //                 return response
+    //             })
+    //             .catch(function (e) {
+    //                 console.log(e)
+    //             })
+            
+    
+
+    
+    profile: async (req, res) => {
+       
+        let consulta= "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
+        const [company, metadata] = await db.sequelize.query(consulta)
+                   
+                    let response = {
                     meta: {
                         status : 200,
-                        total: companyWithArea.length,
+                        total: company.length,
                         url: 'api/companies/profile/:idCompany'
                     },
                     data: company
-                }
-                res.json(response);
-          
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
+                    }
+                    res.json(response);               
+
+        
     },
     edit: (req, res) => {
         let pedidoCompany = db.Company.findByPk(req.params.idCompany);

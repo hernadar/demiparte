@@ -17,7 +17,7 @@ function CompaniesList({ company }) {
             })
 
     }, [])
-
+    console.log(recommendations.length)
     return (
 
 

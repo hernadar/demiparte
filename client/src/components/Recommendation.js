@@ -60,7 +60,7 @@ function Recommendation() {
     useEffect(() => {
 
         if (user.length !== 0 && company.length !== 0) {
-            let code = user.name + user.lastname + company.name
+            let code = user[0].name + user[0].lastname + company[0].name
             let codeString = toString(code);
             let key = bcrypt.hashSync(codeString, 10)
             setkeyRecommend(key)
@@ -82,8 +82,8 @@ function Recommendation() {
             let day = date.getDate();
             let dateToCreate = year + '-' + month + '-' + day
             let recommendationToCreate = {
-                users_id: user.id,
-                companies_id: company.id,
+                users_id: user[0].id,
+                companies_id: company[0].id,
                 code: keyRecommend,
                 dateCreate: dateToCreate,
                 status: 'creada'
@@ -149,9 +149,9 @@ function Recommendation() {
                 <div className=' pb-3'>
                     <div ref={recomendacion} className="rounded border sombra row justify-content-around align-items-center border-left-warning m-4" >
                         <div className=" col-sm">
-                            <em>Recomiendo a </em><em className='text-warning'>{company.name}</em>
-                            <img className="w-100 h-50" src={imagenes(`./logos/${company.image}`)} alt="Company" />
-                            <div className='text-xs font-weight-bold text-warning text-center '>{user.name}   {user.lastname}</div>
+                            <em>Recomiendo a </em><em className='text-warning'>{company[0].name}</em>
+                            <img className="w-100 h-50" src={imagenes(`./logos/${company[0].image}`)} alt="Company" />
+                            <div className='text-xs font-weight-bold text-warning text-center '>{user[0].name}   {user[0].lastname}</div>
                         </div>
                         {keyRecommend !== "" && (
                             <div className="col-sm align-middle" >
@@ -217,10 +217,10 @@ padding: 10px;
 border-radius: 10px;
 color: #fff;
 border: none;
-background:rgba(235,165,45,0.5);
+background:rgba(235,128,19,0.7);
 transition: .3s ease all;
 
 
 &:hover {
-    background:rgba(239,135,17,0.5)
+    background:rgba(239,135,17,0.9)
 }`

@@ -39,9 +39,9 @@ const controller = {
             })
 
     },
-
-    create: (req, res) => {
-
+    create: async (req, res) => {
+        
+    
         const resultValidation = validationResult(req);
 
         if (resultValidation.errors.length > 0) {
@@ -50,24 +50,21 @@ const controller = {
             // el array en un objeto literal, para luego trabajarlo más comodo
             return res.send(resultValidation)
         }
-        // encrypto el codigo de Recomendacion 
+       
 
-        let recommendationTocreate = {
-            users_id: req.body.users_id,
-            companies_id: req.body.companies_id,
-            code: req.body.code,
-            dateCreate: req.body.dateCreate,
-            status: req.body.status
+        let users_id = req.body.users_id;
+        let companies_id = req.body.companies_id;
+        let code = req.body.code;
+        let dateCreate = req.body.dateCreate;
+        let status = req.body.status;
 
-        }
-
-        db.Recommendation.create(recommendationTocreate)
-            .then(function (response) {
-                return response
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
+        
+        let consulta = `INSERT INTO recommendations (users_id, companies_id, code, dateCreate, status) VALUES ("` + users_id + `", "` + companies_id + `", "` + code + `", "` + dateCreate + `", "` + status + `")`
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+          
+        return recomendaciones
+ 
+       
     },
 
     login: (req, res) => {
@@ -200,41 +197,52 @@ const controller = {
                 console.log(e)
             })
     },
-    findByUser: (req, res) => {
-        db.Recommendation.findAll({ where: { users_id: req.params.id },
-            include: [{ association: 'companies' }] })
-            .then(function (recomendaciones) {
-                let response = {
+    findByUser: async (req, res) => {
+        let consulta= "SELECT recommendations.id, users_id, companies_id, code, dateCreate, datePresent, dateConfirm, status, companies.name as companies_name FROM recommendations JOIN companies WHERE users_id='"+ req.params.id + "' AND companies_id=companies.id";
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+                 let response = {
                     meta: {
-                        status: 200,
+                        status : 200,
                         total: recomendaciones.length,
                         url: 'api/users/:id/recommendation'
                     },
                     data: recomendaciones
-                }
-                res.json(response);
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
-    },
-    findByCompany: (req, res) => {
-        db.Recommendation.findAll({ where: { companies_id: req.params.idCompany },
-            include: [{ association: 'companies' }] })
-            .then(function (recomendaciones) {
-                let response = {
+                    }
+                    res.json(response);               
+            },
+
+    // findByUser: (req, res) => {
+    //     db.Recommendation.findAll({ where: { users_id: req.params.id },
+    //         include: [{ association: 'companies' }] })
+    //         .then(function (recomendaciones) {
+    //             let response = {
+    //                 meta: {
+    //                     status: 200,
+    //                     total: recomendaciones.length,
+    //                     url: 'api/users/:id/recommendation'
+    //                 },
+    //                 data: recomendaciones
+    //             }
+    //             res.json(response);
+    //         })
+    //         .catch(function (e) {
+    //             console.log(e)
+    //         })
+    // },
+    findByCompany: async (req, res) => {
+        let consulta= "SELECT * FROM recommendations JOIN companies WHERE companies_id= '"+ req.params.idCompany + "' AND companies_id=companies.id";
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+                 let response = {
                     meta: {
-                        status: 200,
+                        status : 200,
                         total: recomendaciones.length,
-                        url: 'api/users/:id/recommendation'
+                        url: 'api/company/:id/recommendation'
                     },
                     data: recomendaciones
-                }
-                res.json(response);
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
-    }
+                    }
+                    res.json(response);               
+            },
+
+
 }
 module.exports = controller

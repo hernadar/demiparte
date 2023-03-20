@@ -88,10 +88,12 @@ const validationsProduct=[
 
 // Lista de Empresas
 router.get('/', companiesApiController.list);
+// Lista de Rubros de empresas
+router.get('/areas', companiesApiController.listAreas);
 // Formulario de registro de Empresa
-router.get('/register',authMiddleware, companiesApiController.register);
+router.get('/register', companiesApiController.register);
 //Procesar el registro
-router.post('/register', uploadFileCompany.single('image'), validationsCompany, companiesApiController.processRegister);
+router.post('/register', uploadFileCompany.single('image'), validationsCompany, companiesApiController.create);
 
 // Perfil de Empresa
 router.get('/profile/:idCompany', companiesApiController.profile);

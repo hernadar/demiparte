@@ -10,6 +10,15 @@ const controller = {
         .catch(function (e) {
             console.log(e)
         })
+    },
+    listAreas:(req,res) => {
+        db.Area.findAll()
+        .then(function (companies) {
+            res.render('companiesList', { companies })
+        })
+        .catch(function (e) {
+            console.log(e)
+        })
     }, 
     register: (req,res) => {
         db.Area.findAll()

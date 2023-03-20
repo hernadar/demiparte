@@ -9,7 +9,7 @@ import { Routes, Route } from 'react-router-dom';
 import Company from './Company';
 import Recommendation from './Recommendation';
 import Logout from './Logout';
-
+import CompanyRegister from './CompanyRegister';
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
           <Route path='/companies/' element={<Companies />} />
           <Route path='/companies/:companyId/*' element ={<Company/>} />    
           <Route path='/companies/:companyId/recommendation' element ={<Recommendation/>} />  
+          <Route path='/companies/register' element ={<CompanyRegister/>} />
           
               <Route path='/users/register' element={<Register />} />
               <Route path='/users/login' element={<Login />} />

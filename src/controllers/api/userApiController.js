@@ -3,25 +3,19 @@ const bcryptjs = require('bcryptjs');
 const db = require('../../database/models');
 
 const controller = {
-    list: (req, res) => {
-        
-        db.User.findAll()
-            .then(function (users) {
-                let response = {
+    list: async (req, res) => {
+        let consulta= "SELECT * FROM `users`"
+        const [users, metadata] = await db.sequelize.query(consulta)
+                 let response = {
                     meta: {
                         status : 200,
                         total: users.length,
                         url: 'api/users'
                     },
                     data: users
-                }
-                    res.json(response);
-                })
-            
-            .catch(function (e) {
-                console.log(e)
-            })
-    },
+                    }
+                    res.json(response);               
+            },
 
     register: (req, res) => {
         db.Privilege.findAll()
@@ -33,9 +27,9 @@ const controller = {
             })
 
     },
-
-    create: (req, res) => {
-        console.log('pasó por acá')
+    create: async (req, res) => {
+        
+    
         const resultValidation = validationResult(req);
 
         if (resultValidation.errors.length > 0) {
@@ -44,32 +38,61 @@ const controller = {
             // el array en un objeto literal, para luego trabajarlo más comodo
             return res.send(resultValidation)
         }
-
-            let imageProfile
+       
+        let imageProfile
 
             if (req.file == undefined) {
                 imageProfile = 'user.png'
                 } else {
                 imageProfile = req.file.filename
                 }
-            // encrypto la contraseña 
-                console.log(req.body)
+
+               
+
+        
+        let consulta = `INSERT INTO users (name, lastname, phone, email, password, image, privileges_id) VALUES ("` + req.body.name + `", "` + req.body.lastname + `", "` + req.body.phone + `", "` + req.body.email + `", "` + req.body.password + `", "` + imageProfile + `", "` + req.body.privileges_id + `")`
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+          
+        return recomendaciones
+ 
+       
+    },
+    // create: (req, res) => {
+    //     console.log('pasó por acá')
+    //     const resultValidation = validationResult(req);
+
+    //     if (resultValidation.errors.length > 0) {
+    //         //debería analizar cada uno de los errores cargando en una variable
+    //         // errors:resultValidation.mapped(), esta última función me convierte
+    //         // el array en un objeto literal, para luego trabajarlo más comodo
+    //         return res.send(resultValidation)
+    //     }
+
+    //         let imageProfile
+
+    //         if (req.file == undefined) {
+    //             imageProfile = 'user.png'
+    //             } else {
+    //             imageProfile = req.file.filename
+    //             }
+    //         // encrypto la contraseña 
+    //             console.log(req.body)
                    
-            let userToCreate = {
-                ...req.body,
-                image: imageProfile,
-                }
-            db.User.create(userToCreate)
-                .then(function (response) {
-                        return response
-                    })
-                .catch(function (e) {
-                        console.log(e)
-                    })
+    //         let userToCreate = {
+    //             ...req.body,
+    //             image: imageProfile,
+    //             }
+    //         db.User.create(userToCreate)
+    //             .then(function (response) {
+    //                     return response
+    //                 })
+    //             .catch(function (e) {
+    //                     console.log(e)
+    //                 })
                 
             
 
-    },
+    // },
 
     login: (req, res) => {
         return res.render('userLogin')
@@ -111,31 +134,42 @@ const controller = {
                 console.log(e)
             })
     },  
-
-    profile: (req, res) => {
-        db.User.findByPk(req.params.id, {
-            include: [{ association: 'privileges' }]
-        })
-        .then(function (user) {
+    profile: async (req, res) => {
+        let consulta= "SELECT * FROM users WHERE id='" + req.params.id + "'"
+        const [user, metadata] = await db.sequelize.query(consulta)
+                 let response = {
+                    meta: {
+                        status : 200,
+                        total: user.length,
+                        url: 'api/user/profile/:iduser'
+                    },
+                    data: user
+                    }
+                    res.json(response);               
+            },
+    // profile: (req, res) => {
+        // db.User.findByPk(req.params.id, {
+        //     include: [{ association: 'privileges' }]
+        // })
+        // .then(function (user) {
                     
                         
              
-             let response = {
-                 meta: {
-                     status : 200,
-                     total: user.length,
-                     url: 'api/user/profile/:iduser'
-                 },
-                 data: user
-             }
-            res.json(response);
+        //      let response = {
+        //          meta: {
+        //              status : 200,
+        //              total: user.length,
+        //              url: 'api/user/profile/:iduser'
+        //          },
+        //          data: user
+        //      }
+        //     res.json(response);
            
-        })
-        .catch(function (e) {
-                console.log(e)
-        })
-    },
-
+        // })
+        // .catch(function (e) {
+        //         console.log(e)
+        // })
+    
     edit: (req, res) => {
         let pedidoUser = db.User.findByPk(req.params.id);
 

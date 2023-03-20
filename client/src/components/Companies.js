@@ -19,7 +19,8 @@ function Companies() {
 
    
     return (
-        <>
+        <> {companies.length ===0 && <em>Cargando datos...</em>}
+        {companies.length !==0 && (
             <div className='container ml-0'>
                 <div className="row ">
                   
@@ -37,7 +38,7 @@ function Companies() {
                     </div>
                 </div>
             
-
+            )}
         </>
     )
 }

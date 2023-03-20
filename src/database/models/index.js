@@ -11,11 +11,38 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
+  
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  // sequelize = new Sequelize('recomendame', 'root', null, {
+  //   host: '127.0.0.1',
+  //   dialect: 'mysql',
+  //   dialectOptions: {
+  //     ssl: {
+  //       require: true,
+  //       rejectUnauthorized: false, // <<<<<<< YOU NEED THIS
+  //     }
+  //   },
+  // });
+  sequelize = new Sequelize(config.database, config.username, config.password, 
+    {
+      ssl: config.ssl,
+      host: config.host,
+      dialect: config.dialect,
+      dialectOptions: config.dialectOption,
+      
+    });
+
 }
 
+sequelize.authenticate()
+  .then(() => {
+    console.log('Conectado')
+  })
+  .catch(err => {
+    console.log('No se conecto')
+  })
+ 
 fs
   .readdirSync(__dirname)
   .filter(file => {

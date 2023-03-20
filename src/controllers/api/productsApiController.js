@@ -2,26 +2,39 @@ const { validationResult }=require ('express-validator')
 const db= require('../../database/models');
 
 const controller = {
-    list: (req,res) => {
-        db.Product.findAll({where:{companies_id:req.params.idCompany}})
-            .then(function (products) {
-                let response = {
+    list: async (req, res) => {
+        let consulta = "SELECT * FROM `companies`";
+        const [products, metadata] = await db.sequelize.query(consulta)
+                 let response = {
                     meta: {
                         status : 200,
                         total: products.length,
-                        url: 'api/products'
+                        url: '/api/companies/:id/products/'
                     },
                     data: products
-                }
-                    res.json(response);
-                })
-        .catch(function (e) {
-            console.log(e)
-        })
+                    }
+                    res.json(response);               
+            },
+    // list: (req,res) => {
+    //     db.Product.findAll({where:{companies_id:req.params.idCompany}})
+    //         .then(function (products) {
+    //             let response = {
+    //                 meta: {
+    //                     status : 200,
+    //                     total: products.length,
+    //                     url: 'api/products'
+    //                 },
+    //                 data: products
+    //             }
+    //                 res.json(response);
+    //             })
+    //     .catch(function (e) {
+    //         console.log(e)
+    //     })
 
        
 
-    }, 
+    // }, 
     register: (req,res) => {
         // console.log(req.params.idCompany)
         db.Company.findOne({

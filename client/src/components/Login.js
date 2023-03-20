@@ -13,9 +13,11 @@ function Login() {
         fetch('/api/users')
             .then(response => response.json())
             .then(users => {
+                console.log(users)
                 setUsers(users.data)
             })
             .catch(function (e) {
+                console.log('la consulta devolvió un error')
                 console.log(e)
             })
     }, [])
@@ -61,6 +63,11 @@ function Login() {
         );
    
 return (
+
+<>      
+        {users.length===0 && <em>Cargando datos...</em>}
+         {users.length!==0 &&(
+        
         <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-10">
@@ -103,7 +110,10 @@ return (
                 </div>
             </div>
         </div>
-    )
+   
+       )}
+ </>   
+        )
 
     
 }

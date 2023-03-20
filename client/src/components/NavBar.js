@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import image from '../assets/images/app/demiparte.png';
 
 
-function NavbarDarkExample() {
+function NavbarDark() {
 
   const imagenes = require.context('../assets/images/',true)  
 
@@ -23,8 +23,12 @@ function NavbarDarkExample() {
         <Navbar.Toggle aria-controls="navbar-dark" />
         <Navbar.Collapse id="navbar-dark">
           <Nav>
+          
            { sessionStorage.userId && (
            <>
+            <NavDropdown.Item href="/companies/register">
+                Crear Empresa
+            </NavDropdown.Item>
            <NavDropdown
               id="nav-dropdown-dark-example"
               title={imagenPerfil}
@@ -58,4 +62,4 @@ function NavbarDarkExample() {
   );
 }
 
-export default NavbarDarkExample;
+export default NavbarDark;
