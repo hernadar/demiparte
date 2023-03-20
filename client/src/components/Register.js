@@ -38,9 +38,9 @@ function Register() {
                     
                     if(password.value.length>7){
                          password=password.value
-                        if(privileges.value==="2") {
-                             privileges_id=2
-                        } else { var privileges_id=1}
+                        // if(privileges.value==="2") {
+                        //      privileges_id=2
+                        // } else { var privileges_id=1}
                         var formData=new FormData();
                         var fileField=image.files[0];
                         var nombre=firstname.value;
@@ -48,6 +48,7 @@ function Register() {
                         var telefono=phone.value;
                         var correo=email.value;
                         var passString=toString(password.value)
+                        var privileges_id =privileges.value 
                     
                     formData.append('name',nombre);
                     formData.append('lastname',apellido);
