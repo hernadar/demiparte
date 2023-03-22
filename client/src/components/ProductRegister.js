@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate, useParams } from "react-router-dom";
-import axios from 'axios'
+
 function ProductRegister() {
     const { companyId } = useParams()
     const [errorMessages, setErrorMessages] = useState({});
@@ -17,7 +17,7 @@ function ProductRegister() {
             .catch(function (e) {
                 console.log(e)
             })
-    }, [])
+    }, [companyId])
 
     const errors = {
         name: "Ya existe un producto con ese nombre",

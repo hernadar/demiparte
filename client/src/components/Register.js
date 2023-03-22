@@ -27,6 +27,7 @@ function Register() {
     };
 
     const navigate = useNavigate()
+
     const errors = {
         email: "El usuario ya está registrado",
         password: "El password no coincide",
@@ -37,7 +38,7 @@ function Register() {
         //Prevent page reload
         event.preventDefault();
 
-        var { firstname, lastname, phone, email, password, passwordConfirm, image, privileges } = document.forms[0];
+        var { firstname, lastname, phone, email, password, passwordConfirm, image } = document.forms[0];
         // Find user login info
         const userData = users.find((user) => user.email === email.value);
 

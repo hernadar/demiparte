@@ -21,7 +21,7 @@ function ProductsList(company){
         })
         .catch (error => console.log(error))// busca en la base de datos con then, pero ahora lo hago manual
      
-    },[]) 
+    },[companyId]) 
 
 return(
     <div className='container'>

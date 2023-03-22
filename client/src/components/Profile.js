@@ -27,7 +27,7 @@ function Profile() {
 					console.log(err)
 				})
 		}
-	}, [])
+	}, [user.length])
 
 
 

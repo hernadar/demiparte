@@ -39,7 +39,7 @@ function RecoverPass() {
     
    
 
-    const codigo = (min, max) => {
+function codigoAleatorio(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min);
@@ -58,7 +58,7 @@ if (!emailSent){
         var { email } = document.forms[0];
  // Find user ti recover password
         const userDB = users.find((user) => user.email === email.value);
-        var codigoPass = codigo(10000,99999)
+        var codigoPass = codigoAleatorio(10000,99999)
         setCode(codigoPass)
         var templateParams = {
             from_name:'demiparte.com.ar',
@@ -78,7 +78,7 @@ if (!emailSent){
 
     } else {
         console.log(code)
-        var { email, codigo, password, passwordConfirm } = document.forms[0];
+        var { Email, codigo, password, passwordConfirm } = document.forms[0];
         if(parseInt(codigo.value) === code) {
             if(password.value === passwordConfirm.value){
                 if(password.value.length > 7) {
@@ -86,7 +86,7 @@ if (!emailSent){
                     
                     var formData = new FormData();
                     
-                    var correo = email.value;
+                    var correo = Email.value;
                     var passString = toString(password.value)
                     
                     formData.append('email', correo);
@@ -168,7 +168,7 @@ return (
                             <div className="col-md-6 my-2">
                                 <div className="form-group">
                                     <label><b>Correo electrónico:</b></label>
-                                    <input type="text" name="email" className="form-control" required />
+                                    <input type="text" name="Email" className="form-control" required />
                                     <div className="text-danger">
                                         {renderErrorMessage("email")}
                                     </div>
