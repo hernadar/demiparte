@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { NavLink } from "react-router-dom"
 
 import bcrypt from "bcryptjs-react";
 
@@ -97,9 +98,16 @@ return (
                             </div>
                             <div className="col-md-6 my-2">
                                 <div className="form-group form-check">
-                                    <label className="form-check-label">
+                                    {/* <label className="form-check-label">
                                         <input type="checkbox" className="form-check-input" name="remember_user" />Recordar mi usuario
-                                    </label>
+                                    </label> */}
+                                </div>
+                            </div>
+                            <div className="col-md-6 my-2">
+                                <div className="form-group form-check">
+                                <NavLink to={`/users/recoverpass`}><span className="form-check-label">
+                                        Olvidé mi contraseña
+                                    </span> </NavLink>
                                 </div>
                             </div>
                             <div className="col-12 my-3">

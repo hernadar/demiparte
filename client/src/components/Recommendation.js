@@ -74,15 +74,15 @@ function Recommendation() {
     }, [user, company])
 // Este hook está pendiente de la variable imageURL para que cuando esté lista la image Base64 la envía por mail
     useEffect(() =>{
-
-        console.log(imageURL)
+       
+        // console.log(imageURL)
         if(imageURL!=="") {
             console.log(imageURL)
         var templateParams = {
             from_name:'demiparte.com.ar',
             to_name: user.name,
-            message: 'Ya está disponible tu recomendación',
-            image:'<div> <img src='+imageURL+'></div>',
+            message: 'Ya está disponible tu recomendación, podes consultar su estado en tu perfil http://demiparte.com.ar',
+            // image:'<div> <img src='+imageURL+'></div>',
             customer_name: user.email
         };
         var publicKey='5M1qiq6zoHBJ9d6Cg'

@@ -11,6 +11,8 @@ import Recommendation from './Recommendation';
 import Logout from './Logout';
 import CompanyRegister from './CompanyRegister';
 import ProductRegister from './ProductRegister';
+import RecoverPass from './RecoverPass';
+
 
 function App() {
 
@@ -32,7 +34,8 @@ function App() {
               <Route path='/users/login' element={<Login />} />
               <Route path='/users/profile' element={<Profile />} />
               <Route path='/users/logout' element={<Logout />} />  
-                    
+              <Route path='/users/recoverpass' element={<RecoverPass />} />
+
       </Route>
        {/*<Route path='*' element={<Error404 />} /> */}  
       
