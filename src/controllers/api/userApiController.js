@@ -28,7 +28,8 @@ const controller = {
 
     },
     create: async (req, res) => {
-        
+        console.log(req.body)
+        console.log(req.file)
     
         const resultValidation = validationResult(req);
 
@@ -171,6 +172,7 @@ const controller = {
         // })
     
     edit: (req, res) => {
+        
         let pedidoUser = db.User.findByPk(req.params.id);
 
         let pedidoPrivileges = db.Privilege.findAll();
@@ -186,32 +188,32 @@ const controller = {
     },
 
     update: (req, res) => {
+       
+        // let imageProfile
 
-        let imageProfile
+        // if (req.file == undefined) {
+        //     imageProfile = 'user.png'
+        // } else {
+        //     imageProfile = req.file.filename
+        // }
 
-        if (req.file == undefined) {
-            imageProfile = 'user.png'
-        } else {
-            imageProfile = req.file.filename
-        }
-
-        // encrypto la contraseña 
-        let userToEdit = {
-            ...req.body,
-            password: bcryptjs.hashSync(req.body.password, 10),
-            image: imageProfile,
-        }
-        db.User.update(userToEdit, {
-            where: {
-                id: req.params.id
-            }
-        })
-            .then(function () {
-                return res.redirect('/users')
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
+        // // encrypto la contraseña 
+        // let userToEdit = {
+        //     ...req.body,
+        //     password: bcryptjs.hashSync(req.body.password, 10),
+        //     image: imageProfile,
+        // }
+        // db.User.update(userToEdit, {
+        //     where: {
+        //         id: req.params.id
+        //     }
+        // })
+        //     .then(function () {
+        //         return res.redirect('/users')
+        //     })
+        //     .catch(function (e) {
+        //         console.log(e)
+        //     })
     },
 
     delete: (req, res) => {

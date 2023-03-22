@@ -1,9 +1,10 @@
+const { compareSync } = require('bcryptjs');
 const { validationResult }=require ('express-validator')
 const db= require('../../database/models');
 
 const controller = {
     list: async (req, res) => {
-        let consulta = "SELECT * FROM `companies`";
+        let consulta = "SELECT * FROM `products` WHERE companies_id='" + req.params.idCompany + "'";
         const [products, metadata] = await db.sequelize.query(consulta)
                  let response = {
                     meta: {
@@ -51,50 +52,80 @@ const controller = {
                 console.log(e)
             })
        
-    }, 
-    processRegister: (req,res) => {
+    },
+    create: async (req, res) => {
+       
+       console.log(req.body)
+        console.log(req.file)
+       
         const resultValidation = validationResult(req);
-        console.log(resultValidation)
-        if(resultValidation.errors.length > 0) {
+
+        if (resultValidation.errors.length > 0) {
             //debería analizar cada uno de los errores cargando en una variable
             // errors:resultValidation.mapped(), esta última función me convierte
             // el array en un objeto literal, para luego trabajarlo más comodo
-            return res.send('se registró algún error en los datos recibidos del formulario de Registro de usuario')
+            console.log(resultValidation)
         }
-       // Verifico si el usuario ya existe en la DB
 
-       db.Product.findOne({ where: { name: req.body.name } })
-       .then(function (productInDB) {
-           if (productInDB) {
-               return res.send('el producto ya existe');//le tengo que decir al front que el usuario ya existe
-           } else {
-               let imageProfile
+        let imageProduct
 
-               if (req.file == undefined) {
-                   imageProfile = 'product.jpg'
-               } else {
-                   imageProfile = req.file.filename
-               }
-               
-               let productToCreate = {
-                ...req.body,
-                image: imageProfile,
-                companies_id:req.params.idCompany
-            }
-            db.Product.create(productToCreate)
-                .then(function (response) {
-                    return res.redirect('/companies/'+req.params.idCompany+'/products')
-                })
-                .catch(function (e) {
-                    console.log(e)
-                })
-            }
-        })
-        .catch(function (e) {
-            console.log(e)
-        })
+        if (req.file == undefined) {
+            imageProduct = 'product.jpg'
+        } else {
+            imageProduct = req.file.filename
+        }
+
+        let consulta = `INSERT INTO products (name, description, category, price, points, image, companies_id) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + req.body.category + `", "` + Number (req.body.price) + `", "` + parseInt(req.body.points) + `", "` + imageProduct + `", "` + req.params.idCompany + `")`
+        console.log(consulta)
+        const [productos, metadata] = await db.sequelize.query(consulta)
+
+        return productos
+
 
     }, 
+    // create: (req,res) => {
+    //     const resultValidation = validationResult(req);
+    //     console.log(resultValidation)
+    //     if(resultValidation.errors.length > 0) {
+    //         //debería analizar cada uno de los errores cargando en una variable
+    //         // errors:resultValidation.mapped(), esta última función me convierte
+    //         // el array en un objeto literal, para luego trabajarlo más comodo
+    //         return res.send('se registró algún error en los datos recibidos del formulario de Registro de usuario')
+    //     }
+    //    // Verifico si el usuario ya existe en la DB
+
+    //    db.Product.findOne({ where: { name: req.body.name } })
+    //    .then(function (productInDB) {
+    //        if (productInDB) {
+    //            return res.send('el producto ya existe');//le tengo que decir al front que el usuario ya existe
+    //        } else {
+    //            let imageProfile
+
+    //            if (req.file == undefined) {
+    //                imageProfile = 'product.jpg'
+    //            } else {
+    //                imageProfile = req.file.filename
+    //            }
+               
+    //            let productToCreate = {
+    //             ...req.body,
+    //             image: imageProfile,
+    //             companies_id:req.params.idCompany
+    //         }
+    //         db.Product.create(productToCreate)
+    //             .then(function (response) {
+    //                 return res.redirect('/companies/'+req.params.idCompany+'/products')
+    //             })
+    //             .catch(function (e) {
+    //                 console.log(e)
+    //             })
+    //         }
+    //     })
+    //     .catch(function (e) {
+    //         console.log(e)
+    //     })
+
+    // }, 
     
     detail: (req, res) => {
         db.Product.findByPk(req.params.idProduct, {

@@ -33,10 +33,9 @@ app.use(session({
 app.use(userLoggedMiddleware);
 // Hacer que node sirva los archivos de nuestro app React
 app.use(express.static(path.resolve(__dirname, '../client/build')));
-
 app.use(logger('dev'));
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 //Aquí estoy disponiendo la posibilidad para utilizar el seteo en los formularios para el uso de los metodos put ó delete

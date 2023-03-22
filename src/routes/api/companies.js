@@ -11,7 +11,7 @@ const multer=require('multer');
 
 const storageCompany = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, path.join(__dirname, '../../client/src/assets/images/logos'));
+    cb(null, path.join(__dirname, '../../../client/src/assets/images/logos'));
   },
   filename: function(req,file,cb){
     
@@ -23,7 +23,7 @@ const  uploadFileCompany = multer ({storage: storageCompany});
 
 const storageProduct = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, path.join(__dirname, '../../client/src/assets/images/products'));
+    cb(null, path.join(__dirname, '../../../client/src/assets/images/products'));
   },
   filename: function(req,file,cb){
     
@@ -63,17 +63,19 @@ const validationsCompany=[
 ]
 
 const validationsProduct=[
-  body('name').notEmpty().withMessage('Tienes que escribir un Nombre de empresa'),
+  body('name').notEmpty().withMessage('Tienes que escribir un Nombre de producto'),
   body('points')
           .notEmpty().withMessage('Tienes que escribir una cantidad de puntos de canje').bail()
           .isNumeric().withMessage('Tienes que escribir valor numérico de puntos'),
   body('image').custom((value, {req}) =>{
+   console.log(req.file)
     let file = req.file;
     let acceptedExtensions=['.jpg','.png','.gif','.webp']
     
     if (!file) {
       console.log('no viene imagen de producto')
     } else {
+      
       let fileExtension = path.extname(file.originalname)
      
         if (!acceptedExtensions.includes(fileExtension)) {
@@ -110,7 +112,7 @@ router.get('/:idCompany/products', productsApiController.list);
 // Formulario de registro de Producto
 router.get('/:idCompany/products/register',authMiddleware, productsApiController.register);
 //Procesar el registro de Producto
-router.post('/:idCompany/products/register', uploadFileProduct.single('image'),validationsProduct, productsApiController.processRegister);
+router.post('/:idCompany/products/register', uploadFileProduct.single('image'), validationsProduct, productsApiController.create);
 // detalle de productos 
 router.get('/:idCompany/products/detail/:idProduct', authMiddleware, productsApiController.detail);
 // Editar detalle de producto

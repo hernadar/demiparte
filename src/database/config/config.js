@@ -1,10 +1,10 @@
 module.exports = {
   "development": {
-    "username": "hernadar", //hernadar
+    "username": "root", //hernadar
     "password": "192611Dh",
     "database": "recomendame",
     "port": 3306,
-    "host": "db4free.net",//db4free.net
+    "host": "127.0.0.1",//db4free.net
     "dialect": "mysql",
     "ssl": true,
     "dialectOptions": {

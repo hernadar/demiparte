@@ -10,7 +10,7 @@ const authMiddleware = require('../../middlewares/authMiddleware');
 const multer=require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-      cb(null, path.join(__dirname, '../../client/src/assets/images/avatars'));
+      cb(null, path.join(__dirname, '../../../client/src/assets/images/avatars'));
   },
   filename: function(req,file,cb){
     cb(null, `${Date.now()}_img${path.extname(file.originalname)}`);
@@ -66,7 +66,7 @@ router.get('/logout',authMiddleware, usersApiController.logout);
 router.get('/profile/:id', usersApiController.profile);
 // Editar Perfil de Usuario
 router.get('/profile/edit/:id',authMiddleware, usersApiController.edit);
-router.post('/profile/edit/:id',authMiddleware,uploadFile.single('image'), validations, usersApiController.update);
+router.post('/profile/edit/:id',uploadFile.single('image'), validations, usersApiController.update);
 // Eliminar perfil de usuario
 router.post('/profile/delete/:id',authMiddleware, usersApiController.delete);
 
