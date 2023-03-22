@@ -55,7 +55,7 @@ if (!emailSent){
       }
 
 
- // Find user ti recover password
+ // Find user to recover password
         const userDB = users.find((user) => user.email === Email.value);
         var codigoPass = codigoAleatorio(10000,99999)
         setCode(codigoPass)
