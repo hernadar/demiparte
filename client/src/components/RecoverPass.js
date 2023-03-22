@@ -39,25 +39,24 @@ function RecoverPass() {
     
    
 
-function codigoAleatorio(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min) + min);
-      }
 
 
     const handleSubmit = (event) => {
         //Prevent page reload
         event.preventDefault();
+        var { Email, codigo, password, passwordConfirm } = document.forms[0];
 if (!emailSent){
-    const codigo = (min, max) => {
+
+
+    function codigoAleatorio(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min);
       }
-        var { email } = document.forms[0];
+
+
  // Find user ti recover password
-        const userDB = users.find((user) => user.email === email.value);
+        const userDB = users.find((user) => user.email === Email.value);
         var codigoPass = codigoAleatorio(10000,99999)
         setCode(codigoPass)
         var templateParams = {
@@ -78,7 +77,7 @@ if (!emailSent){
 
     } else {
         console.log(code)
-        var { Email, codigo, password, passwordConfirm } = document.forms[0];
+        
         if(parseInt(codigo.value) === code) {
             if(password.value === passwordConfirm.value){
                 if(password.value.length > 7) {
