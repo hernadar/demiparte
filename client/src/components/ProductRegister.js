@@ -1,25 +1,110 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import {useNavigate, useParams } from "react-router-dom";
+import axios from 'axios'
 function ProductRegister() {
+    const { companyId } = useParams()
+    const [errorMessages, setErrorMessages] = useState({});
+    
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+
+        fetch('/api/companies/'+ companyId + '/products')
+            .then(response => response.json())
+            .then(productos => {
+                setProducts(productos.data)
+            })
+            .catch(function (e) {
+                console.log(e)
+            })
+    }, [])
+
+    const errors = {
+        name: "Ya existe un producto con ese nombre",
+        
+    };
+    const navigate = useNavigate()
+    
+
+
+
+    const handleSubmit = (event) => {
+        //Prevent page reload
+        event.preventDefault();
+
+        var { n_ame, description, category, price, points, image } = document.forms[0];
+        // Find product info
+        const productData = products.find((product) => product.name === n_ame.value);
+
+        if (!productData) {
+                
+                        var formData=new FormData();
+                        var fileField=image.files[0];
+                        var nombre=n_ame.value;
+                        var descripcion=description.value;
+                        var categoria=category.value;
+                        var precio=price.value;
+                        var puntos=points.value
+                     
+                    formData.append('name',nombre);
+                    formData.append('description',descripcion);
+                    formData.append('category', categoria);
+                    formData.append('price',precio);
+                    formData.append('points',puntos);
+                    formData.append('image',fileField);
+                    
+                    
+                    fetch('/api/companies/' + companyId +'/products/register',{
+                        method:'POST',
+                        body: formData
+                        })
+                        .then(response => response.json())
+                        .then(respuesta => {
+                            console.log(respuesta)
+                         })
+                        .catch(function (e) {
+                            console.log(e)
+                        })
+
+
+                        navigate("/companies/" + companyId )}
+                               
+            
+         
+         else {
+            // Producto ya existente
+            setErrorMessages({ name: "name", message: errors.name });
+        }
+    };
+
+  // Generate JSX code for error message
+    const renderErrorMessage = (name) =>
+        name === errorMessages.name && (
+            <div className="text-danger">{errorMessages.message}</div>
+        );
+
+
+
+
     return (
         <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <h2>Formulario de registro de Producto</h2>
 
-                    <form method="POST" action="/companies/:id/product/register" enctype="multipart/form-data">
+                    <form onSubmit={handleSubmit} action="" >
                         <div className="row">
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
                                     <label><b>Nombre de Producto:</b></label>
                                     <input
                                         type="text"
-                                        name="name"
+                                        name="n_ame"
                                         className="form-control"
                                     />
 
                                     <div className="text-danger">
-
+                                        {renderErrorMessage("name")}
                                     </div>
 
                                 </div>

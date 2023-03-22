@@ -6,6 +6,9 @@ import { QRCodeCanvas } from "qrcode.react";
 import bcrypt from "bcryptjs-react";
 import Modal from "./Modal";
 import styled from 'styled-components';
+import emailjs from 'emailjs-com';
+
+
 
 function Recommendation() {
 
@@ -15,7 +18,10 @@ function Recommendation() {
     const [keyRecommend, setkeyRecommend] = useState("")
     var [status, setStatus] = useState("")
     const [errorMessages, setErrorMessages] = useState({});
-    var [estadoModal, setEstadoModal] = useState(false)
+    var [estadoModal, setEstadoModal] = useState(false);
+    var [imageURL, setImageURL] = useState("");
+
+
     const errors = {
         recomendacion: "La recomendación ya fue generada, no puedes generar más de una recomendación por empresa, la misma la puedes compartir cuantas veces quieras",
     };
@@ -28,7 +34,7 @@ function Recommendation() {
         // recupero el Id de usuario de la sesión para buscar el resto de datos del usuario
         let userId = sessionStorage.getItem('userId')
         // Verifico si aún no se ha solicitado los datos de usuario y los solicito        
-        if (keyRecommend == "") {
+        if (keyRecommend === "") {
             fetch('/api/users/profile/' + userId)
                 .then(response => response.json())
                 .then(usuario => {
@@ -38,10 +44,10 @@ function Recommendation() {
                     console.log(err)
                 })
         }
-    }, [])
+    }, [user,keyRecommend])
     // Verifico si aún no se ha solicitado los datos de empresa y los solicito 
     useEffect(() => {
-        if (keyRecommend == "") {
+        if (keyRecommend === "") {
             fetch('/api/companies/profile/' + companyId)
                 .then(response => response.json())
                 .then(empresa => {
@@ -51,7 +57,7 @@ function Recommendation() {
                     console.log(err)
                 })
         }
-    }, [])
+    }, [companyId, keyRecommend])
 
 
     // Este useEffect está pendiente de que se actualicen las variables
@@ -66,6 +72,51 @@ function Recommendation() {
             setkeyRecommend(key)
         }
     }, [user, company])
+// Este hook está pendiente de la variable imageURL para que cuando esté lista la image Base64 la envía por mail
+    useEffect(() =>{
+
+        console.log(imageURL)
+        if(imageURL!=="") {
+            console.log(imageURL)
+        var templateParams = {
+            from_name:'demiparte.com.ar',
+            to_name: user.name,
+            message: 'Ya está disponible tu recomendación',
+            image:'<div> <img src='+imageURL+'></div>',
+            customer_name: user.email
+        };
+        var publicKey='5M1qiq6zoHBJ9d6Cg'
+        emailjs.send('service_nwp3u8g', 'template_n7jmtcw', templateParams, publicKey)
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function (error) {
+                console.log('FAILED...', error);
+            });
+        }
+    }, [imageURL, user.email, user.name])
+
+    const downloadRecomendacion = () =>{
+        html2canvas(recomendacion.current) // Llamar a html2canvas y pasarle el elemento
+        .then(canvas => {
+            // Cuando se resuelva la promesa traerá el canvas
+            setImageURL(canvas.toDataURL())
+            
+            // Crear un elemento <a>
+           
+            let enlace = document.createElement('a');
+            enlace.download = `Recomendacion${company.name}`;
+            // Convertir la imagen a Base64
+            
+            enlace.href = canvas.toDataURL('image/png', 0.1);
+            // Hacer click en él
+             
+    
+            enlace.click();
+           
+        });
+         
+        setEstadoModal(true);
+    }
 
     const recomendacion = useRef(); // include this: call the useRef function
 
@@ -74,7 +125,7 @@ function Recommendation() {
         //Preparo los datos para enviar
         e.preventDefault()
         
-        if (status == "") {
+        if (status === "") {
            
             let date = new Date();
             let year = date.getFullYear();
@@ -101,36 +152,27 @@ function Recommendation() {
                    
                 })
                 .catch(err => console.log(err));
-                setStatus('creada')  
-                downloadQRCode()
-        } else {
+                setStatus('creada') 
+                downloadRecomendacion()
+               
+                
+       
+       
+       
+       
+       
+       
+       
+       
+            } else {
             setErrorMessages({ name: "recomendacion", message: errors.recomendacion });
         }
 
     }
 
-    //Bajar QR
-    const downloadQRCode = () => {
-      
-        html2canvas(recomendacion.current) // Llamar a html2canvas y pasarle el elemento
-            .then(canvas => {
-                // Cuando se resuelva la promesa traerá el canvas
+  
 
-                // Crear un elemento <a>
-                console.log(canvas.toDataURL)
-                let enlace = document.createElement('a');
-                enlace.download = `Recomendacion${company.name}`;
-                // Convertir la imagen a Base64
-                enlace.href = canvas.toDataURL();
-                // Hacer click en él
-                enlace.click();
-                document.body.removeChild(enlace);
-            });
-             
-            setEstadoModal(true);
-            
-    }
-
+ 
     // Generate JSX code for error message
     const renderErrorMessage = (name) =>
         name === errorMessages.name && (

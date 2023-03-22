@@ -5,6 +5,7 @@ const imagenes = require.context('../assets/images/', true)
 
 function CompaniesList({ company }) {
     const [recommendations, setRecommendations] = useState([])
+    const [isLoaded,setIsLoaded] =useState(false)
     useEffect(() => {
 
         fetch('/api/companies/' + company.id + '/recommendation')
@@ -16,8 +17,11 @@ function CompaniesList({ company }) {
                 console.log(err)
             })
 
-    }, [])
-    console.log(recommendations.length)
+    }, [isLoaded, company.id])
+                        
+            if (isLoaded===false) {
+                setIsLoaded(true)
+            }
     return (
 
 
@@ -26,7 +30,7 @@ function CompaniesList({ company }) {
                 <div  className='card tarjeta p-1 '>
 
                     
-
+                    
                     <img className="rounded mx-auto d-block" width={100} height={100} src={imagenes(`./logos/${company.image}`)} alt="Companyimage" />
                     <div className='capa'>
                         <p className='text-xs '>Total de recomendaciones</p>

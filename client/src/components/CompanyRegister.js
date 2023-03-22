@@ -59,7 +59,7 @@ function RegisterCompany() {
                         var descripcion=description.value;
                         var area=areas_id.value;
                         var precioPunto=pricePoint.value;
-                     console.log(area)
+                   
                     
                     formData.append('name',nombre);
                     formData.append('description',descripcion);

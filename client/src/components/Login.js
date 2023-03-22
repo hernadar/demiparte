@@ -13,7 +13,7 @@ function Login() {
         fetch('/api/users')
             .then(response => response.json())
             .then(users => {
-                console.log(users)
+               
                 setUsers(users.data)
             })
             .catch(function (e) {
@@ -34,9 +34,8 @@ function Login() {
         var { email, password } = document.forms[0];
         // Find user login info
         const userDB = users.find((user) => user.email === email.value);
-        console.log(password.value)
-        console.log(userDB.password)
-        console.log(bcrypt.compareSync(password.value, userDB.password))
+       
+       
         let passString=toString(password.value)
         if (userDB) {
             if (bcrypt.compareSync(passString, userDB.password)) {
@@ -44,6 +43,7 @@ function Login() {
   
                 sessionStorage.setItem('userId',userDB.id)
                 sessionStorage.setItem('userImage',userDB.image)
+                sessionStorage.setItem('userPrivilege',userDB.privileges_id)
                 window.location.replace('/');
                 
             } else {

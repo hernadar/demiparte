@@ -15,6 +15,8 @@ function NavbarDark() {
         <img src={imagenes(`./avatars/${sessionStorage.userImage}`)} width="40" className="img-profile rounded-circle" alt='Foto de perfin mini' />
       </span>
       }
+    
+   
   return (
    <>
    <Navbar  expand="lg">
@@ -26,9 +28,11 @@ function NavbarDark() {
           
            { sessionStorage.userId && (
            <>
-            <NavDropdown.Item href="/companies/register">
-                Crear Empresa
-            </NavDropdown.Item>
+            {  sessionStorage.userPrivilege==='2' && 
+              <NavDropdown.Item href="/companies/register">
+                  Crear Empresa
+              </NavDropdown.Item>
+            } 
            <NavDropdown
               id="nav-dropdown-dark-example"
               title={imagenPerfil}

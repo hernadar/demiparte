@@ -10,7 +10,7 @@ import Company from './Company';
 import Recommendation from './Recommendation';
 import Logout from './Logout';
 import CompanyRegister from './CompanyRegister';
-
+import ProductRegister from './ProductRegister';
 
 function App() {
 
@@ -20,9 +20,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home />} />
+            
           <Route path='/companies/' element={<Companies />} />
-          <Route path='/companies/:companyId/*' element ={<Company/>} />    
-          <Route path='/companies/:companyId/recommendation' element ={<Recommendation/>} />  
+          <Route path='/companies/:companyId/' element ={<Company/>} /> 
+          <Route path='/companies/:companyId/product/create' element ={<ProductRegister/>} />  
+          <Route path='/companies/:companyId/recommendation' element ={<Recommendation/>} /> 
+          
           <Route path='/companies/register' element ={<CompanyRegister/>} />
           
               <Route path='/users/register' element={<Register />} />
