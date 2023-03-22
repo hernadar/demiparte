@@ -58,6 +58,26 @@ const controller = {
  
        
     },
+    recoverPass: async (req, res) => {
+        
+        const resultValidation = validationResult(req);
+
+        if (resultValidation.errors.length > 0) {
+            //debería analizar cada uno de los errores cargando en una variable
+            // errors:resultValidation.mapped(), esta última función me convierte
+            // el array en un objeto literal, para luego trabajarlo más comodo
+            return res.send(resultValidation)
+        }
+       
+       
+        
+        let consulta = `UPDATE 'recomendame'.'users' SET 'password' = '` + req.body.password + `'WHERE ('email' = '` + req.body.email + `')`
+        const [user, metadata] = await db.sequelize.query(consulta)
+          
+        return user
+ 
+       
+    },
     // create: (req, res) => {
     //     console.log('pasó por acá')
     //     const resultValidation = validationResult(req);
