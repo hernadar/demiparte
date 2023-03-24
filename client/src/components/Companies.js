@@ -2,7 +2,8 @@ import React from 'react';
 import CompaniesList from './CompaniesList';
 import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
-
+import '@fontsource/public-sans';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 function Companies() {
     const [companies, setCompanies] = useState([])
@@ -17,27 +18,29 @@ function Companies() {
             })
     }, [])
 
-   
+
     return (
-        <> {companies.length ===0 && <em>Cargando datos...</em>}
-        {companies.length !==0 && (
-            <div className='container ml-0'>
-                <div className="row ">
-                  
+        <> {companies.length === 0 && <div className="row justify-content-center mt-5">
+                                            <CircularProgress />
+                                        </div>}
+            {companies.length !== 0 && (
+                <div className='container ml-0'>
+                    <div className="row ">
+
                         {companies.map((company, i) => {
 
                             return (
-                                
+
                                 <NavLink className='nav-link' to={`/companies/${company.id}`}>
 
                                     <CompaniesList key={company.id} company={company} />
                                 </NavLink>)
-                                
+
                         })}
-             
+
                     </div>
                 </div>
-            
+
             )}
         </>
     )

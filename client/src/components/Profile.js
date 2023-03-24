@@ -2,7 +2,8 @@ import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 import html2canvas from 'html2canvas'
 import { QRCodeCanvas } from "qrcode.react"
-
+import '@fontsource/public-sans';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 
 function Profile() {
@@ -68,7 +69,9 @@ function Profile() {
 
 	return (
 		<>
-			{user.length === 0 && <em>Cargando usuario...</em>}
+			{user.length === 0 && <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                	</div>}
 			{user.length !== 0 && (
 				<>
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import { useNavigate } from "react-router-dom"
-
+import '@fontsource/public-sans';
+import CircularProgress from '@mui/joy/CircularProgress';
 import bcrypt from "bcryptjs-react";
 
 function RecoverPass() {
@@ -154,7 +155,9 @@ if (!emailSent){
 return (
 
 <>      
-        {users.length===0 && <em>Cargando datos...</em>}
+        {users.length===0 && <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                </div>}
          {users.length!==0 &&(
         
         <div className="container my-5">

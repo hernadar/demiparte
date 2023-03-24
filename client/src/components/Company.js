@@ -2,7 +2,8 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import ProductsList from './ProductsList'
 import { useParams, NavLink } from "react-router-dom"
-
+import '@fontsource/public-sans';
+import CircularProgress from '@mui/joy/CircularProgress';
 const imagenes = require.context('../assets/images/', true)
 
 function Company() {
@@ -26,7 +27,9 @@ function Company() {
 
     return (
         <>
-            {!company && <em>Cargando...</em>}
+            {!company && <div className="row justify-content-center mt-5">
+                                <CircularProgress  />
+                        </div>}
             {company && (
                 <>
 

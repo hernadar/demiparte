@@ -7,6 +7,8 @@ import bcrypt from "bcryptjs-react";
 import Modal from "./Modal";
 import styled from 'styled-components';
 import emailjs from 'emailjs-com';
+import '@fontsource/public-sans';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 
 
@@ -183,9 +185,15 @@ function Recommendation() {
 
     return (
         <>
-            {user.length === 0 && <em>Cargando usuarios...</em>}
-            {company.length === 0 && <em>Cargando empresas...</em>}
-            {keyRecommend === "" && <em>Esperando datos...</em>}
+            {user.length === 0 && <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                </div>}
+            {company.length === 0 && <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                </div>}
+            {keyRecommend === "" && <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                </div>}
             {(user.length !== 0 && company.length !== 0 && keyRecommend !== "") && (
                 <>
                 <div className=' pb-3'>
