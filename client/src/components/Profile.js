@@ -9,7 +9,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 function Profile() {
 	const [user, setUser] = useState([])
 	const [recommendations, setRecommendations] = useState([])
-	const imagenes = require.context('../assets/images/', true)
+
 
 
 
@@ -82,7 +82,7 @@ function Profile() {
 							<p className=' p-10'>Esta es tu identificación de usuario, con ella podrás canjear tus puntos acumulados, solo debes descargarla y la presentás en el comercio adherido</p>
 							<div ref={identificacion} className="rounded border sombra row justify-content-around align-items-center border-left-warning m-4 text-center" >
 								<div className=" col-sm justify-content-around" >
-									<img className="w-75" src={imagenes(`./avatars/${user[0].image}`)} alt='Imagen de Perfil' />
+									<img className="w-75" src={user[0].image} alt='Imagen de Perfil' />
 									<div className='text-xs font-weight-bold text-center '>{user[0].name}   {user.lastname}</div>
 								</div>
 								<div className="col-sm align-middle" >
@@ -120,8 +120,8 @@ function Profile() {
 							</thead>
 							<tbody>
 								{recommendations.map ((recomendacion,i) =>{
-									
-									let fecha = new Date(recomendacion.dateCreate).toLocaleDateString('es-AR')
+									let dateCorrection = recomendacion.dateCreate + 'T00:00:00';
+									let fecha = new Date(dateCorrection).toLocaleDateString('es-AR')
 								
 									return( 
 										<tr>

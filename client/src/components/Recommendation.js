@@ -28,7 +28,7 @@ function Recommendation() {
         recomendacion: "La recomendación ya fue generada, no puedes generar más de una recomendación por empresa, la misma la puedes compartir cuantas veces quieras",
     };
 
-    const imagenes = require.context('../assets/images/', true)
+  
 
 
     useEffect(() => {
@@ -79,7 +79,7 @@ function Recommendation() {
        
         // console.log(imageURL)
         if(imageURL!=="") {
-            console.log(imageURL)
+
         var templateParams = {
             from_name:'demiparte.com.ar',
             to_name: user.name,
@@ -200,7 +200,7 @@ function Recommendation() {
                     <div ref={recomendacion} className="rounded border sombra row justify-content-around align-items-center border-left-warning m-4" >
                         <div className=" col-sm">
                             <em>Recomiendo a </em><em className='text-warning'>{company[0].name}</em>
-                            <img className="w-100 h-50" src={imagenes(`./logos/${company[0].image}`)} alt="Company" />
+                            <img className="w-100 h-50" src={company[0].image} alt="Company" />
                             <div className='text-xs font-weight-bold text-warning text-center '>{user[0].name}   {user[0].lastname}</div>
                         </div>
                         {keyRecommend !== "" && (

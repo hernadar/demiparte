@@ -2,11 +2,32 @@ const { compareSync } = require('bcryptjs');
 const { validationResult }=require ('express-validator')
 const db= require('../../database/models');
 
+
+const path = require('path')
+const fs= require('fs');
+
+
 const controller = {
     list: async (req, res) => {
         let consulta = "SELECT * FROM `products` WHERE companies_id='" + req.params.idCompany + "'";
         const [products, metadata] = await db.sequelize.query(consulta)
-                 let response = {
+        for ( i=0 ; i<products.length ; i++ ) {
+            let imagen = products[i].image
+            
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/products/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+               
+                products[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+               
+                products[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
+       
+            let response = {
                     meta: {
                         status : 200,
                         total: products.length,
@@ -55,8 +76,7 @@ const controller = {
     },
     create: async (req, res) => {
        
-       console.log(req.body)
-        console.log(req.file)
+       
        
         const resultValidation = validationResult(req);
 
@@ -76,7 +96,7 @@ const controller = {
         }
 
         let consulta = `INSERT INTO products (name, description, category, price, points, image, companies_id) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + req.body.category + `", "` + Number (req.body.price) + `", "` + parseInt(req.body.points) + `", "` + imageProduct + `", "` + req.params.idCompany + `")`
-        console.log(consulta)
+        
         const [productos, metadata] = await db.sequelize.query(consulta)
 
         return productos
@@ -194,7 +214,22 @@ const controller = {
             .catch(function (e) {
                 console.log(e)
             })
-        }
+        },
+
+        image: async (req, res) => {
+                   
+                   data= fs.readFileSync(path.join(__dirname,'../../../public/images/avatars/user.png'),{encoding: 'base64'})
+                   
+                    let response = {
+                        meta: {
+                            status : 200,
+                            
+                            url: '/api/companies/:id/products/image'
+                        },
+                        data: data
+                        }
+                        res.json(response);               
+                },
 }
 
 module.exports = controller

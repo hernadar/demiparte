@@ -4,7 +4,7 @@ import ProductsList from './ProductsList'
 import { useParams, NavLink } from "react-router-dom"
 import '@fontsource/public-sans';
 import CircularProgress from '@mui/joy/CircularProgress';
-const imagenes = require.context('../assets/images/', true)
+
 
 function Company() {
     const { companyId } = useParams()
@@ -37,7 +37,7 @@ function Company() {
                     <div className="container">
                         <div className="row justify-content-around">
                             <div className="col-sm">
-                                <img className='w-100 card' src={imagenes(`./logos/${company[0].image}`)} alt="Companyimage" />
+                                <img className='w-100 card' src={company[0].image} alt="Companyimage" />
                             </div>
                             <div className="col-sm">
                                 <h2>Bienvenidos a {company[0].name}</h2>

@@ -1,11 +1,31 @@
 const { validationResult } = require('express-validator')
 const db = require('../../database/models');
+const path = require('path')
+const fs= require('fs');
+
 
 const controller = {
 
     list: async (req, res) => {
         let consulta = "SELECT * FROM `companies`"
         const [companies, metadata] = await db.sequelize.query(consulta)
+        
+        for ( i=0 ; i<companies.length ; i++ ) {
+            let imagen = companies[i].image
+          
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/logos/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+                
+                companies[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+                
+                companies[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
+        
         let response = {
             meta: {
                 status: 200,
@@ -131,7 +151,22 @@ const controller = {
 
         let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
         const [company, metadata] = await db.sequelize.query(consulta)
-
+        
+        for ( i=0 ; i<company.length ; i++ ) {
+            let imagen = company[i].image
+           
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/logos/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+                
+                company[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+                
+                company[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
         let response = {
             meta: {
                 status: 200,

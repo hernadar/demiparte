@@ -31,8 +31,27 @@ function Register() {
     const errors = {
         email: "El usuario ya está registrado",
         password: "El password no coincide",
-        largopass: "El password tiene que tener al menos ocho caracteres"
+        largopass: "El password tiene que tener al menos ocho caracteres",
+        imagen: "Sólo puede subir archivos en formato .jpg o .png"
     };
+
+    const sendEmail = (nombre, correo) =>{
+        var templateParams = {
+            from_name: 'demiparte.com.ar',
+            to_name: nombre,
+            message: 'Ya puedes iniciar sessión y comenzar a generar recomendaciones para tus amigos',
+            link: 'www.demiparte.com.ar/users/login',
+            customer_name: correo
+        };
+        var publicKey = '5M1qiq6zoHBJ9d6Cg'
+        emailjs.send('service_nwp3u8g', 'template_p18zcky', templateParams, publicKey)
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function (error) {
+                console.log('FAILED...', error);
+            });
+    }
+
 
     const handleSubmit = (event) => {
         //Prevent page reload
@@ -46,13 +65,17 @@ function Register() {
             if (password.value === passwordConfirm.value) {
 
                 if (password.value.length > 7) {
+
                     password = password.value
+
+
+
                     let privileges_id
                     if (checked === false) {
                         privileges_id = 1
                     } else { privileges_id = 2 }
                     var formData = new FormData();
-                    var fileField = image.files[0];
+
                     var nombre = firstname.value;
                     var apellido = lastname.value;
                     var telefono = phone.value;
@@ -65,52 +88,63 @@ function Register() {
                     formData.append('phone', telefono);
                     formData.append('email', correo);
                     formData.append('password', bcrypt.hashSync(passString, 10));
-                    formData.append('image', fileField);
                     formData.append('privileges_id', privileges_id);
+                    var fileField = image.files[0];
+                    
+                    if (fileField !== undefined) {
 
-                    fetch('/api/users/register', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(respuesta => {
-                            console.log(respuesta)
-                          
-                        })
-                        .catch(function (e) {
-                            console.log(e)
-                        })
+                        if (fileField.type === 'image/jpeg' || fileField.type === 'image/png') {
+                            formData.append('image', fileField)
+                            fetch('/api/users/register', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(respuesta => {
+                                    console.log(respuesta)
+    
+                                })
+                                .catch(function (e) {
+                                    console.log(e)
+                                })
+    
+                                sendEmail(nombre, correo)   
+                                navigate("/users/login")
+                    
+                        } else {
+                                setErrorMessages({ name: "imagen", message: errors.imagen });
+                                 }
 
-                        var templateParams = {
-                            from_name:'demiparte.com.ar',
-                            to_name: nombre,
-                            message: 'Ya puedes iniciar sessión y comenzar a generar recomendaciones para tus amigos',
-                            link:'www.demiparte.com.ar/users/login',
-                            customer_name: correo
-                        };
-                        var publicKey='5M1qiq6zoHBJ9d6Cg'
-                        emailjs.send('service_nwp3u8g', 'template_p18zcky', templateParams, publicKey)
-                            .then(function (response) {
-                                console.log('SUCCESS!', response.status, response.text);
-                            }, function (error) {
-                                console.log('FAILED...', error);
-                            });
-                    navigate("/users/login")
+
+                    } else {
+                        
+                            formData.append('image', fileField)
+                            fetch('/api/users/register', {
+                                method: 'POST',
+                                body: formData
+                            })
+                                .then(response => response.json())
+                                .then(respuesta => {
+                                    console.log(respuesta)
+    
+                                })
+                                .catch(function (e) {
+                                    console.log(e)
+                                })
+    
+                                sendEmail(nombre, correo)   
+                                navigate("/users/login")
+                    
                 }
-                else {
+                   
+                } else {
                     setErrorMessages({ name: "largopass", message: errors.largopass });
                 }
             } else {
                 // Invalid password Comfirm
                 setErrorMessages({ name: "password", message: errors.password });
             }
-
-
-
-
-
-        }
-        else {
+        } else {
             // Usuario ya existente
             setErrorMessages({ name: "email", message: errors.email });
         }
@@ -123,7 +157,7 @@ function Register() {
         );
 
 
-   
+
     return (
         <div className="container my-5">
             <div className="row justify-content-center">
@@ -138,6 +172,7 @@ function Register() {
                                     <input
                                         type="text"
                                         name="firstname"
+                                        placeholder='Ej. Juan'
                                         className="form-control" required
                                     />
 
@@ -153,6 +188,7 @@ function Register() {
                                     <input
                                         type="text"
                                         name="lastname"
+                                        placeholder='Ej. Perez'
                                         className="form-control" required
                                     />
 
@@ -168,6 +204,7 @@ function Register() {
                                     <input
                                         type="text"
                                         name="phone"
+                                        placeholder='Ej. 0261-1234567'
                                         className="form-control" required
                                     />
 
@@ -183,6 +220,7 @@ function Register() {
                                     <input
                                         type="email"
                                         name="email"
+                                        placeholder='Ej. juanperez@gmail.com'
                                         className="form-control" required
                                     />
 
@@ -198,6 +236,7 @@ function Register() {
                                     <input
                                         type="password"
                                         name="password"
+                                        placeholder='8 caracteres como mínimo'
                                         className="form-control" required
                                     />
 
@@ -228,11 +267,12 @@ function Register() {
                                     <input
                                         type="file"
                                         name="image"
+                                        placeholder='solo .jpg/.png'
                                         className="form-control"
                                     />
 
                                     <div className="text-danger">
-
+                                        {renderErrorMessage("imagen")}
                                     </div>
 
                                 </div>
@@ -249,7 +289,7 @@ function Register() {
                                         onChange={handleChange}
 
                                     />
-                                   
+
                                     <div className="text-danger">
 
                                     </div>

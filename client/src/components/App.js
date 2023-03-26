@@ -12,7 +12,7 @@ import Logout from './Logout';
 import CompanyRegister from './CompanyRegister';
 import ProductRegister from './ProductRegister';
 import RecoverPass from './RecoverPass';
-
+import Error404 from './Error404';
 
 function App() {
 
@@ -22,7 +22,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home />} />
-            
+
+          <Route path='/users/register' element={<Register />} />
+              <Route path='/users/login' element={<Login />} />
+              <Route path='/users/profile' element={<Profile />} />
+              <Route path='/users/logout' element={<Logout />} />  
+              <Route path='/users/recoverpass' element={<RecoverPass />} />
+
+
           <Route path='/companies/' element={<Companies />} />
           <Route path='/companies/:companyId/' element ={<Company/>} /> 
           <Route path='/companies/:companyId/product/create' element ={<ProductRegister/>} />  
@@ -30,14 +37,8 @@ function App() {
           
           <Route path='/companies/register' element ={<CompanyRegister/>} />
           
-              <Route path='/users/register' element={<Register />} />
-              <Route path='/users/login' element={<Login />} />
-              <Route path='/users/profile' element={<Profile />} />
-              <Route path='/users/logout' element={<Logout />} />  
-              <Route path='/users/recoverpass' element={<RecoverPass />} />
-
-      </Route>
-       {/*<Route path='*' element={<Error404 />} /> */}  
+        </Route>
+       <Route path='*' element={<Error404 />} />  
       
       </Routes>
    

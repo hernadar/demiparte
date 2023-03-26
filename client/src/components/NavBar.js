@@ -3,11 +3,11 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import image from '../assets/images/app/demiparte.png';
-
+import {Link} from 'react-router-dom';
 
 function NavbarDark() {
 
-  const imagenes = require.context('../assets/images/',true)  
+  const imagenes = require.context('../../../public/images',true)  
 
   if (sessionStorage.userImage) {
     var imagenPerfil = 
@@ -28,33 +28,33 @@ function NavbarDark() {
           
            { sessionStorage.userId && (
            <>
-            {  sessionStorage.userPrivilege==='2' && 
-              <NavDropdown.Item href="/companies/register">
+            {  (sessionStorage.userPrivilege==='2' || sessionStorage.userPrivilege==='3') && 
+              <Link className="nav-link navbar-dark  collapsed " to="/companies/register">
                   Crear Empresa
-              </NavDropdown.Item>
+              </Link>
             } 
            <NavDropdown
               id="nav-dropdown-dark-example"
               title={imagenPerfil}
               menuVariant="dark"
             >
-              <NavDropdown.Item href="/users/profile">Mi Perfil</NavDropdown.Item>
+              <Link className="nav-link navbar-dark  collapsed " to="/users/profile">Mi Perfil</Link>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/users/logout">
+              <Link className="nav-link navbar-dark  collapsed " to="/users/logout">
                 Logout
-              </NavDropdown.Item>
+                </Link>
             </NavDropdown>
             
             </>
             )}
             { !sessionStorage.userId && (
               <>
-            <NavDropdown.Item href="/users/login">
+            <Link className="nav-link navbar-dark  collapsed " to="/users/login">
                 Iniciar Sesion
-            </NavDropdown.Item>
-            <NavDropdown.Item href="/users/register">
+            </Link>
+            <Link className="nav-link navbar-dark  collapsed "  to="/users/register">
                 Registrarse
-            </NavDropdown.Item>
+            </Link>
             </>
             )}
           </Nav>

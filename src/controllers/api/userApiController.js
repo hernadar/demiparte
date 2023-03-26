@@ -2,6 +2,9 @@ const { validationResult } = require('express-validator');
 const bcryptjs = require('bcryptjs');
 const db = require('../../database/models');
 
+const path = require('path')
+const fs= require('fs');
+
 const controller = {
     list: async (req, res) => {
         let consulta= "SELECT * FROM `users`"
@@ -28,8 +31,7 @@ const controller = {
 
     },
     create: async (req, res) => {
-        console.log(req.body)
-        console.log(req.file)
+     
     
         const resultValidation = validationResult(req);
 
@@ -130,7 +132,7 @@ const controller = {
 				        req.session.userLogged = userToLogin;
                         if(req.body.remember_user) {
                             res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60) *2})
-                            console.log(req.cookies.userEmail)
+                    
                         }
                         let response = {
                             meta: {
@@ -158,7 +160,24 @@ const controller = {
     profile: async (req, res) => {
         let consulta= "SELECT * FROM users WHERE id='" + req.params.id + "'"
         const [user, metadata] = await db.sequelize.query(consulta)
-                 let response = {
+        
+        for ( i=0 ; i<user.length ; i++ ) {
+            let imagen = user[i].image
+           
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/avatars/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+                
+                user[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+                
+                user[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
+        
+        let response = {
                     meta: {
                         status : 200,
                         total: user.length,

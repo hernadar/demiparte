@@ -2,9 +2,12 @@
 import React from 'react';
 
 
-const imagenes = require.context('../assets/images/',true)
+
+//const imagenes = require.context('../../../public/images',true)
 
 function Product({ products }) {
+    
+  
 
     return (
         <>
@@ -27,7 +30,7 @@ function Product({ products }) {
                                     </div>
 
                                     <div className="col-auto">
-                                        <img className=" rounded mx-auto d-block w-100" src={imagenes(`./products/${product.image}`)} alt="Companyimage" />
+                                    <img className=" rounded mx-auto d-block w-100" src={product.image} alt="productImage" />
                                         <div className='text-xs font-weight-bold  text-center '>{product.name}</div>
                                     </div>
                                 </div>

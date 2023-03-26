@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom"
-
+import CircularProgress from '@mui/joy/CircularProgress';
 
 function RegisterCompany() {
 
@@ -98,7 +98,9 @@ function RegisterCompany() {
 
 console.log(areas)
     return (
-    <>
+    <>{areas.length === 0 && <div className="row justify-content-center mt-5">
+                                    <CircularProgress />
+                                </div>}
         {areas.length!==0 &&(
         <>
         <div className="container my-5">

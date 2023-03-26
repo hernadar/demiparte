@@ -10,7 +10,7 @@ const authMiddleware = require('../../middlewares/authMiddleware');
 const multer=require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-      cb(null, path.join(__dirname, '../../../client/src/assets/images/avatars'));
+      cb(null, path.join(__dirname, '../../../public/images/avatars'));
   },
   filename: function(req,file,cb){
     cb(null, `${Date.now()}_img${path.extname(file.originalname)}`);
@@ -62,6 +62,9 @@ router.get('/login', guestMiddleware, usersApiController.login);
 router.post('/login', usersApiController.loginProcess);
 //Procesar logout
 router.get('/logout',authMiddleware, usersApiController.logout);
+//Procesar logout
+router.post('/recoverPass', usersApiController.recoverPass);
+
 // Perfil de usuario
 router.get('/profile/:id', usersApiController.profile);
 // Editar Perfil de Usuario

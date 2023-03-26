@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 
-const imagenes = require.context('../assets/images/', true)
+
 
 function CompaniesList({ company }) {
     const [recommendations, setRecommendations] = useState([])
@@ -31,7 +31,7 @@ function CompaniesList({ company }) {
 
                     
                     
-                    <img className="rounded mx-auto d-block" width={100} height={100} src={imagenes(`./logos/${company.image}`)} alt="Companyimage" />
+                    <img className="rounded mx-auto d-block" width={100} height={100} src={company.image} alt="Companyimage" />
                     <div className='capa'>
                         <p className='text-xs '>Total de recomendaciones</p>
                         <p  className="h5 font-weight-bold">{recommendations.length}</p>

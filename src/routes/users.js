@@ -9,7 +9,7 @@ const recommendationController=require('../controllers/recommendationController'
 const multer=require('multer');
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-      cb(null, path.join(__dirname, '../../client/src/assets/images/avatars'));
+      cb(null, path.join(__dirname, '../../../public/images/avatars'));
   },
   filename: function(req,file,cb){
     

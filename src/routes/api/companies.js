@@ -11,7 +11,7 @@ const multer=require('multer');
 
 const storageCompany = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, path.join(__dirname, '../../../client/src/assets/images/logos'));
+    cb(null, path.join(__dirname, '../../../public/images/logos'));
   },
   filename: function(req,file,cb){
     
@@ -23,7 +23,7 @@ const  uploadFileCompany = multer ({storage: storageCompany});
 
 const storageProduct = multer.diskStorage({
   destination: function(req, file, cb){
-    cb(null, path.join(__dirname, '../../../client/src/assets/images/products'));
+    cb(null, 'public/images/products');
   },
   filename: function(req,file,cb){
     
@@ -113,6 +113,8 @@ router.get('/:idCompany/products', productsApiController.list);
 router.get('/:idCompany/products/register',authMiddleware, productsApiController.register);
 //Procesar el registro de Producto
 router.post('/:idCompany/products/register', uploadFileProduct.single('image'), validationsProduct, productsApiController.create);
+// imagen de producto
+router.get('/:idCompany/products/image', productsApiController.image);
 // detalle de productos 
 router.get('/:idCompany/products/detail/:idProduct', authMiddleware, productsApiController.detail);
 // Editar detalle de producto
@@ -122,4 +124,7 @@ router.post('/:idCompany/products/edit/:idProduct',authMiddleware, uploadFilePro
 router.post('/:idCompany/products/delete/:idProduct',authMiddleware, productsApiController.delete);
 // Buscar Recomendaciones por Empresa
 router.get('/:idCompany/recommendation', recommendationApiController.findByCompany);
+
+
+
 module.exports = router;
