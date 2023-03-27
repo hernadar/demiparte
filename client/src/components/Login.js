@@ -23,7 +23,7 @@ function Login() {
                 console.log('la consulta devolvió un error')
                 console.log(e)
             })
-    }, [])
+    }, [users])
  
     const errors = {
         email: "Usuario no registrado",
