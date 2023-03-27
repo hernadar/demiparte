@@ -96,7 +96,7 @@ function RegisterCompany() {
             <div className="text-danger">{errorMessages.message}</div>
         );
 
-console.log(areas)
+
     return (
     <>{areas.length === 0 && <div className="row justify-content-center mt-5">
                                     <CircularProgress />

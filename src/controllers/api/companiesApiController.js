@@ -92,7 +92,7 @@ const controller = {
         let imageCompany
 
         if (req.file == undefined) {
-            imageCompany = 'company.webp'
+            imageCompany = 'company.png'
         } else {
             imageCompany = req.file.filename
         }

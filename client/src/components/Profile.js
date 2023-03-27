@@ -9,7 +9,7 @@ import CircularProgress from '@mui/joy/CircularProgress';
 function Profile() {
 	const [user, setUser] = useState([])
 	const [recommendations, setRecommendations] = useState([])
-
+	const [recommendationsPending, setRecommendationsPending] = useState([])
 
 
 
@@ -50,7 +50,7 @@ function Profile() {
 				document.body.removeChild(enlace);
 			});
 	}
-// busca en la base de datos las recomendaciones que tiene ese usuario
+	// busca en la base de datos las recomendaciones que tiene ese usuario
 
 	const recommendationByUser = () => {
 		fetch('/api/users/' + user[0].id + '/recommendation/')
@@ -64,14 +64,26 @@ function Profile() {
 
 
 	}
+	const recommendationPendientes = () => {
+		fetch('/api/users/' + user[0].id + '/recommendation/pending')
+			.then(response => response.json())
+			.then(recomendaciones => {
+				setRecommendationsPending(recomendaciones.data)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
 
 
+	}
+
+	console.log(recommendationsPending)
 
 	return (
 		<>
 			{user.length === 0 && <div className="row justify-content-center mt-5">
-                                    <CircularProgress  />
-                                	</div>}
+				<CircularProgress />
+			</div>}
 			{user.length !== 0 && (
 				<>
 
@@ -101,51 +113,104 @@ function Profile() {
 
 						</div>
 						<div>
-							<h3>Puntos acumulados: <span className='text-success'>{(user[0].points===null)?0:user[0].points}</span></h3>
+							<h3>Puntos acumulados: <span className='text-success'>{(user[0].points === null) ? 0 : user[0].points}</span></h3>
 						</div>
 						<div className=" m-2 ">
 
 							<button className="btn btn-warning" onClick={recommendationByUser}>Ver Recomendaciones Generadas</button>
 
 						</div>
-					{recommendations.length !==0 && ( 
-						<><table class="table table-sm shadow ">
-							<thead>
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Fecha de Creación</th>
-									<th scope="col">Empresa</th>
-									<th scope="col">Estado</th>
-								</tr>
-							</thead>
-							<tbody>
-								{recommendations.map ((recomendacion,i) =>{
-									let dateCorrection = recomendacion.dateCreate + 'T00:00:00';
-									let fecha = new Date(dateCorrection).toLocaleDateString('es-AR')
-								
-									return( 
-										<tr>
-												<th scope="row">{recomendacion.id}</th>
-												<td>{fecha}</td>
-												<td>{recomendacion.companies_name}</td>
-												<td>{recomendacion.status}</td>
-										</tr>
-									)
-								})}
-								
-							</tbody>
-						</table>
-						<strong>Estado:</strong>
-						<p>"Creada" - La recomendación ha sido creada y aún no se presenta en la Empresa</p>
-						<p>"Presentada" - La recomendación ha sido prsentada en la Empresa, pero aún no ha sido "Confirmada"</p>
-						<p>"Confirmada" - La recomendación ha sido confirmada por la Empresa, la persona que recomendaste seguramente consumió algún producto o servicio de la Empresa y ella la confirmó, el punto se acreditó en tu cuenta !!!</p>
-						<p><strong>Nota:</strong> Recuerda que las recomendaciones que tengan estado "Confirmada" serán las que te suman puntos.
-							Cada recomendación la confirma la Empresa que la recepciona cuando el recomendado consume algún producto o servicio. </p>
-						</>
-						
-					)}
-					
 					</div>
+
+					{recommendations.length !== 0 && (
+						<>
+							<div className="table-responsive">
+								<table className="table table-sm shadow " Style="margin-left: 0px;">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Fecha de Creación</th>
+											<th scope="col">Empresa</th>
+											<th scope="col">Estado</th>
+										</tr>
+									</thead>
+									<tbody>
+										{recommendations.map((recomendacion, i) => {
+											let dateCorrection = recomendacion.dateCreate + 'T00:00:00';
+											let fecha = new Date(dateCorrection).toLocaleDateString('es-AR')
+
+											return (
+												<tr>
+													<th scope="row">{recomendacion.id}</th>
+													<td>{fecha}</td>
+													<td>{recomendacion.companies_name}</td>
+													<td>{recomendacion.status}</td>
+													{(recomendacion.status === 'pendiente') && <td><button className="btn btn-warning" onClick={recommendationPendientes}>...</button></td>}
+												</tr>
+											)
+										})}
+
+									</tbody>
+								</table>
+							</div>
+
+							{recommendationsPending.length !== 0 && (
+
+								<table class="table table-sm shadow ">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Fecha de Presentación</th>
+											<th scope="col">Empresa</th>
+											<th scope="col">Estado</th>
+										</tr>
+									</thead>
+									<tbody>
+										{recommendationsPending.map((recomendacionPendiente, i) => {
+											let dateCorrection = recomendacionPendiente.datePresent + 'T00:00:00';
+											let fechaPresent = new Date(dateCorrection).toLocaleDateString('es-AR')
+
+											return (
+												<tr>
+													<th scope="row">{recomendacionPendiente.id}</th>
+													<td>{fechaPresent}</td>
+													<td>{recomendacionPendiente.companies_name}</td>
+													<td>{recomendacionPendiente.status_name}</td>
+												</tr>
+											)
+
+										})}
+
+									</tbody>
+								</table>
+
+
+
+							)}
+
+
+							
+
+
+
+
+
+
+
+
+
+							<strong>Estado:</strong>
+							<p>"Creada" - La recomendación ha sido creada y aún no se presenta en la Empresa</p>
+							<p>"Pendiente" - La recomendación ha sido presentada en la Empresa, pero aún no ha sido "Confirmada"</p>
+							<p>"Confirmada" - La recomendación ha sido confirmada por la Empresa, la persona que recomendaste seguramente consumió algún producto o servicio de la Empresa y ella la confirmó, el punto se acreditó en tu cuenta !!!</p>
+							<p><strong>Nota:</strong> Recuerda que las recomendaciones que tengan estado "Confirmada" serán las que te suman puntos.
+								Cada recomendación la confirma la Empresa que la recepciona cuando el recomendado consume algún producto o servicio. </p>
+						</>
+
+					)}
+
+
+
 				</>
 			)}
 		</>)

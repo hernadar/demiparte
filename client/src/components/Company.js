@@ -76,7 +76,7 @@ function Company() {
                                     </div>
                                 </div>)}
                             {sessionStorage.userId && (
-                                <div className="col-sm">
+                                <div className="col-sm m-1">
 
                                     <NavLink to={`/companies/${companyId}/recommendation`}><button className="btn btn-warning">Crear Recomendación</button></NavLink>
 
@@ -84,7 +84,7 @@ function Company() {
 
                             )}
                             {(sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
-                                <div className="col-sm">
+                                <div className="col-sm m-1">
 
                                     <NavLink to={`/companies/${companyId}/product/create`}><button className="btn btn-warning">Crear Producto</button></NavLink>
 

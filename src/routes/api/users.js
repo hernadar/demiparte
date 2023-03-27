@@ -73,8 +73,9 @@ router.post('/profile/edit/:id',uploadFile.single('image'), validations, usersAp
 // Eliminar perfil de usuario
 router.post('/profile/delete/:id',authMiddleware, usersApiController.delete);
 
-// Listar Recmendaciones
+// Listar Recomendaciones
 router.get('/recommendation/', recommendationApiController.list);
+
 // Formulario de registro de Recomendacion
 router.get('/recommendation/register', recommendationApiController.register);
 router.post('/recommendation/register', recommendationApiController.create);
@@ -84,10 +85,12 @@ router.get('/recommendation/detail/:id', recommendationApiController.detail);
 router.post('/recommendation/updatePresentar/:id', recommendationApiController.updatePresentar);
 // Modificar Status a confirmada
 router.post('/recommendation/updateConfirmar/:id', recommendationApiController.updateConfirmar);
-// Buscar recomendación por código
-router.get('/recommendation/find/:code', recommendationApiController.findByCode);
 
+// Listar Recomendaciones por usuario Pendientes
+router.get('/:id/recommendation/pending', recommendationApiController.findByUserPending);
 //Buscar recomendaciones por usuario
 router.get('/:id/recommendation', recommendationApiController.findByUser);
+
+
 
 module.exports = router;
