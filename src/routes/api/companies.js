@@ -95,7 +95,7 @@ router.get('/areas', companiesApiController.listAreas);
 // Formulario de registro de Empresa
 router.get('/register', companiesApiController.register);
 //Procesar el registro
-router.post('/register', uploadFileCompany.single('image'), validationsCompany, companiesApiController.create);
+router.post('/register/:userId', uploadFileCompany.single('image'), validationsCompany, companiesApiController.create);
 
 // Perfil de Empresa
 router.get('/profile/:idCompany', companiesApiController.profile);
@@ -112,7 +112,7 @@ router.get('/:idCompany/products', productsApiController.list);
 // Formulario de registro de Producto
 router.get('/:idCompany/products/register',authMiddleware, productsApiController.register);
 //Procesar el registro de Producto
-router.post('/:idCompany/products/register', uploadFileProduct.single('image'), validationsProduct, productsApiController.create);
+router.post('/:idCompany/products/register/', uploadFileProduct.single('image'), validationsProduct, productsApiController.create);
 // imagen de producto
 router.get('/:idCompany/products/image', productsApiController.image);
 // detalle de productos 
@@ -122,8 +122,11 @@ router.get('/:idCompany/products/edit/:idProduct',authMiddleware, productsApiCon
 router.post('/:idCompany/products/edit/:idProduct',authMiddleware, uploadFileProduct.single('image'), validationsProduct, productsApiController.update);
 // Eliminar Producto
 router.post('/:idCompany/products/delete/:idProduct',authMiddleware, productsApiController.delete);
+// Buscar Productos para canje dependiendod de los puntos disponibles
+router.get('/:idCompany/products/change/:points', productsApiController.findUserPoints);
 // Buscar Recomendaciones por Empresa
 router.get('/:idCompany/recommendation', recommendationApiController.findByCompany);
+
 
 
 

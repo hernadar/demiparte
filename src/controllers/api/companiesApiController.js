@@ -9,7 +9,7 @@ const controller = {
     list: async (req, res) => {
         let consulta = "SELECT * FROM `companies`"
         const [companies, metadata] = await db.sequelize.query(consulta)
-        
+       if (companies.length > 0 ) {
         for ( i=0 ; i<companies.length ; i++ ) {
             let imagen = companies[i].image
           
@@ -25,7 +25,7 @@ const controller = {
                 companies[i].image='data:image/jpg;base64,'+ imagenBase64
             }
         }
-        
+    } 
         let response = {
             meta: {
                 status: 200,
@@ -77,8 +77,7 @@ const controller = {
             })
     },
     create: async (req, res) => {
-        console.log(req.body)
-        console.log(req.file)
+        
 
         const resultValidation = validationResult(req);
 
@@ -101,9 +100,17 @@ const controller = {
         parseInt(req.body.pricePoint)
 
         let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + parseInt(req.body.pricePoint) + `")`
-        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+        const [companies, metadata] = await db.sequelize.query(consulta)
 
-        return recomendaciones
+        let consulta2 = `SELECT MAX(id) ultimo FROM companies;`
+        const [idCompany, metadata2] = await db.sequelize.query(consulta2)
+
+    
+        let consulta3 = `INSERT INTO companies_has_users VALUES ('` + idCompany[0].ultimo + `', '`+ req.params.userId + `')`
+        const [companyUser, metadata3] = await db.sequelize.query(consulta3)
+
+
+        return companyUser
 
 
     },

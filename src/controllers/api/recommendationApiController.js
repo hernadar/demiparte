@@ -152,29 +152,65 @@ const controller = {
     //         })
     // },
 
-    updateConfirmar: (req, res) => {
-        db.Recommendation.findByPk(req.params.id)
-            .then(function (recommendation) {
+    updateConfirmar: async (req, res) => {
+        console.log('Estoy confirmando')
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let dateToConfirm = year + '-' + month + '-' + day
+        
+        let consulta = `UPDATE status SET status = 'confirmada', date='` + dateToConfirm + `' WHERE id='` + req.params.id + `'`;
+        const [status, metadata] = await db.sequelize.query(consulta)
+       
+        let recomendacion = `UPDATE recommendations SET status = 'confirmada', dateConfirm='` + dateToConfirm + `' WHERE id='` + req.params.recomenId + `'`;
+        const [recommendation, metadata2] = await db.sequelize.query(recomendacion)
+        
+        let consultausuario = `SELECT * FROM users WHERE id='` + req.params.userId + `'`;
+        const [user, metadata3] = await db.sequelize.query(consultausuario)
+        
+        console.log(user)
+        if (user[0].points === null ) {
+            user[0].point = 0
+        }
+        
+        const pointsToUpdate =(parseInt(user[0].points)) + 1
+        console.log(pointsToUpdate)
+        let updateausuario = `UPDATE users SET points = '` + pointsToUpdate + `' WHERE id='` + req.params.userId + `'`;
+        const [userUpdated, metadata4] = await db.sequelize.query(updateausuario)
 
-                let recommendationUpadate = {
-                    ...recommendation,
-                    status: 'confirmada'
-                }
-                db.Recommendation.update(recommendationUpadate, {
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                    .then(function (recommendation) {
-                        res.redirect('/users/recommendation/')
-                    })
-                    .catch(function (e) {
-                        console.log(e)
-                    })
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
+        let response = {
+            meta: {
+                status: 200,
+                total: 1,
+                url: 'api/users/:userId/recommendation/:recomId/confirm/:id'
+            },
+            data: userUpdated
+        }
+        res.json(response);
+
+        // db.Recommendation.findByPk(req.params.id)
+        //     .then(function (recommendation) {
+
+        //         let recommendationUpadate = {
+        //             ...recommendation,
+        //             status: 'confirmada'
+        //         }
+        //         db.Recommendation.update(recommendationUpadate, {
+        //             where: {
+        //                 id: req.params.id
+        //             }
+        //         })
+        //             .then(function (recommendation) {
+        //                 res.redirect('/users/recommendation/')
+        //             })
+        //             .catch(function (e) {
+        //                 console.log(e)
+        //             })
+        //     })
+        //     .catch(function (e) {
+        //         console.log(e)
+        //     })
     },
     delete: (req, res) => {
         db.User.destroy({
@@ -228,8 +264,10 @@ const controller = {
     },
     findByUserPending: async (req, res) => {
      
-        let consulta = "SELECT recommendations.id, dateCreate, datePresent, dateConfirm, status.status as status_name, companies.name as companies_name FROM recommendations INNER JOIN companies ON companies_id=companies.id JOIN status ON recommendations.id=status.recommendations_id WHERE users_id='" + req.params.id + "'";
+        let consulta = "SELECT recommendations.id, dateCreate, datePresent, dateConfirm, status.id as status_id, status.status as status_name, companies.name as companies_name FROM recommendations INNER JOIN companies ON companies_id=companies.id JOIN status ON recommendations.id=status.recommendations_id WHERE users_id='" + req.params.id + "' AND status.status='pendiente'";
         const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+        console.log(recomendaciones)
+        
         let response = {
             meta: {
                 status: 200,
@@ -258,6 +296,22 @@ const controller = {
     //             console.log(e)
     //         })
     // },
+    findByUserPresent: async (req, res) => {
+     
+        let consulta = "SELECT recommendations.id, dateCreate, datePresent, dateConfirm, status.id as status_id, status.status as status_name, companies.name as companies_name FROM recommendations INNER JOIN companies ON companies_id=companies.id JOIN status ON recommendations.id=status.recommendations_id WHERE users_id='" + req.params.id + "'";
+        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
+        console.log(recomendaciones)
+        
+        let response = {
+            meta: {
+                status: 200,
+                total: recomendaciones.length,
+                url: 'api/users/:id/recommendation/pending'
+            },
+            data: recomendaciones
+        }
+        res.json(response);
+    },
     findByCompany: async (req, res) => {
         let consulta = "SELECT * FROM recommendations JOIN companies WHERE companies_id= '" + req.params.idCompany + "' AND companies_id=companies.id";
         const [recomendaciones, metadata] = await db.sequelize.query(consulta)

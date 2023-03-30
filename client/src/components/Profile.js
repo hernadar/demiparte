@@ -65,7 +65,7 @@ function Profile() {
 
 	}
 	const recommendationPendientes = () => {
-		fetch('/api/users/' + user[0].id + '/recommendation/pending')
+		fetch('/api/users/' + user[0].id + '/recommendation/present')
 			.then(response => response.json())
 			.then(recomendaciones => {
 				setRecommendationsPending(recomendaciones.data)
@@ -145,7 +145,7 @@ function Profile() {
 													<td>{fecha}</td>
 													<td>{recomendacion.companies_name}</td>
 													<td>{recomendacion.status}</td>
-													{(recomendacion.status === 'pendiente') && <td><button className="btn btn-warning" onClick={recommendationPendientes}>...</button></td>}
+													{(recomendacion.status === 'pendiente' || recomendacion.status === 'confirmada') && <td><button className="btn btn-warning" onClick={recommendationPendientes}>...</button></td>}
 												</tr>
 											)
 										})}
@@ -187,17 +187,6 @@ function Profile() {
 
 
 							)}
-
-
-							
-
-
-
-
-
-
-
-
 
 							<strong>Estado:</strong>
 							<p>"Creada" - La recomendación ha sido creada y aún no se presenta en la Empresa</p>

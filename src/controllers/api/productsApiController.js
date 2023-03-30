@@ -216,7 +216,7 @@ const controller = {
             })
         },
 
-        image: async (req, res) => {
+    image: async (req, res) => {
                    
                    data= fs.readFileSync(path.join(__dirname,'../../../public/images/avatars/user.png'),{encoding: 'base64'})
                    
@@ -230,6 +230,36 @@ const controller = {
                         }
                         res.json(response);               
                 },
+    findUserPoints: async (req, res) => {
+       
+        let consulta = "SELECT * FROM products WHERE companies_id='"+ req.params.idCompany + "' AND points>='"+ req.params.points + "'";
+        const [products, metadata] = await db.sequelize.query(consulta)
+        for ( i=0 ; i<products.length ; i++ ) {
+            let imagen = products[i].image
+            
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/products/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+               
+                products[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+               
+                products[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
+       
+            let response = {
+                    meta: {
+                        status : 200,
+                        total: products.length,
+                        url: '/api/companies/:id/products/change/:points'
+                    },
+                    data: products
+                    }
+                    res.json(response);               
+            }, 
 }
 
 module.exports = controller

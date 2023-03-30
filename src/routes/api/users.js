@@ -65,8 +65,11 @@ router.get('/logout',authMiddleware, usersApiController.logout);
 //Procesar logout
 router.post('/recoverPass', usersApiController.recoverPass);
 
+// Perfil de usuario con empresa
+router.get('/profile/:id/company', usersApiController.profileWithCompany);
 // Perfil de usuario
 router.get('/profile/:id', usersApiController.profile);
+
 // Editar Perfil de Usuario
 router.get('/profile/edit/:id',authMiddleware, usersApiController.edit);
 router.post('/profile/edit/:id',uploadFile.single('image'), validations, usersApiController.update);
@@ -83,14 +86,19 @@ router.post('/recommendation/register', recommendationApiController.create);
 router.get('/recommendation/detail/:id', recommendationApiController.detail);
 // Modificar Status a pendiente
 router.post('/recommendation/updatePresentar/:id', recommendationApiController.updatePresentar);
-// Modificar Status a confirmada
-router.post('/recommendation/updateConfirmar/:id', recommendationApiController.updateConfirmar);
 
+
+// Listar Recomendaciones por usuario Presentadas
+router.get('/:id/recommendation/present', recommendationApiController.findByUserPresent);
 // Listar Recomendaciones por usuario Pendientes
 router.get('/:id/recommendation/pending', recommendationApiController.findByUserPending);
+// Modificar Status a confirmada
+router.post('/:userId/recommendation/:recomenId/confirm/:id', recommendationApiController.updateConfirmar);
 //Buscar recomendaciones por usuario
 router.get('/:id/recommendation', recommendationApiController.findByUser);
 
+// Modificar puntos por canje
+router.post('/:id/points/:points', usersApiController.updatepoints);
 
 
 module.exports = router;

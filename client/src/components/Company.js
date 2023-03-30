@@ -10,20 +10,40 @@ function Company() {
     const { companyId } = useParams()
     const [company, setCompany] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [userCompany, setUserCompany] = useState(null)
+
+
     useEffect(() => {
         // busco en la base de datos con llamada .then, pero ahora lo hago manual 
 
-        fetch('/api/companies/profile/' + companyId)
+        const empresaDelUsuario = fetch('/api/users/profile/' + sessionStorage.userId + '/company')
             .then(response => response.json())
-            .then(company => {
-                setCompany(company.data)
+        const detalleDeEmpresa = fetch('/api/companies/profile/' + companyId)
+            .then(response => response.json())    
+
+        Promise.all([empresaDelUsuario, detalleDeEmpresa]).then(results => {
+            // aquí obtenemos un array con los resultados de cada promesa
+            const [empresaDelUsuario, detalleDeEmpresa] = results
+
+                setCompany(detalleDeEmpresa.data)
+                setUserCompany(empresaDelUsuario.data)
 
             })
+
     }, [isLoaded, companyId])
+
+
+    
+
+    
+console.log(company)
+console.log(userCompany)
+   
 
     if (isLoaded === false) {
         setIsLoaded(true)
     }
+
 
     return (
         <>
@@ -83,13 +103,19 @@ function Company() {
                                 </div>
 
                             )}
-                            {(sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
-                                <div className="col-sm m-1">
+                            {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2' ) && (
+                                <>
+                                {userCompany.length != 0 &&
+                                <>
+                                    {company[0].id===userCompany[0].companies_id &&
+                                        <div className="col-sm m-1">
 
-                                    <NavLink to={`/companies/${companyId}/product/create`}><button className="btn btn-warning">Crear Producto</button></NavLink>
+                                            <NavLink to={`/companies/${companyId}/product/create`}><button className="btn btn-warning">Crear Producto</button></NavLink>
 
-                                </div>
-
+                                     </div>}
+                                    </> 
+                                    }
+                                </>
                             )}
 
                         </div>

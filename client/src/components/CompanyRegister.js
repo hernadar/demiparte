@@ -67,7 +67,7 @@ function RegisterCompany() {
                     formData.append('areas_id', area);
                     formData.append('pricePoint',precioPunto);
                     
-                    fetch('/api/companies/register',{
+                    fetch('/api/companies/register/'+ sessionStorage.userId,{
                         method:'POST',
                         body: formData
                         })

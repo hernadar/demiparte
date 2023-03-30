@@ -117,4 +117,5 @@ router.post('/:idCompany/products/edit/:idProduct',authMiddleware, uploadFilePro
 // Eliminar Producto
 router.post('/:idCompany/products/delete/:idProduct',authMiddleware, productsController.delete);
 
+
 module.exports = router;

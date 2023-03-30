@@ -187,6 +187,23 @@ const controller = {
                     }
                     res.json(response);               
             },
+profileWithCompany: async (req, res) => {
+    
+                let consulta= "SELECT companies_id FROM companies_has_users WHERE users_id='" + req.params.id + "'"
+                const [companiesId, metadata] = await db.sequelize.query(consulta)
+    
+                
+    
+                let response = {
+                    meta: {
+                      status : 200,
+                        total: companiesId.length,
+                        url: 'api/users/profile/:iduser/company'
+                },
+                data: companiesId
+                }
+                res.json(response);               
+        },        
     // profile: (req, res) => {
         // db.User.findByPk(req.params.id, {
         //     include: [{ association: 'privileges' }]
@@ -273,6 +290,20 @@ const controller = {
 		res.clearCookie('userEmail');
 		req.session.destroy();
 		return res.redirect('/');
-	}
+	},
+    updatepoints: async (req, res) => {
+       
+        let consulta= `UPDATE users SET points = '` + parseInt(req.params.points) + `' WHERE id = '` + req.params.id + `'`
+        const [user, metadata] = await db.sequelize.query(consulta)
+                 let response = {
+                    meta: {
+                        status : 200,
+                        total: user.length,
+                        url: 'api/users/:id/points/:points'
+                    },
+                    data: user
+                    }
+                    res.json(response);               
+            },
 }
 module.exports = controller
