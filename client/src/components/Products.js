@@ -23,8 +23,8 @@ function Product({ products }) {
                             <div className="card-body">
                                 <div className="no-gutters align-items-center">
                                     <div className="col mr-2">
-                                        <div className='text-xs  mb-1'>
-                                            <em>Puntos: </em><em className='font-weight-bold text-warning'>{product.points}</em>
+                                        <div className='text-xs  mb-1 text-center'>
+                                            <em>Puntos: </em><em className='font-weight-bold text-lg text-warning'>{product.points}</em>
                                         </div>
 
                                     </div>

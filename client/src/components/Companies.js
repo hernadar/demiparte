@@ -31,7 +31,7 @@ function Companies() {
 
                             return (
 
-                                <NavLink className='nav-link' to={`/companies/${company.id}`}>
+                                <NavLink key={company.id} className='nav-link' to={`/companies/${company.id}`}>
 
                                     <CompaniesList key={company.id} company={company} />
                                 </NavLink>)

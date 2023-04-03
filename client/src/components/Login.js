@@ -13,6 +13,7 @@ function Login() {
     const [users, setUsers] = useState([])
     useEffect(() => {
 
+        if(users.length === 0 ){
         fetch('/api/users')
             .then(response => response.json())
             .then(users => {
@@ -23,6 +24,7 @@ function Login() {
                 console.log('la consulta devolvió un error')
                 console.log(e)
             })
+            }
     }, [users])
  
     const errors = {

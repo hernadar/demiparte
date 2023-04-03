@@ -90,7 +90,7 @@ const controller = {
         let imageProduct
 
         if (req.file == undefined) {
-            imageProduct = 'product.jpg'
+            imageProduct = 'product.png'
         } else {
             imageProduct = req.file.filename
         }
@@ -232,7 +232,7 @@ const controller = {
                 },
     findUserPoints: async (req, res) => {
        
-        let consulta = "SELECT * FROM products WHERE companies_id='"+ req.params.idCompany + "' AND points>='"+ req.params.points + "'";
+        let consulta = "SELECT * FROM products WHERE companies_id='"+ req.params.idCompany + "' AND points<='"+ req.params.points + "'";
         const [products, metadata] = await db.sequelize.query(consulta)
         for ( i=0 ; i<products.length ; i++ ) {
             let imagen = products[i].image

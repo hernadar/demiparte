@@ -61,9 +61,8 @@ function Profile() {
 			.catch((err) => {
 				console.log(err)
 			})
-
-
 	}
+	
 	const recommendationPendientes = () => {
 		fetch('/api/users/' + user[0].id + '/recommendation/present')
 			.then(response => response.json())
@@ -77,7 +76,7 @@ function Profile() {
 
 	}
 
-	console.log(recommendationsPending)
+	
 
 	return (
 		<>
@@ -87,7 +86,7 @@ function Profile() {
 			{user.length !== 0 && (
 				<>
 
-					<div className="container" Style="margin-top: 40px;">
+					<div className="container" >
 						<div className="row">
 
 							<h2>Hola {user[0].name} </h2>
@@ -125,7 +124,7 @@ function Profile() {
 					{recommendations.length !== 0 && (
 						<>
 							<div className="table-responsive">
-								<table className="table table-sm shadow " Style="margin-left: 0px;">
+								<table className="table table-sm shadow ">
 									<thead>
 										<tr>
 											<th scope="col">#</th>
@@ -140,7 +139,7 @@ function Profile() {
 											let fecha = new Date(dateCorrection).toLocaleDateString('es-AR')
 
 											return (
-												<tr>
+												<tr key={recomendacion.id}>
 													<th scope="row">{recomendacion.id}</th>
 													<td>{fecha}</td>
 													<td>{recomendacion.companies_name}</td>
@@ -156,7 +155,7 @@ function Profile() {
 
 							{recommendationsPending.length !== 0 && (
 
-								<table class="table table-sm shadow ">
+								<table className="table table-sm shadow ">
 									<thead>
 										<tr>
 											<th scope="col">#</th>
@@ -171,7 +170,7 @@ function Profile() {
 											let fechaPresent = new Date(dateCorrection).toLocaleDateString('es-AR')
 
 											return (
-												<tr>
+												<tr key={recomendacionPendiente.id}>
 													<th scope="row">{recomendacionPendiente.id}</th>
 													<td>{fechaPresent}</td>
 													<td>{recomendacionPendiente.companies_name}</td>

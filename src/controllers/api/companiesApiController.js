@@ -109,8 +109,9 @@ const controller = {
         let consulta3 = `INSERT INTO companies_has_users VALUES ('` + idCompany[0].ultimo + `', '`+ req.params.userId + `')`
         const [companyUser, metadata3] = await db.sequelize.query(consulta3)
 
-
-        return companyUser
+        let consulta4 = `INSERT INTO products  (name, description, category, price, points, image, companies_id) VALUES ('Dinero', 'Valor de canje por punto', 'Efectivo', '` + parseInt(req.body.pricePoint) + `', '1', 'money.png', '` + idCompany[0].ultimo + `')`
+        const [producto, metadata4] = await db.sequelize.query(consulta4)
+        return producto
 
 
     },

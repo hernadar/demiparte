@@ -1,3 +1,5 @@
+
+import { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,15 +9,28 @@ import {Link} from 'react-router-dom';
 
 function NavbarDark() {
 
-  const imagenes = require.context('../../../public/images',true)  
+  const [user, setUser] = useState([])
 
-  if (sessionStorage.userImage) {
-    var imagenPerfil = 
-        <span>
-        <img src={imagenes(`./avatars/${sessionStorage.userImage}`)} width="40" className="img-profile rounded-circle" alt='Foto de perfin mini' />
-      </span>
-      }
-    
+useEffect(() => {
+
+		// recupero el Id de usuario de la sesión para buscar el resto de datos del usuario
+		let userId = sessionStorage.getItem('userId')
+		// Verifico si aún no se ha solicitado los datos de usuario y los solicito        
+		if (user.length === 0) {
+			fetch('/api/users/profile/' + userId)
+				.then(response => response.json())
+				.then(usuario => {
+					setUser(usuario.data)
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [user.length])
+
+
+
+      
    
   return (
    <>
@@ -35,7 +50,9 @@ function NavbarDark() {
             } 
            <NavDropdown
               id="nav-dropdown-dark-example"
-              title={imagenPerfil}
+              title={(sessionStorage.userImage && user.length !==0)  &&  <span>
+                <img src={user[0].image} width="40" className="img-profile rounded-circle" alt='Foto de perfin mini' />
+              </span>}
               menuVariant="dark"
             >
               <Link className="nav-link navbar-dark  collapsed " to="/users/profile">Mi Perfil</Link>

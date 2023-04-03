@@ -26,7 +26,7 @@ function CompaniesList({ company }) {
 
 
         <React.Fragment key={company.id} >
-            <div  className='col mx-auto '>
+            <div className='col mx-auto '>
                 <div  className='card tarjeta p-1 '>
 
                     

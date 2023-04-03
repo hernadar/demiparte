@@ -67,7 +67,9 @@
     opacity: 1;
     visibility: visible ;
 }
- 
+.puntos{ 
+    font-size: 80;
+}
 .fuente {
     font-family: 'TiltNeon';
 }
@@ -77,3 +79,10 @@
     font-style: normal;
     font-weight: normal;
   }
+@media (max-width: 400px) {
+    .tarjeta .capa {
+        transition-delay: 2s;
+        transition-duration: 1s;
+        opacity: 1;
+        visibility: visible ;}
+}

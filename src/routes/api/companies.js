@@ -4,6 +4,7 @@ const path =require('path');
 const companiesApiController=require('../../controllers/api/companiesApiController');
 const productsApiController=require('../../controllers/api/productsApiController');
 const recommendationApiController=require('../../controllers/api/recommendationApiController');
+const changesApiController=require('../../controllers/api/changesApiController');
 const authMiddleware = require('../../middlewares/authMiddleware');
 
 // Requiero Multer para recibir la imagen del perfil de usuario y lo configuro
@@ -126,8 +127,12 @@ router.post('/:idCompany/products/delete/:idProduct',authMiddleware, productsApi
 router.get('/:idCompany/products/change/:points', productsApiController.findUserPoints);
 // Buscar Recomendaciones por Empresa
 router.get('/:idCompany/recommendation', recommendationApiController.findByCompany);
-
-
+// listar todos los canjes de una empresa
+router.get('/:idCompany/changes/', changesApiController.list);
+// listar el detalle de un canje
+router.get('/:idCompany/changes/:idChange', changesApiController.detail);
+// crear un registro en la tabla de canjes
+router.post('/:idCompany/changes/:idUser', changesApiController.create);
 
 
 module.exports = router;

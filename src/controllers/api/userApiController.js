@@ -53,7 +53,7 @@ const controller = {
                
 
         
-        let consulta = `INSERT INTO users (name, lastname, phone, email, password, image, privileges_id) VALUES ("` + req.body.name + `", "` + req.body.lastname + `", "` + req.body.phone + `", "` + req.body.email + `", "` + req.body.password + `", "` + imageProfile + `", "` + req.body.privileges_id + `")`
+        let consulta = `INSERT INTO users (name, lastname, phone, email, password, image, points, privileges_id) VALUES ("` + req.body.name + `", "` + req.body.lastname + `", "` + req.body.phone + `", "` + req.body.email + `", "` + req.body.password + `", "` + imageProfile + `", "` + 0 + `", "`+ req.body.privileges_id + `")`
         const [recomendaciones, metadata] = await db.sequelize.query(consulta)
           
         return recomendaciones
