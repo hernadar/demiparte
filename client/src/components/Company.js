@@ -9,7 +9,6 @@ import CircularProgress from '@mui/joy/CircularProgress';
 function Company() {
     const { companyId } = useParams()
     const [company, setCompany] = useState(null)
-    const [isLoaded, setIsLoaded] = useState(false)
     const [userCompany, setUserCompany] = useState(null)
     const [changes, setChanges] = useState([])
     const [changeDetail, setChangeDetail] = useState([])
@@ -123,7 +122,7 @@ const DetalleCanje = (id) => {
                             )}
                             {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
                                 <>
-                                    {userCompany.length != 0 &&
+                                    {userCompany.length !== 0 &&
                                         <>
                                             {company[0].id === userCompany[0].companies_id &&
                                                 <div className="col-sm m-1">
@@ -136,7 +135,7 @@ const DetalleCanje = (id) => {
                                 </>)}
                             {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
                                 <>
-                                    {userCompany.length != 0 &&
+                                    {userCompany.length !== 0 &&
                                         <>
                                             {company[0].id === userCompany[0].companies_id &&
                                                 <div className="col-sm m-1">

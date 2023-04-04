@@ -41,9 +41,8 @@ function Login() {
         const userDB = users.find((user) => user.email === email.value);
        
        
-        let passString=toString(password.value)
         if (userDB) {
-            if (bcrypt.compareSync(passString, userDB.password)) {
+            if (bcrypt.compareSync(password.value, userDB.password)) {
 
   
                 sessionStorage.setItem('userId',userDB.id)

@@ -1,0 +1,13 @@
+version: "2.1"
+services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - TZ=Etc/UTC
+    volumes:
+      - /e/programacion/Node/demiparte/duplicati/config:/config
+      - /e/programacion/Node/demiparte:/source
+    ports:
+      - 8200:8200
+    restart: unless-stopped

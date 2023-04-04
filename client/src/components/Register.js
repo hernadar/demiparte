@@ -66,10 +66,7 @@ function Register() {
 
                 if (password.value.length > 7) {
 
-                    password = password.value
-
-
-
+                    
                     let privileges_id
                     if (checked === false) {
                         privileges_id = 1
@@ -80,14 +77,16 @@ function Register() {
                     var apellido = lastname.value;
                     var telefono = phone.value;
                     var correo = email.value;
-                    var passString = toString(password.value)
+                    console.log(password.value)
+                    const salt = bcrypt.genSaltSync(10);
+                    const contrasena = bcrypt.hashSync(password.value, salt);;
 
-
+                   
                     formData.append('name', nombre);
                     formData.append('lastname', apellido);
                     formData.append('phone', telefono);
                     formData.append('email', correo);
-                    formData.append('password', bcrypt.hashSync(passString, 10));
+                    formData.append('password', contrasena);
                     formData.append('privileges_id', privileges_id);
                     var fileField = image.files[0];
                     
