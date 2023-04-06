@@ -14,17 +14,20 @@ function Login() {
     useEffect(() => {
 
         if(users.length === 0 ){
-        fetch('/api/users')
-            .then(response => response.json())
-            .then(users => {
+        
+            setTimeout(()=>{
+                fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
                
-                setUsers(users.data)
-            })
-            .catch(function (e) {
-                console.log('la consulta devolvió un error')
-                console.log(e)
-            })
-            }
+                    setUsers(users.data)
+                })
+                .catch(function (e) {
+                    console.log('la consulta devolvió un error')
+                    console.log(e)
+                })
+            },2000)    
+        }
     }, [users])
  
     const errors = {

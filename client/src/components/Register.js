@@ -107,7 +107,7 @@ function Register() {
                                     console.log(e)
                                 })
     
-                                sendEmail(nombre, correo)   
+                               // sendEmail(nombre, correo)   
                                 navigate("/users/login")
                     
                         } else {
