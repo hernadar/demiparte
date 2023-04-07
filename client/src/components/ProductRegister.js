@@ -143,7 +143,7 @@ function ProductRegister() {
                                 <div className="form-group">
                                     <label><b>Precio:</b></label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="price"
                                         className="form-control"
                                     />
@@ -158,7 +158,7 @@ function ProductRegister() {
                                 <div className="form-group">
                                     <label><b>Cantidad de puntos para canje:</b></label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="points"
                                         className="form-control"
                                     />

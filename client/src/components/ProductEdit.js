@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate, useParams } from "react-router-dom";
+import CircularProgress from '@mui/joy/CircularProgress';
 
-function ProductRegister() {
+function ProductEdit() {
     const { companyId, productId } = useParams()
     const [errorMessages, setErrorMessages] = useState({});
     
     const [product, setProduct] = useState([])
+//UseStat de los imputs
+const [nombre, setNombre] = useState('')
+const [descripcion, setDescripcion] = useState('')
+const [categoria, setCategoria] = useState('')
+const [precio, setPrecio] = useState('')
+const [puntos, setPuntos] = useState('')
 
     useEffect(() => {
 
@@ -13,14 +20,19 @@ function ProductRegister() {
             .then(response => response.json())
             .then(producto => {
                 setProduct(producto.data)
+                setNombre(producto.data[0].name)
+                setDescripcion(producto.data[0].description)
+                setCategoria(producto.data[0].category)
+                setPrecio(producto.data[0].price)
+                setPuntos(producto.data[0].points)
             })
             .catch(function (e) {
                 console.log(e)
             })
-    }, [companyId])
+    }, [])
 
     const errors = {
-        name: "Ya existe un producto con ese nombre",
+        price: "Debe utilizar el (.) como separador decimal",
         
     };
     const navigate = useNavigate()
@@ -33,11 +45,8 @@ function ProductRegister() {
         event.preventDefault();
 
         var { n_ame, description, category, price, points, image } = document.forms[0];
-        // Find product info
-        const productData = products.find((product) => product.name === n_ame.value);
-
-        if (!productData) {
-                
+       
+            if(!price.value.includes(',')){  
                         var formData=new FormData();
                         var fileField=image.files[0];
                         var nombre=n_ame.value;
@@ -54,28 +63,31 @@ function ProductRegister() {
                     formData.append('image',fileField);
                     
                     
-                    fetch('/api/companies/' + companyId +'/products/register',{
+                    fetch('/api/companies/' + companyId +'/products/edit/'+ productId,{
                         method:'POST',
                         body: formData
                         })
                         .then(response => response.json())
                         .then(respuesta => {
-                            console.log(respuesta)
+                          
                          })
                         .catch(function (e) {
                             console.log(e)
                         })
 
+                        setTimeout(()=>{
+                            navigate("/companies/")
+                        },2000)
+                    
+                    } else {
+                        setErrorMessages({ name: "price", message: errors.price });
+                         }    
 
-                        navigate("/companies/" + companyId )}
                                
-            
+                    }
          
-         else {
-            // Producto ya existente
-            setErrorMessages({ name: "name", message: errors.name });
-        }
-    };
+      
+    
 
   // Generate JSX code for error message
     const renderErrorMessage = (name) =>
@@ -87,6 +99,14 @@ function ProductRegister() {
 
 
     return (
+        <>
+            {product.length===0 &&    <div className="row justify-content-center mt-5">
+                                    <CircularProgress  />
+                                </div>}
+                                
+         {product.length!==0 &&(
+
+           <> 
         <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-10">
@@ -101,10 +121,12 @@ function ProductRegister() {
                                         type="text"
                                         name="n_ame"
                                         className="form-control"
+                                        value={nombre}
+                                        onChange={(e)=> setNombre(e.target.value)}
                                     />
 
                                     <div className="text-danger">
-                                        {renderErrorMessage("name")}
+                                        
                                     </div>
 
                                 </div>
@@ -116,7 +138,9 @@ function ProductRegister() {
                                         type="text"
                                         name="description"
                                         className="form-control"
-                                    />
+                                        value={descripcion}
+                                        onChange={(e)=> setDescripcion(e.target.value)}
+                                   />
 
                                     <div className="text-danger">
 
@@ -131,6 +155,8 @@ function ProductRegister() {
                                         type="text"
                                         name="category"
                                         className="form-control"
+                                        value={categoria}
+                                        onChange={(e)=> setCategoria(e.target.value)}
                                     />
 
                                     <div className="text-danger">
@@ -143,14 +169,18 @@ function ProductRegister() {
                                 <div className="form-group">
                                     <label><b>Precio:</b></label>
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="price"
                                         className="form-control"
+                                        value={precio}
+                                        onChange={(e)=> setPrecio(e.target.value)}
                                     />
 
+                                   
                                     <div className="text-danger">
-
+                                        {renderErrorMessage("price")}
                                     </div>
+                                  
 
                                 </div>
                             </div>
@@ -161,6 +191,8 @@ function ProductRegister() {
                                         type="text"
                                         name="points"
                                         className="form-control"
+                                        value={puntos}
+                                        onChange={(e)=> setPuntos(e.target.value)}
                                     />
 
                                     <div className="text-danger">
@@ -185,14 +217,16 @@ function ProductRegister() {
                                 </div>
                             </div>
                             <div className="col-12 my-3">
-                                <button type="submit" className="btn btn-warning">Registrar</button>
+                                <button type="submit" className="btn btn-warning">Confirmar</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    )
+        </>  )}
+    
+        </>)
 }
 
-export default ProductRegister
+export default ProductEdit

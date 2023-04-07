@@ -119,10 +119,10 @@ router.get('/:idCompany/products/image', productsApiController.image);
 // detalle de productos 
 router.get('/:idCompany/products/detail/:idProduct', authMiddleware, productsApiController.detail);
 // Editar detalle de producto
-router.get('/:idCompany/products/edit/:idProduct',authMiddleware, productsApiController.edit);
-router.post('/:idCompany/products/edit/:idProduct',authMiddleware, uploadFileProduct.single('image'), validationsProduct, productsApiController.update);
+router.get('/:idCompany/products/edit/:idProduct', productsApiController.edit);
+router.post('/:idCompany/products/edit/:idProduct', uploadFileProduct.single('image'), validationsProduct, productsApiController.update);
 // Eliminar Producto
-router.post('/:idCompany/products/delete/:idProduct',authMiddleware, productsApiController.delete);
+router.post('/:idCompany/products/delete/:idProduct', productsApiController.delete);
 // Buscar Productos para canje dependiendod de los puntos disponibles
 router.get('/:idCompany/products/change/:points', productsApiController.findUserPoints);
 // Buscar Recomendaciones por Empresa

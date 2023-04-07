@@ -205,7 +205,7 @@ const DetalleCanje = (id) => {
                                                     <td>{fecha}</td>
                                                     <td>{canje.name}</td>
                                                     <td>{canje.lastname}</td>
-                                                    <td><button className="btn btn-warning" onClick={DetalleCanje(canje.id)}>...</button></td>
+                                                    <td><button className="btn btn-warning" onClick={()=>DetalleCanje(canje.id)}>...</button></td>
                                                 </tr>
                                             )
                                         })}
