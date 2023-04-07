@@ -82,15 +82,15 @@ if (!emailSent){
         if(parseInt(codigo.value) === code) {
             if(password.value === passwordConfirm.value){
                 if(password.value.length > 7) {
-                    password = password.value
+                 
                     
                     var formData = new FormData();
                     
                     var correo = Email.value;
-                    var passString = toString(password.value)
+                    
                     
                     formData.append('email', correo);
-                    formData.append('password', bcrypt.hashSync(passString, 10));
+                    formData.append('password', hashSync(password.value, 10));
                     
 
                     fetch('/api/users/recoveryPass', {

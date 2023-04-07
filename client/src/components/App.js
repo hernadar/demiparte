@@ -13,6 +13,8 @@ import CompanyRegister from './CompanyRegister';
 import ProductRegister from './ProductRegister';
 import RecoverPass from './RecoverPass';
 import Error404 from './Error404';
+import CompanyEdit from './CompanyEdit';
+import ProductEdit from './ProductEdit';
 
 function App() {
 
@@ -33,8 +35,9 @@ function App() {
           <Route path='/companies/' element={<Companies />} />
           <Route path='/companies/:companyId/' element ={<Company/>} /> 
           <Route path='/companies/:companyId/product/create' element ={<ProductRegister/>} />  
+          <Route path='/companies/:companyId/product/edit/:productId' element ={<ProductEdit/>} />
           <Route path='/companies/:companyId/recommendation' element ={<Recommendation/>} /> 
-          
+          <Route path='/companies/:companyId/edit' element ={<CompanyEdit/>} /> 
           <Route path='/companies/register' element ={<CompanyRegister/>} />
           
         </Route>

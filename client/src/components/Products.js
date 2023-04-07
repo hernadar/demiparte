@@ -1,22 +1,27 @@
 
-import React from 'react';
-
+import React, { useState } from 'react';
+import { NavLink } from "react-router-dom"
 
 
 //const imagenes = require.context('../../../public/images',true)
 
-function Product({ products }) {
-    
-  
-
+function Product({ products, userCompany }) {
+    const [empresa,setEmpresa]= useState('')
+   if(userCompany.userCompany.length !== 0)
+    if (empresa ===''){
+    setEmpresa(userCompany.userCompany[0].companies_id)
+    }
     return (
         <>
+        
             {products.length === 0 && <p>Cargando...</p>}
+   
             {products.map((product, i) => {
 
 
                 return (
-
+                    <>
+                    {(userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && <NavLink  className='nav-link' to={`/companies/${empresa}/product/edit/`+ product.id}>Editar</NavLink>}
 
                     <div key={product.id} className="col-sm-5 col-md-3 col-lg-2 mb-4 mx-2">
                         <div className='card tarjeta  h-100 '>
@@ -38,8 +43,8 @@ function Product({ products }) {
                         </div>
 
                     </div>
-
-     
+        
+                </>    
                 )
 
             })}

@@ -5,10 +5,13 @@ import Products from './Products'
 
 
 
-function ProductsList(company){
+function ProductsList(userCompany){
     const [products,setProducts] = useState([])
     const { companyId } = useParams()
-    
+ 
+ 
+ 
+
     useEffect(() =>{
       
         fetch('/api/companies/'+ companyId + '/products/')
@@ -24,9 +27,10 @@ function ProductsList(company){
     },[companyId]) 
 
 return(
+   
     <div className='container'>
         <div className="row">
-    <Products products={products} />
+    <Products products={products} userCompany={userCompany}/>
         </div>
     </div>
     )

@@ -7,7 +7,7 @@ function SideBar(){
     return(
         <React.Fragment>
             {/*<!-- Sidebar -->*/}
-            <ul className="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul className="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion " id="accordionSidebar">
 
                 {/*<!-- Sidebar - Brand -->
                 <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -31,10 +31,10 @@ function SideBar(){
                 <hr className="sidebar-divider"/>
 
                 {/*<!-- Heading -->*/}
-                <div className="sidebar-heading"></div>
+                <div className="sidebar-heading "></div>
 
                 {/*<!-- Nav Item - Home -->*/}
-                <li className="nav-item">
+                <li className="nav-item ">
                     <Link className="nav-link collapsed" to="/">
                     <i className="fas fa-home"></i>
                         <span>Home</span>

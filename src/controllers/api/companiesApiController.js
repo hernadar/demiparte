@@ -49,24 +49,7 @@ const controller = {
         }
         res.json(response);
     },
-    // listAreas:(req,res) => {
-    //     console.log('estoy llegando')
-    //     db.Area.findAll()
-    //         .then(function (areas) {
-    //             let response = {
-    //                 meta: {
-    //                     status : 200,
-    //                     total: areas.length,
-    //                     url: 'api/areas'
-    //                 },
-    //                 data: areas
-    //             }
-    //                 res.json(response);
-    //             })
-    //     .catch(function (e) {
-    //         console.log(e)
-    //     })
-    // },  
+  
     register: (req, res) => {
         db.Area.findAll()
             .then(function (areas) {
@@ -115,44 +98,7 @@ const controller = {
 
 
     },
-    // create: (req,res) => {
-    //     const resultValidation = validationResult(req);
-    //    console.log(resultValidation.errors)
-    //     if(resultValidation.errors.length > 0) {
-    //         //debería analizar cada uno de los errores cargando en una variable
-    //         // errors:resultValidation.mapped(), esta última función me convierte
-    //         // el array en un objeto literal, para luego trabajarlo más comodo
-    //         return res.send('se registró algún error en los datos recibidos del formulario de Registro de usuario')
-    //     }
-    //    //No es necesario esta verificación porque ya se realizó en el Front
-
-    // //    db.Company.findOne({ where: { name: req.body.name } })
-    // //    .then(function (companyInDB) {
-    // //        if (companyInDB) {
-    // //            return res.send('la empresa ya existe');//le tengo que decir al front que el usuario ya existe
-    // //        } else {
-    //            let imageCompany
-
-    //            if (req.file == undefined) {
-    //                imageCompany = 'company.webp'
-    //            } else {
-    //                imageCompany = req.file.filename
-    //            }
-
-    //            let companyToCreate = {
-    //             ...req.body,
-    //             pricePoint:parseInt(req.body.pricePoint),
-    //             image: imageCompany,
-    //         }
-    //         db.Company.create(companyToCreate)
-    //             .then(function (response) {
-    //                 return response
-    //             })
-    //             .catch(function (e) {
-    //                 console.log(e)
-    //             })
-
-
+  
 
 
     profile: async (req, res) => {
@@ -187,47 +133,61 @@ const controller = {
 
 
     },
-    edit: (req, res) => {
-        let pedidoCompany = db.Company.findByPk(req.params.idCompany);
+    edit: async (req, res) => {
+       
+        let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
+        const [company, metadata] = await db.sequelize.query(consulta)
+        
+        for ( i=0 ; i<company.length ; i++ ) {
+            let imagen = company[i].image
+           
+            let imagenBase64 = fs.readFileSync(path.join(__dirname,'../../../public/images/logos/'+ imagen),{encoding: 'base64'})
+            let extension = imagen.slice(-3)
+           
+            if (extension ==='png') {
+                
+                company[i].image='data:image/png;base64,'+ imagenBase64
+            }
+            if (extension ==='jpg') {
+                
+                company[i].image='data:image/jpg;base64,'+ imagenBase64
+            }
+        }
+        let response = {
+            meta: {
+                status: 200,
+                total: company.length,
+                url: 'api/companies/profile/edit/:idCompany'
+            },
+            data: company
+        }
+        res.json(response);
 
-        let pedidoAreas = db.Area.findAll();
 
-        Promise.all([pedidoCompany, pedidoAreas])
-            .then(function ([company, areas]) {
-
-                return res.render('companyEdit', { company, areas })
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
     },
-    update: (req, res) => {
-
-        let imageProfile
+    update: async (req, res) => {
+        let imageCompany
 
         if (req.file == undefined) {
-            imageProfile = 'company.webp'
+            imageCompany = 'company.png'
         } else {
-            imageProfile = req.file.filename
+            imageCompany = req.file.filename
         }
 
-        // encrypto la contraseña 
-        let companyToEdit = {
-            ...req.body,
-
-            image: imageProfile,
+        let consulta = `UPDATE recomendame.companies SET name = '` + req.body.name + `', description = '` + req.body.description + `', image = '` + imageCompany + `', areas_id = '`  + req.body.areas_id + `', pricePoint = '`  + parseInt(req.body.pricePoint) + `' WHERE (id = '` + req.params.idCompany + `')`
+ 
+        const [company, metadata] = await db.sequelize.query(consulta)
+        let response = {
+            meta: {
+                status: 200,
+                total: company.length,
+                url: 'api/companies/profile/edit/:idCompany'
+            },
+            data: company
         }
-        db.Company.update(companyToEdit, {
-            where: {
-                id: req.params.idCompany
-            }
-        })
-            .then(function () {
-                return res.redirect('/companies')
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
+        res.json(response);
+
+
     },
     delete: (req, res) => {
         db.Company.destroy({

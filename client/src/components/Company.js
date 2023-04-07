@@ -12,6 +12,9 @@ function Company() {
     const [userCompany, setUserCompany] = useState(null)
     const [changes, setChanges] = useState([])
     const [changeDetail, setChangeDetail] = useState([])
+    
+
+
 
     useEffect(() => {
         // busco en la base de datos con llamada .then, pero ahora lo hago manual 
@@ -69,7 +72,7 @@ const DetalleCanje = (id) => {
             </div>}
             {company && (
                 <>
-
+                    
 
                     <div className="container">
                         <div className="row justify-content-around">
@@ -79,16 +82,51 @@ const DetalleCanje = (id) => {
                             <div className="col-sm">
                                 <h2>Bienvenidos a {company[0].name}</h2>
                                 <p>{company[0].description}</p>
-                            </div>
+                           
+                          
+                             {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
+                                <>
+                                    {userCompany.length !== 0 &&
+                                        <>
+                                           
+                                            {company[0].id === userCompany[0].companies_id &&
+                                                <>
+                                                
+                                                <div className="col-sm m-1">
 
+                                                    <NavLink to={`/companies/${companyId}/edit`}><button className="btn btn-warning">Editar Empresa</button></NavLink>
+
+                                                </div>
+                                                </>}
+                                        </>
+                                    }
+                                </>)}
+                            </div>   
 
                         </div>
                         <hr className="sidebar-divider d-none d-md-block" />
+                       
                         <h5 className='fuente mb-1'>Productos ofrecidos para canje</h5>
 
 
-                        <ProductsList company={company} />
-                        <div className="row justify-content-around">
+                        <ProductsList userCompany={userCompany} />
+                        <div>
+                        {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
+                                <>
+                                    {userCompany.length !== 0 &&
+                                        <>
+                                            {company[0].id === userCompany[0].companies_id &&
+                                                <div className="col-sm m-1">
+
+                                                    <NavLink to={`/companies/${companyId}/product/create`}><button className="btn btn-warning">Crear Producto</button></NavLink>
+
+                                                </div>}
+                                        </>
+                                    }
+                                </>)}
+                        </div>
+                        <hr className="sidebar-divider d-none d-md-block" />
+                        <div className="row justify-content-around align-items-center">
                             <div className="col-sm">
                                 <h5 className='fuente'>Canje en Efectivo</h5>
                                 <p>Por cada punto acumulado podes realizar el canje por dinero en efectivo.</p>
@@ -120,20 +158,15 @@ const DetalleCanje = (id) => {
                                 </div>
 
                             )}
-                            {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
-                                <>
-                                    {userCompany.length !== 0 &&
-                                        <>
-                                            {company[0].id === userCompany[0].companies_id &&
-                                                <div className="col-sm m-1">
+                          
+                           
+                            
+                            
 
-                                                    <NavLink to={`/companies/${companyId}/product/create`}><button className="btn btn-warning">Crear Producto</button></NavLink>
 
-                                                </div>}
-                                        </>
-                                    }
-                                </>)}
-                            {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
+                        </div>
+                        <hr className="sidebar-divider d-none d-md-block" />
+                        {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
                                 <>
                                     {userCompany.length !== 0 &&
                                         <>
@@ -148,9 +181,6 @@ const DetalleCanje = (id) => {
                                     }
                                 </>
                             )}
-
-
-                        </div>
                     </div>
                     {changes.length !== 0 && (
                         <>

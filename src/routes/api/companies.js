@@ -101,8 +101,8 @@ router.post('/register/:userId', uploadFileCompany.single('image'), validationsC
 // Perfil de Empresa
 router.get('/profile/:idCompany', companiesApiController.profile);
 // Editar Perfil de Empresa
-router.get('/profile/edit/:idCompany',authMiddleware, companiesApiController.edit);
-router.post('/profile/edit/:idCompany',authMiddleware, uploadFileCompany.single('image'), validationsCompany, companiesApiController.update);
+router.get('/profile/edit/:idCompany', companiesApiController.edit);
+router.post('/profile/edit/:idCompany', uploadFileCompany.single('image'), validationsCompany, companiesApiController.update);
 // Eliminar perfil de Empresa
 router.post('/profile/delete/:idCompany',authMiddleware, companiesApiController.delete);
 
