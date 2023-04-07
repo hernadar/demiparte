@@ -56,13 +56,13 @@ function SideBar(){
                 </li>
                  {/*<!-- Nav Item - About -->*/}
                  <li className="nav-item">
-                    <Link className="nav-link" to="/">
+                    <Link className="nav-link" to="/about">
                     <i className="fas fa-users"></i>
                         <span>Nosotros</span></Link>
                 </li>
                     {/*<!-- Nav Item - Contact -->*/}
                     <li className="nav-item">
-                    <Link className="nav-link" to="/">
+                    <Link className="nav-link" to="/contact">
                     <i className="fas fa-comment"></i>
                         <span>Contacto</span></Link>
                 </li>

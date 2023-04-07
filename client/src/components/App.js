@@ -15,6 +15,8 @@ import RecoverPass from './RecoverPass';
 import Error404 from './Error404';
 import CompanyEdit from './CompanyEdit';
 import ProductEdit from './ProductEdit';
+import Contact from './Contact';
+import About from './About';
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
           <Route path='/companies/:companyId/edit' element ={<CompanyEdit/>} /> 
           <Route path='/companies/register' element ={<CompanyRegister/>} />
           
+          <Route path='/contact' element ={<Contact/>} />
+          <Route path='/about' element ={<About/>} />
         </Route>
        <Route path='*' element={<Error404 />} />  
       
