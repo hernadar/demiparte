@@ -82,7 +82,7 @@ const controller = {
 
        
 
-        let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + Number(req.body.pricePoint) + `")`
+        let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint, address, whatsapp) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + Number(req.body.pricePoint) + `", "` + req.body.address + `", "` + req.body.whatsapp + `")`
         const [companies, metadata] = await db.sequelize.query(consulta)
 
         let consulta2 = `SELECT MAX(id) ultimo FROM companies;`
@@ -103,7 +103,7 @@ const controller = {
 
     profile: async (req, res) => {
 
-        let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
+        let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name, address, whatsapp from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
         const [company, metadata] = await db.sequelize.query(consulta)
         
         for ( i=0 ; i<company.length ; i++ ) {

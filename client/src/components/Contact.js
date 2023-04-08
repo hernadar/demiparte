@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import emailjs from 'emailjs-com';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
+import image from '../assets/images/app/whatsapp.png';
 
 function Contact() {
 
@@ -133,7 +134,18 @@ function Contact() {
 
                                 </div>
                             </div>
- 
+                            <div className="col-md-6 my-1">
+                                <div className="form-group">
+                                    <label><b>También podés contactarnos al:</b></label>
+                                    <div>
+                                    <img  className='logowhatsapp' src={image} alt="whatsapp"/><label>0261-4703053</label>
+                                    </div>
+                                    <div className="text-danger">
+                                      
+                                    </div>
+
+                                </div>
+                            </div>
 
                             <div className="col-12 my-3">
                                 <button type="submit" className="btn btn-warning">Enviar</button>

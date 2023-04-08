@@ -47,7 +47,7 @@ function RegisterCompany() {
         //Prevent page reload
         event.preventDefault();
 
-        var { name, description, image, areas_id, pricePoint } = document.forms[0];
+        var { name, description, image, areas_id, pricePoint, address, whatsapp } = document.forms[0];
         // Find user login info
         const companyData = companies.find((company) => company.name === name.value);
 
@@ -59,14 +59,17 @@ function RegisterCompany() {
                         var descripcion=description.value;
                         var area=areas_id.value;
                         var precioPunto=pricePoint.value;
-                   
-                    
+                        var direccion=address.value;
+                        var whats=whatsapp.value;
+
                     formData.append('name',nombre);
                     formData.append('description',descripcion);
                     formData.append('image',fileField);
                     formData.append('areas_id', area);
                     formData.append('pricePoint',precioPunto);
-                    
+                    formData.append('address',direccion);
+                    formData.append('whatsapp',whats);
+
                     fetch('/api/companies/register/'+ sessionStorage.userId,{
                         method:'POST',
                         body: formData
@@ -116,6 +119,7 @@ function RegisterCompany() {
                                     <input
                                         type="text"
                                         name="name"
+                                        placeholder='Ej. Ricos Sabores'
                                         className="form-control" required
                                     />
 
@@ -128,9 +132,10 @@ function RegisterCompany() {
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
                                     <label><b>Descripción:</b></label>
-                                    <input
+                                    <textarea
                                         type="text"
                                         name="description"
+                                        placeholder='Ej. La mejor comida casera'
                                         className="form-control"required
                                     />
 
@@ -165,10 +170,43 @@ function RegisterCompany() {
                             </div>
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
+                                    <label><b>Dirección:</b></label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        placeholder='Ej. Palomino 1234 - Godoy Cruz - Mendoza'
+                                        className="form-control"required
+                                    />
+
+                                    <div className="text-danger">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="col-md-6 my-1">
+                                <div className="form-group">
+                                    <label><b>WhatsApp:</b></label>
+                                    <input
+                                        type="text"
+                                        name="whatsapp"
+                                        placeholder='Ej. 0261-4837000'
+                                        className="form-control"
+                                    />
+
+                                    <div className="text-danger">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="col-md-6 my-1">
+                                <div className="form-group">
                                     <label><b>Precio del punto de Recomendación:</b></label>
                                     <input
                                         type="number"
                                         name="pricePoint"
+                                        step="any"
                                         className="form-control" required
                                     />
 

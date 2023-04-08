@@ -4,7 +4,7 @@ import ProductsList from './ProductsList'
 import { useParams, NavLink } from "react-router-dom"
 import '@fontsource/public-sans';
 import CircularProgress from '@mui/joy/CircularProgress';
-
+import image from '../assets/images/app/whatsapp.png';
 
 function Company() {
     const { companyId } = useParams()
@@ -82,8 +82,9 @@ const DetalleCanje = (id) => {
                             <div className="col-sm">
                                 <h2>Bienvenidos a {company[0].name}</h2>
                                 <p>{company[0].description}</p>
-                           
-                          
+                                <p>{company[0].address}</p>
+                                <img  className='logowhatsapp' src={image} alt="whatsapp"/><label>{company[0].whatsapp}</label>
+
                              {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
                                 <>
                                     {userCompany.length !== 0 &&

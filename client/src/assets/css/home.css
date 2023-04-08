@@ -76,6 +76,10 @@
 .fuente {
     font-family: 'TiltNeon';
 }
+.logowhatsapp {
+    display: inline-block;
+    width: 30px;
+}
 @font-face {
     font-family: 'TiltNeon';
     src: url('./TiltNeon-Regular-VariableFont_XROT\,YROT.ttf') format('truetype');
