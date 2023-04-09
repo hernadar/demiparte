@@ -133,6 +133,7 @@ router.get('/:idCompany/changes/', changesApiController.list);
 router.get('/:idCompany/changes/:idChange', changesApiController.detail);
 // crear un registro en la tabla de canjes
 router.post('/:idCompany/changes/:idUser', changesApiController.create);
-
+// listar todos todas la recomendaciones confirmadas de una empresa 
+router.get('/:idCompany/billing/', recommendationApiController.billing);
 
 module.exports = router;

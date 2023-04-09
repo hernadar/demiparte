@@ -12,8 +12,8 @@ function Company() {
     const [userCompany, setUserCompany] = useState(null)
     const [changes, setChanges] = useState([])
     const [changeDetail, setChangeDetail] = useState([])
-    
-
+    const [billing, setBilling] = useState([])
+    const [billingBeteewnDates, setBillingBeteewnDates] = useState([])
 
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function Company() {
 
     }, [companyId])
 
-const changesByCompany = () => {
+    const changesByCompany = () => {
 
         fetch('/api/companies/' + company[0].id + '/changes/')
             .then(response => response.json())
@@ -47,24 +47,46 @@ const changesByCompany = () => {
             })
     }
 
-const DetalleCanje = (id) => {
-    if (changeDetail.length===0){
-        fetch('/api/companies/' + company[0].id + '/changes/' + id)
-            .then(response => response.json())
-            .then(detalle => {
-                setChangeDetail(detalle.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+    const DetalleCanje = (id) => {
+        if (changeDetail.length === 0) {
+            fetch('/api/companies/' + company[0].id + '/changes/' + id)
+                .then(response => response.json())
+                .then(detalle => {
+                    setChangeDetail(detalle.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         }
 
     }
 
+    const billingByCompany = () => {
+
+        fetch('/api/companies/' + company[0].id + '/billing/')
+            .then(response => response.json())
+            .then(confirmadas => {
+                setBilling(confirmadas.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+   
+    const handleSubmit = (event) => {
+        //Prevent page reload
+        event.preventDefault();
+
+        var { from, to } = document.forms[0];
+    
+        const billingBeteewnDates = billing.filter((pago) => pago.dateConfirm >= from.value && pago.dateConfirm <=to.value);
+        setBillingBeteewnDates(billingBeteewnDates)
+    }
 
     var canjesFiltrados
 
-
+console.log(userCompany)
     return (
         <>
             {!company && <div className="row justify-content-center mt-5">
@@ -72,7 +94,7 @@ const DetalleCanje = (id) => {
             </div>}
             {company && (
                 <>
-                    
+
 
                     <div className="container">
                         <div className="row justify-content-around">
@@ -83,36 +105,36 @@ const DetalleCanje = (id) => {
                                 <h2>Bienvenidos a {company[0].name}</h2>
                                 <p>{company[0].description}</p>
                                 <p>{company[0].address}</p>
-                                <img  className='logowhatsapp' src={image} alt="whatsapp"/><label>{company[0].whatsapp}</label>
+                                <img className='logowhatsapp' src={image} alt="whatsapp" /><label>{company[0].whatsapp}</label>
 
-                             {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
-                                <>
-                                    {userCompany.length !== 0 &&
-                                        <>
-                                           
-                                            {company[0].id === userCompany[0].companies_id &&
-                                                <>
-                                                
-                                                <div className="col-sm m-1">
+                                {(company && userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && (
+                                    <>
+                                        {userCompany.length !== 0 &&
+                                            <>
 
-                                                    <NavLink to={`/companies/${companyId}/edit`}><button className="btn btn-warning">Editar Empresa</button></NavLink>
+                                                {company[0].id === userCompany[0].companies_id &&
+                                                    <>
 
-                                                </div>
-                                                </>}
-                                        </>
-                                    }
-                                </>)}
-                            </div>   
+                                                        <div className="col-sm m-1">
+
+                                                            <NavLink to={`/companies/${companyId}/edit`}><button className="btn btn-warning">Editar Empresa</button></NavLink>
+
+                                                        </div>
+                                                    </>}
+                                            </>
+                                        }
+                                    </>)}
+                            </div>
 
                         </div>
                         <hr className="sidebar-divider d-none d-md-block" />
-                       
+
                         <h5 className='fuente mb-1'>Productos ofrecidos para canje</h5>
 
 
                         <ProductsList userCompany={userCompany} />
                         <div>
-                        {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
+                            {(company && userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && (
                                 <>
                                     {userCompany.length !== 0 &&
                                         <>
@@ -126,7 +148,7 @@ const DetalleCanje = (id) => {
                                     }
                                 </>)}
                         </div>
-                        <hr className="sidebar-divider d-none d-md-block" />
+                        <hr className="sidebar-divider " />
                         <div className="row justify-content-around align-items-center">
                             <div className="col-sm">
                                 <h5 className='fuente'>Canje en Efectivo</h5>
@@ -159,30 +181,25 @@ const DetalleCanje = (id) => {
                                 </div>
 
                             )}
-                          
-                           
-                            
-                            
-
 
                         </div>
-                        <hr className="sidebar-divider d-none d-md-block" />
-                        {(company && userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && (
-                                <>
-                                    {userCompany.length !== 0 &&
-                                        <>
-                                            {company[0].id === userCompany[0].companies_id &&
-                                                <div className="col-sm m-1">
+                        <hr className="sidebar-divider " />
+                        {(company && userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && (
+                            <>
+                                {userCompany.length !== 0 &&
+                                    <>
+                                        {company[0].id === userCompany[0].companies_id &&
+                                            <div className="col-sm m-1">
 
-                                                    <button className="btn btn-warning" onClick={changesByCompany}>Ver Canjes Realizados</button>
+                                                <button className="btn btn-warning" onClick={changesByCompany}>Ver Canjes Realizados</button>
 
-                                                </div>
-                                            }
-                                        </>
-                                    }
-                                </>
-                            )}
-                    </div>
+                                            </div>
+                                        }
+                                    </>
+                                }
+                            </>
+                        )}
+                    
                     {changes.length !== 0 && (
                         <>
                             <div className="table-responsive">
@@ -206,7 +223,7 @@ const DetalleCanje = (id) => {
                                                     <td>{fecha}</td>
                                                     <td>{canje.name}</td>
                                                     <td>{canje.lastname}</td>
-                                                    <td><button className="btn btn-warning" onClick={()=>DetalleCanje(canje.id)}>...</button></td>
+                                                    <td><button className="btn btn-warning" onClick={() => DetalleCanje(canje.id)}>...</button></td>
                                                 </tr>
                                             )
                                         })}
@@ -235,10 +252,10 @@ const DetalleCanje = (id) => {
                                                     <th scope="row">{detalleCanje.changes_id}</th>
                                                     <td>{detalleCanje.name}</td>
                                                     <td>{detalleCanje.points}</td>
-                                                    {(detalleCanje.name ==='Dinero') &&
+                                                    {(detalleCanje.name === 'Dinero') &&
                                                         <td>$ {detalleCanje.price}</td>
                                                     }
-                                                    
+
                                                 </tr>
                                             )
 
@@ -246,25 +263,98 @@ const DetalleCanje = (id) => {
 
                                     </tbody>
                                 </table>
-                           
+
 
 
                             )}
                             <div>
-                                <label>Total en Efectivo: $ {canjesFiltrados = changeDetail.filter((canje,i) =>{
-                                       
-                                       if(canje.name === 'Dinero'){
-                                           return true
-                                       }
-                                       
-                                   }).reduce((acc, canje) => acc += canje.price,0) }
-                                    </label>
+                                <label>Total en Efectivo: $ {canjesFiltrados = changeDetail.filter((canje, i) => {
+
+                                    if (canje.name === 'Dinero') {
+                                        return true
+                                    }
+
+                                }).reduce((acc, canje) => acc += canje.price, 0)}
+                                </label>
                             </div>
+
+
+
                         </>
 
-                    )
+                    )}
+                    <hr className="sidebar-divider" />
+                     {(company && userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && (
+                            <>
+                                {userCompany.length !== 0 &&
+                                    <>
+                                        {company[0].id === userCompany[0].companies_id &&
+                                            
+                                            <div className="col-sm m-1">
 
-                    }
+                                                <button className="btn btn-warning" onClick={billingByCompany}>Ver Facturación</button>
+
+                                            </div>
+                                        }
+                                    </>
+                                }
+                            </>
+                        )}
+                    
+                    {billing.length !== 0 && (
+                        <>  <form onSubmit={handleSubmit}>
+                            <div className='row justify-content-around'>
+                            <label >Desde: </label>
+                            <input name="from" type="date"></input>
+                            </div>
+                            <div className='row justify-content-around'>
+                            <label >Hasta: </label>
+                            <input name="to" type="date"></input>
+                            </div>
+                            <div className="col-sm m-1">
+                                <button type="submit" className="btn btn-warning">Buscar</button>
+                            </div>
+                            </form>
+                        
+                        </>
+                    )}
+                    {billingBeteewnDates.length !== 0 && (
+                        <>
+                            <div className="table-responsive">
+                                <table className="table table-sm shadow " >
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Precio</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {billingBeteewnDates.map((pago, i) => {
+                                            let dateCorrection = pago.date + 'T00:00:00';
+                                            let fecha = new Date(dateCorrection).toLocaleDateString('es-AR')
+
+                                            return (
+                                                <tr key={pago.id}>
+                                                    <th scope="row">{pago.id}</th>
+                                                    <td>{fecha}</td>
+                                                    <td>{pago.status}</td>
+                                                    <td>$ {company[0].pricePoint}</td>
+                                                </tr>
+                                            )
+                                        })}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <label>Total: $ {billingBeteewnDates.length*company[0].pricePoint}</label>
+                                    
+                            </div>
+                        </>
+                        )}
+                    </div>
                 </>
 
             )}

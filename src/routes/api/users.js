@@ -92,6 +92,8 @@ router.post('/recommendation/updatePresentar/:id', recommendationApiController.u
 router.get('/:id/recommendation/present', recommendationApiController.findByUserPresent);
 // Listar Recomendaciones por usuario Pendientes
 router.get('/:id/recommendation/pending', recommendationApiController.findByUserPending);
+// Listar Recomendaciones por usuario y por Empresa Confirmadas
+router.get('/:id/recommendation/:idCompany/confirm', recommendationApiController.findByUserConfirm);
 // Modificar Status a confirmada
 router.post('/:userId/recommendation/:recomenId/confirm/:id', recommendationApiController.updateConfirmar);
 //Buscar recomendaciones por usuario

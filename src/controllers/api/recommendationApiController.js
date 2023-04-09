@@ -60,36 +60,7 @@ const controller = {
 
     },
 
-    login: (req, res) => {
-        return res.render('userLogin')
-    },
-
-    loginProcess: (req, res) => {
-        db.User.findOne({ where: { email: req.body.email } })
-            .then(function (userToLogin) {
-                if (userToLogin) {
-                    let isOkThePassword = bcryptjs.compareSync(req.body.password, userToLogin.password);
-                    if (isOkThePassword) {
-                        delete userToLogin.password;
-                        req.session.userLogged = userToLogin;
-                        if (req.body.remember_user) {
-                            res.cookie('userEmail', req.body.email, { maxAge: (1000 * 60) * 2 })
-                            console.log(req.cookies.userEmail)
-                        }
-                        return res.redirect('/')
-                    } else {
-                        console.log('Las credenciales son incorrectas')
-                        return res.render('userlogin')
-                    }
-                } else {
-                    // retornar un mensaje de que el usurio no existe
-                    return res.render('userLogin')
-                }
-            })
-            .catch(function (e) {
-                console.log(e)
-            })
-    },
+   
 
     detail: (req, res) => {
         db.Recommendation.findByPk(req.params.id, {
@@ -128,30 +99,7 @@ const controller = {
         res.json(response);
 
     },
-    //     db.Recommendation.findByPk(req.params.id)
-    //         .then(function (recommendation) {
-
-    //             let recommendationUpadate = {
-    //                 ...recommendation,
-    //                 status: 'pendiente'
-    //             }
-    //             db.Recommendation.update(recommendationUpadate, {
-    //                 where: {
-    //                     id: req.params.id
-    //                 }
-    //             })
-    //                 .then(function (recommendation) {
-    //                     res.redirect('/users/recommendation/')
-    //                 })
-    //                 .catch(function (e) {
-    //                     console.log(e)
-    //                 })
-    //         })
-    //         .catch(function (e) {
-    //             console.log(e)
-    //         })
-    // },
-
+    
     updateConfirmar: async (req, res) => {
         console.log('Estoy confirmando')
         let date = new Date();
@@ -159,21 +107,23 @@ const controller = {
         let month = date.getMonth() + 1;
         let day = date.getDate();
         let dateToConfirm = year + '-' + month + '-' + day
-        
+        //Cambia el estado de la recomendacion a Confirmada en la tabla de estado
         let consulta = `UPDATE status SET status = 'confirmada', date='` + dateToConfirm + `' WHERE id='` + req.params.id + `'`;
         const [status, metadata] = await db.sequelize.query(consulta)
-       
+      
+        //Cambia el estado de la recomendación a Confirmada en la tabla de Recomendaciones
         let recomendacion = `UPDATE recommendations SET status = 'confirmada', dateConfirm='` + dateToConfirm + `' WHERE id='` + req.params.recomenId + `'`;
         const [recommendation, metadata2] = await db.sequelize.query(recomendacion)
         
+        //busca el usuario que generó la recomandación
         let consultausuario = `SELECT * FROM users WHERE id='` + req.params.userId + `'`;
         const [user, metadata3] = await db.sequelize.query(consultausuario)
-        
+        //Verifica sus puntos
         console.log(user)
         if (user[0].points === null ) {
             user[0].point = 0
         }
-        
+        //Actualiza sus puntos 
         const pointsToUpdate =(parseInt(user[0].points)) + 1
         console.log(pointsToUpdate)
         let updateausuario = `UPDATE users SET points = '` + pointsToUpdate + `' WHERE id='` + req.params.userId + `'`;
@@ -189,28 +139,7 @@ const controller = {
         }
         res.json(response);
 
-        // db.Recommendation.findByPk(req.params.id)
-        //     .then(function (recommendation) {
-
-        //         let recommendationUpadate = {
-        //             ...recommendation,
-        //             status: 'confirmada'
-        //         }
-        //         db.Recommendation.update(recommendationUpadate, {
-        //             where: {
-        //                 id: req.params.id
-        //             }
-        //         })
-        //             .then(function (recommendation) {
-        //                 res.redirect('/users/recommendation/')
-        //             })
-        //             .catch(function (e) {
-        //                 console.log(e)
-        //             })
-        //     })
-        //     .catch(function (e) {
-        //         console.log(e)
-        //     })
+      
     },
     delete: (req, res) => {
         db.User.destroy({
@@ -231,23 +160,7 @@ const controller = {
         req.session.destroy();
         return res.redirect('/');
     },
-    // findByCode: (req, res) => {
-    //     db.Recommendation.findOne({ where: { code: req.params.code } })
-    //         .then(function (recommendacion) {
-    //             let response = {
-    //                 meta: {
-    //                     status: 200,
-    //                     total: recommendacion.length,
-    //                     url: 'api/users/recommendation/find/:code'
-    //                 },
-    //                 data: recommendacion
-    //             }
-    //             res.json(response);
-    //         })
-    //         .catch(function (e) {
-    //             console.log(e)
-    //         })
-    // },
+  
     findByUser: async (req, res) => {
 
         let consulta = "SELECT recommendations.id, dateCreate, datePresent, dateConfirm, status, companies.name as companies_name FROM recommendations INNER JOIN companies ON companies_id=companies.id WHERE users_id='" + req.params.id + "'";
@@ -278,24 +191,7 @@ const controller = {
         }
         res.json(response);
     },
-    // findByUser: (req, res) => {
-    //     db.Recommendation.findAll({ where: { users_id: req.params.id },
-    //         include: [{ association: 'companies' }] })
-    //         .then(function (recomendaciones) {
-    //             let response = {
-    //                 meta: {
-    //                     status: 200,
-    //                     total: recomendaciones.length,
-    //                     url: 'api/users/:id/recommendation'
-    //                 },
-    //                 data: recomendaciones
-    //             }
-    //             res.json(response);
-    //         })
-    //         .catch(function (e) {
-    //             console.log(e)
-    //         })
-    // },
+   
     findByUserPresent: async (req, res) => {
      
         let consulta = "SELECT recommendations.id, dateCreate, datePresent, dateConfirm, status.id as status_id, status.status as status_name, companies.name as companies_name FROM recommendations INNER JOIN companies ON companies_id=companies.id JOIN status ON recommendations.id=status.recommendations_id WHERE users_id='" + req.params.id + "'";
@@ -325,7 +221,34 @@ const controller = {
         }
         res.json(response);
     },
-
-
+    findByUserConfirm: async (req, res) => {
+     
+        let consulta = `SELECT COUNT(*) as cantidadPuntos FROM recommendations INNER JOIN status ON status.status ='confirmada' AND status.recommendations_id = recommendations.id WHERE companies_id='`+ req.params.idCompany + `' AND users_id = '`+req.params.id + `'`;
+        const [cuentaPuntos, metadata] = await db.sequelize.query(consulta)
+       
+        
+        let response = {
+            meta: {
+                status: 200,
+                total: cuentaPuntos.length,
+                url: 'api/users/:id/recommendation/idCompany/confirm'
+            },
+            data: cuentaPuntos
+        }
+        res.json(response);
+    },
+    billing: async (req, res) => {
+        let consulta = `SELECT * FROM recommendations INNER JOIN status ON status.status ='confirmada' AND status.recommendations_id = recommendations.id WHERE companies_id='`+ req.params.idCompany + `'`;
+        const [recomendacionesConfirmadas, metadata] = await db.sequelize.query(consulta)
+        let response = {
+            meta: {
+                status: 200,
+                total: recomendacionesConfirmadas.length,
+                url: 'api/company/:id/billing'
+            },
+            data: recomendacionesConfirmadas
+        }
+        res.json(response);
+    },
 }
 module.exports = controller
