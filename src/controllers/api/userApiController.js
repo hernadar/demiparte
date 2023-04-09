@@ -80,42 +80,7 @@ const controller = {
  
        
     },
-    // create: (req, res) => {
-    //     console.log('pasó por acá')
-    //     const resultValidation = validationResult(req);
-
-    //     if (resultValidation.errors.length > 0) {
-    //         //debería analizar cada uno de los errores cargando en una variable
-    //         // errors:resultValidation.mapped(), esta última función me convierte
-    //         // el array en un objeto literal, para luego trabajarlo más comodo
-    //         return res.send(resultValidation)
-    //     }
-
-    //         let imageProfile
-
-    //         if (req.file == undefined) {
-    //             imageProfile = 'user.png'
-    //             } else {
-    //             imageProfile = req.file.filename
-    //             }
-    //         // encrypto la contraseña 
-    //             console.log(req.body)
-                   
-    //         let userToCreate = {
-    //             ...req.body,
-    //             image: imageProfile,
-    //             }
-    //         db.User.create(userToCreate)
-    //             .then(function (response) {
-    //                     return response
-    //                 })
-    //             .catch(function (e) {
-    //                     console.log(e)
-    //                 })
-                
-            
-
-    // },
+   
 
     login: (req, res) => {
         return res.render('userLogin')
@@ -204,28 +169,7 @@ profileWithCompany: async (req, res) => {
                 }
                 res.json(response);               
         },        
-    // profile: (req, res) => {
-        // db.User.findByPk(req.params.id, {
-        //     include: [{ association: 'privileges' }]
-        // })
-        // .then(function (user) {
-                    
-                        
-             
-        //      let response = {
-        //          meta: {
-        //              status : 200,
-        //              total: user.length,
-        //              url: 'api/user/profile/:iduser'
-        //          },
-        //          data: user
-        //      }
-        //     res.json(response);
-           
-        // })
-        // .catch(function (e) {
-        //         console.log(e)
-        // })
+ 
     
     edit: (req, res) => {
         
@@ -292,8 +236,31 @@ profileWithCompany: async (req, res) => {
 		return res.redirect('/');
 	},
     updatepoints: async (req, res) => {
-       
-        let consulta= `UPDATE users SET points = '` + parseInt(req.params.points) + `' WHERE id = '` + req.params.id + `'`
+        //Busco las recomendaciones confirmadas del usuario y de la empresa  
+        ;
+        let consultaRecomendaciones= `SELECT recommendations.id as id_recommendation, status.id, status.status, status.date FROM recommendations INNER JOIN status ON status.status ='confirmada' AND status.recommendations_id = recommendations.id WHERE companies_id='`+ req.params.idCompany + `' AND users_id = '` + req.params.id + `'`;
+        const [recomendaciones, metadata1] = await db.sequelize.query(consultaRecomendaciones)
+        //Tengo que cambiar el estado de las recomendaciones en status a canjeadas de acuerdo a la cantidad de puntos
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let dateToChange = year + '-' + month + '-' + day
+        console.log(recomendaciones)
+        for ( i=0 ; i< req.params.points ;i++ ){
+            let idRecomendacion = recomendaciones[i].id
+            let consultaActualizar =`UPDATE status SET status = 'canjeada', date = '` + dateToChange + `' WHERE id = '` + idRecomendacion + `'`;
+            const [recomendacionActualizada, metadata2] = await db.sequelize.query(consultaActualizar)
+        }
+        //Actualizo la recomendación en la tabla de recomendacioones
+        let consultaActualizarReco =`UPDATE recommendations SET status = 'canjeada', dateChange = '` + dateToChange + `' WHERE id = '` + recomendaciones[0].id_recommendation + `'`;
+            const [recomendacionActualizadaReco, metadata3] = await db.sequelize.query(consultaActualizarReco)
+        //consulto cuantos puntos tiene el usuario para luego restarle los puntos del canje
+        let consultaUsuario= `SELECT * FROM users WHERE id = '` + req.params.id + `'`
+        const [usuario, metadata2] = await db.sequelize.query(consultaUsuario)
+        let puntos = usuario[0].points
+
+        let consulta= `UPDATE users SET points = '` + parseInt(puntos - req.params.points) + `' WHERE id = '` + req.params.id + `'`
         const [user, metadata] = await db.sequelize.query(consulta)
                  let response = {
                     meta: {

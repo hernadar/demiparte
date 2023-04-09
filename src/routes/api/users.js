@@ -100,7 +100,7 @@ router.post('/:userId/recommendation/:recomenId/confirm/:id', recommendationApiC
 router.get('/:id/recommendation', recommendationApiController.findByUser);
 
 // Modificar puntos por canje
-router.post('/:id/points/:points', usersApiController.updatepoints);
+router.post('/:id/:idCompany/points/:points', usersApiController.updatepoints);
 
 
 module.exports = router;
