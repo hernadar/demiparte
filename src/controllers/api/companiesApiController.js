@@ -82,7 +82,7 @@ const controller = {
 
        
 
-        let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint, address, whatsapp) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + Number(req.body.pricePoint) + `", "` + req.body.address + `", "` + req.body.whatsapp + `")`
+        let consulta = `INSERT INTO companies (name, description, image, areas_id, pricePoint, address, whatsapp, fee) VALUES ("` + req.body.name + `", "` + req.body.description + `", "` + imageCompany + `", "` + req.body.areas_id + `", "` + Number(req.body.pricePoint) + `", "` + req.body.address + `", "` + req.body.whatsapp + `, '0.5'")`
         const [companies, metadata] = await db.sequelize.query(consulta)
 
         let consulta2 = `SELECT MAX(id) ultimo FROM companies;`

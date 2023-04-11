@@ -17,6 +17,7 @@ import CompanyEdit from './CompanyEdit';
 import ProductEdit from './ProductEdit';
 import Contact from './Contact';
 import About from './About';
+import Invoices from './Invoices';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
 
 
           <Route path='/companies/' element={<Companies />} />
+          <Route path='/companies/invoices' element={<Invoices />} />
           <Route path='/companies/:companyId/' element ={<Company/>} /> 
           <Route path='/companies/:companyId/product/create' element ={<ProductRegister/>} />  
           <Route path='/companies/:companyId/product/edit/:productId' element ={<ProductEdit/>} />

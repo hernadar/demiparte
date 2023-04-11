@@ -4,19 +4,32 @@ const db = require('../../database/models');
 
 const controller = {
     list: async (req, res) => {
-        let consulta = "SELECT * FROM `recommendations`"
-        const [recommendations, metadata] = await db.sequelize.query(consulta)
+        let consulta = "SELECT * FROM `invoices`"
+        const [invoices, metadata] = await db.sequelize.query(consulta)
         let response = {
             meta: {
                 status: 200,
-                total: recommendations.length,
-                url: 'api/users/recommendation'
+                total: invoices.length,
+                url: 'api/companies/invoices'
             },
-            data: recommendations
+            data: invoices
         }
         res.json(response);
     },
-
+    listDetail: async (req, res) => {
+        
+        let consulta = "SELECT * FROM `invoiceDetail`"
+        const [invoiceDetail, metadata] = await db.sequelize.query(consulta)
+        let response = {
+            meta: {
+                status: 200,
+                total: invoiceDetail.length,
+                url: 'api/companies/invoices/detail'
+            },
+            data: invoiceDetail
+        }
+        res.json(response);
+    },
     register: (req, res) => {
         let pedidoUser = db.User.findAll();
 

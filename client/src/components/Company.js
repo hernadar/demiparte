@@ -292,7 +292,7 @@ console.log(userCompany)
                                             
                                             <div className="col-sm m-1">
 
-                                                <button className="btn btn-warning" onClick={billingByCompany}>Ver Facturación</button>
+                                                <button className="btn btn-warning" onClick={billingByCompany}>Invertido en demiparte</button>
 
                                             </div>
                                         }
@@ -340,7 +340,7 @@ console.log(userCompany)
                                                     <th scope="row">{pago.id}</th>
                                                     <td>{fecha}</td>
                                                     <td>{pago.status}</td>
-                                                    <td>$ {company[0].pricePoint}</td>
+                                                    <td>$ {company[0].pricePoint*company[0].fee}</td>
                                                 </tr>
                                             )
                                         })}

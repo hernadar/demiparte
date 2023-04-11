@@ -23,7 +23,7 @@ function Home() {
                 <div>
                     <ol >
                         <li>Te creas un usuario en nuestro sitio</li>
-                        <li>Elejí la Empresa que queres recomendar</li>
+                        <li>Elejí la Empresa que deseas recomendar</li>
                         <li>Crea tu recomendación</li>
                         <li>Y listo... ya se la podes enviar a quien vos quieras !!!</li>
                     </ol>

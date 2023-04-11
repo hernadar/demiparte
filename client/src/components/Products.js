@@ -59,8 +59,8 @@ function Product({ products, userCompany }) {
                     <>
                     <div className="col-sm-5 col-md-3 col-lg-2 mb-4 mx-2 justify-content-around">
                     <div className = "column">
-                    {(userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2') && <NavLink  className='nav-link' to={`/companies/${empresa}/product/edit/`+ product.id}><button className="btn btn-warning btn-sm ">Editar</button></NavLink>}
-                    {(userCompany && sessionStorage.userId && sessionStorage.userPrivilege === '2' && product.name !== 'Dinero' ) && <button className="btn btn-warning btn-sm m-1" onClick={() => handleShow(product.id)}>Eliminar</button>}
+                    {(userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && <NavLink  className='nav-link' to={`/companies/${empresa}/product/edit/`+ product.id}><button className="btn btn-warning btn-sm ">Editar</button></NavLink>}
+                    {(userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3') && product.name !== 'Dinero' ) && <button className="btn btn-warning btn-sm m-1" onClick={() => handleShow(product.id)}>Eliminar</button>}
                     </div>
                     <div key={product.id} className="">
                         <div className='card tarjeta  h-100 '>

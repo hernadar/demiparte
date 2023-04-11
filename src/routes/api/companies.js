@@ -5,6 +5,7 @@ const companiesApiController=require('../../controllers/api/companiesApiControll
 const productsApiController=require('../../controllers/api/productsApiController');
 const recommendationApiController=require('../../controllers/api/recommendationApiController');
 const changesApiController=require('../../controllers/api/changesApiController');
+const invoicesApiController=require('../../controllers/api/invoicesApiController');
 const authMiddleware = require('../../middlewares/authMiddleware');
 
 // Requiero Multer para recibir la imagen del perfil de usuario y lo configuro
@@ -106,6 +107,12 @@ router.post('/profile/edit/:idCompany', uploadFileCompany.single('image'), valid
 // Eliminar perfil de Empresa
 router.post('/profile/delete/:idCompany',authMiddleware, companiesApiController.delete);
 
+// Buscar Recomendaciones confirmadas o canjeadas de todas las empresas para facturar
+router.get('/recommendation/billing', recommendationApiController.findbilling);
+// Buscar detalles de facturas
+router.get('/invoices/detail', invoicesApiController.listDetail);
+// Buscar facturas
+router.get('/invoices', invoicesApiController.list);
 
 //Rutas de los productos de cada Empresa
 // Lista de Productos
@@ -135,5 +142,6 @@ router.get('/:idCompany/changes/:idChange', changesApiController.detail);
 router.post('/:idCompany/changes/:idUser', changesApiController.create);
 // listar todos todas la recomendaciones confirmadas de una empresa 
 router.get('/:idCompany/billing/', recommendationApiController.billing);
-
+//Crear factura para una empresa
+router.post('/:idCompany/billing/', recommendationApiController.createBilling);
 module.exports = router;

@@ -43,6 +43,11 @@ useEffect(() => {
           
            { sessionStorage.userId && (
            <>
+           {  (sessionStorage.userPrivilege==='3') && 
+              <Link className="nav-link navbar-dark  collapsed " to="/companies/invoices">
+                  Facturación
+              </Link>
+            } 
             {  (sessionStorage.userPrivilege==='2' || sessionStorage.userPrivilege==='3') && 
               <Link className="nav-link navbar-dark  collapsed " to="/companies/register">
                   Crear Empresa
