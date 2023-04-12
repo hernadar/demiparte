@@ -67,7 +67,7 @@ const controller = {
             meta: {
                 status: 200,
                 total: 1,
-                url: 'api/comapnies/:idCompany/changes'
+                url: 'api/companies/:idCompany/changes'
             },
             data: ultimoCanje
         }

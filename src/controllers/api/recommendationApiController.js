@@ -238,7 +238,7 @@ const controller = {
         res.json(response);
     },
     billing: async (req, res) => {
-        let consulta = `SELECT * FROM recommendations INNER JOIN status ON status.status ='confirmada' OR status.status = 'canjeada' AND status.recommendations_id = recommendations.id WHERE companies_id='`+ req.params.idCompany + `'`;
+        let consulta = `SELECT * FROM recommendations INNER JOIN status ON (status.status ='confirmada' OR status.status = 'canjeada') AND status.recommendations_id = recommendations.id WHERE companies_id='`+ req.params.idCompany + `'`;
         const [recomendacionesConfirmadas, metadata] = await db.sequelize.query(consulta)
         let response = {
             meta: {

@@ -14,8 +14,9 @@ function Company() {
     const [changeDetail, setChangeDetail] = useState([])
     const [billing, setBilling] = useState([])
     const [billingBeteewnDates, setBillingBeteewnDates] = useState([])
-
-
+    const [waitChanges, setWaitChanges] = useState(false)
+    const [waitBilling, setWaitBilling] = useState(false)
+  
     useEffect(() => {
         // busco en la base de datos con llamada .then, pero ahora lo hago manual 
 
@@ -36,11 +37,12 @@ function Company() {
     }, [companyId])
 
     const changesByCompany = () => {
-
+        setWaitChanges(true)
         fetch('/api/companies/' + company[0].id + '/changes/')
             .then(response => response.json())
             .then(canjes => {
                 setChanges(canjes.data)
+                setWaitChanges(false)
             })
             .catch((err) => {
                 console.log(err)
@@ -62,11 +64,12 @@ function Company() {
     }
 
     const billingByCompany = () => {
-
+        setWaitBilling(true)
         fetch('/api/companies/' + company[0].id + '/billing/')
             .then(response => response.json())
             .then(confirmadas => {
                 setBilling(confirmadas.data)
+                setWaitBilling(false)
             })
             .catch((err) => {
                 console.log(err)
@@ -77,11 +80,12 @@ function Company() {
     const handleSubmit = (event) => {
         //Prevent page reload
         event.preventDefault();
-
+       
         var { from, to } = document.forms[0];
     
         const billingBeteewnDates = billing.filter((pago) => pago.dateConfirm >= from.value && pago.dateConfirm <=to.value);
         setBillingBeteewnDates(billingBeteewnDates)
+        
     }
 
     var canjesFiltrados
@@ -112,7 +116,7 @@ console.log(userCompany)
                                         {userCompany.length !== 0 &&
                                             <>
 
-                                                {company[0].id === userCompany[0].companies_id &&
+                                                {(company[0].id === userCompany[0].companies_id  || sessionStorage.userPrivilege === '3') &&
                                                     <>
 
                                                         <div className="col-sm m-1">
@@ -188,7 +192,7 @@ console.log(userCompany)
                             <>
                                 {userCompany.length !== 0 &&
                                     <>
-                                        {company[0].id === userCompany[0].companies_id &&
+                                        {(company[0].id === userCompany[0].companies_id || sessionStorage.userPrivilege === '3')&&
                                             <div className="col-sm m-1">
 
                                                 <button className="btn btn-warning" onClick={changesByCompany}>Ver Canjes Realizados</button>
@@ -199,7 +203,9 @@ console.log(userCompany)
                                 }
                             </>
                         )}
-                    
+                     {waitChanges && <div className="row justify-content-center mt-5">
+                        <CircularProgress />
+                    </div>} 
                     {changes.length !== 0 && (
                         <>
                             <div className="table-responsive">
@@ -288,7 +294,7 @@ console.log(userCompany)
                             <>
                                 {userCompany.length !== 0 &&
                                     <>
-                                        {company[0].id === userCompany[0].companies_id &&
+                                        {(company[0].id === userCompany[0].companies_id || sessionStorage.userPrivilege === '3') &&
                                             
                                             <div className="col-sm m-1">
 
@@ -300,7 +306,9 @@ console.log(userCompany)
                                 }
                             </>
                         )}
-                    
+                    {waitBilling && <div className="row justify-content-center mt-5">
+                        <CircularProgress />
+                    </div>} 
                     {billing.length !== 0 && (
                         <>  <form onSubmit={handleSubmit}>
                             <div className='row justify-content-around'>

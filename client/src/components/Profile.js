@@ -191,6 +191,7 @@ function Profile() {
 							<p>"Creada" - La recomendación ha sido creada y aún no se presenta en la Empresa</p>
 							<p>"Pendiente" - La recomendación ha sido presentada en la Empresa, pero aún no ha sido "Confirmada"</p>
 							<p>"Confirmada" - La recomendación ha sido confirmada por la Empresa, la persona que recomendaste seguramente consumió algún producto o servicio de la Empresa y ella la confirmó, el punto se acreditó en tu cuenta !!!</p>
+							<p>"Canjeada" - La recomendación generó puntos en tu cuenta y los mismos fueron canjeados por algún producto de la Empresa</p>
 							<p><strong>Nota:</strong> Recuerda que las recomendaciones que tengan estado "Confirmada" serán las que te suman puntos.
 								Cada recomendación la confirma la Empresa que la recepciona cuando el recomendado consume algún producto o servicio. </p>
 						</>
