@@ -349,7 +349,7 @@ console.log(userCompany)
                                 </table>
                             </div>
                             <div>
-                                <label>Total: $ {billingBeteewnDates.length*company[0].pricePoint}</label>
+                                <label>Total: $ {billingBeteewnDates.length*company[0].pricePoint*company[0].fee}</label>
                                     
                             </div>
                         </>

@@ -74,7 +74,7 @@ function Invoices() {
         
         let facturasEmpresa = invoices.find(detalle => detalle.companies_id == companyId)
         let empresa = companies.find(empresa => empresa.id == companyId)
-        setCompany(empresa)
+        setCompany([empresa])
        
         if (facturasEmpresa === undefined) {
             setInvoicesFilter([])
@@ -88,7 +88,7 @@ function Invoices() {
     const handleSubmit = (event) => {
         //Prevent page reload
         event.preventDefault();
-
+        setFacturado(false)
         var { from, to } = document.forms[0];
         // encontrar empresa seleccionada
 
@@ -99,20 +99,23 @@ function Invoices() {
         const billingBeteewnDates = recommendations.filter((recomendacion) => {
             return (recommendations[0].date >= from.value && recommendations[0].date <= to.value && recomendacion.companies_id == company[0].id)
         });
+        console.log(recommendations)
         console.log(billingBeteewnDates)
         setBillingBeteewnDates(billingBeteewnDates);
 
         for (let i = 0; i < billingBeteewnDates.length; i++) {
-            let facturado = invoiceDetail.find(detalle => detalle.status_id == billingBeteewnDates[i].id)
-
-            if (facturado.length !== 0) {
+           
+            if (invoiceDetail[i].status_id == billingBeteewnDates[i].id){
                 setFacturado(true)
-
             }
+            
+          
+                
+
+            
         }
     }
-
-
+    console.log(company)
 
     return (
         <>
@@ -146,18 +149,61 @@ function Invoices() {
                                                 onChange={handleSelectCompany}
                                             />
 
-
-                                            <div className="text-danger">
-
+                                            <div className="col-sm m-1">
+                                            <button onClick={findInvoices} className="btn btn-warning">Buscar Facturas</button>
                                             </div>
+                                            {invoicesFilter.length !== 0 && (
+                                    <>
+                                        <div className="table-responsive">
+                                            <table className="table table-sm shadow " >
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">F. Emisión</th>
+                                                        <th scope="col">F. Pago</th>
+                                                        <th scope="col">Empresa</th>
+                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                  
+                                                   
+                                                            {invoicesFilter.map((factura, i) => {
+                                                                let dateCorrection1 = factura.dateCreate + 'T00:00:00';
+                                                                let dateCorrection2 = factura.datePay + 'T00:00:00';
+                                                                let fechaEmision = new Date(dateCorrection1).toLocaleDateString('es-AR')
+                                                                let fechaPago = new Date(dateCorrection2).toLocaleDateString('es-AR')
+                                                                return (
+                                                                    <tr key={factura.id}>
+                                                                        <th scope="row">{factura.id}</th>
+                                                                        <td>{fechaEmision}</td>
+                                                                        <td>{fechaPago}</td>
+                                                                        <td>{company.name}</td>
+                                                                        <td>{factura.status}</td>
+                                                                        <td>$ {factura.total}</td>
+                                                                    </tr>
+                                                                )
+                                                            })}
+                                                    
 
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </>)}   
                                         </div>
                                     </div>
 
 
                                     {recommendations.length !== 0 && (
                                         <>
-
+                                    <hr className="sidebar-divider " />
+                                    <div className='row justify-content-around'>
+                                                <label >Facturar</label>
+                                                
+                                            </div>
                                             <div className='row justify-content-around'>
                                                 <label >Desde: </label>
                                                 <input name="from" type="date"></input>
@@ -219,56 +265,14 @@ function Invoices() {
 
                                 </form>
 
-                                <div className="col-sm m-1">
-                                    <button onClick={findInvoices} className="btn btn-warning">Buscar Facturas</button>
-                                </div>
+                               
                       
                             </div>
                     
                         </div >
 
 
-                        {invoicesFilter.length !== 0 && (
-                                    <>
-                                        <div className="table-responsive">
-                                            <table className="table table-sm shadow " >
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">F. Emisión</th>
-                                                        <th scope="col">F. Pago</th>
-                                                        <th scope="col">Empresa</th>
-                                                        <th scope="col">Estado</th>
-                                                        <th scope="col">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                  
-                                                   
-                                                            {invoicesFilter.map((factura, i) => {
-                                                                let dateCorrection1 = factura.dateCreate + 'T00:00:00';
-                                                                let dateCorrection2 = factura.datePay + 'T00:00:00';
-                                                                let fechaEmision = new Date(dateCorrection1).toLocaleDateString('es-AR')
-                                                                let fechaPago = new Date(dateCorrection2).toLocaleDateString('es-AR')
-                                                                return (
-                                                                    <tr key={factura.id}>
-                                                                        <th scope="row">{factura.id}</th>
-                                                                        <td>{fechaEmision}</td>
-                                                                        <td>{fechaPago}</td>
-                                                                        <td>{company.name}</td>
-                                                                        <td>{factura.status}</td>
-                                                                        <td>$ {factura.total}</td>
-                                                                    </tr>
-                                                                )
-                                                            })}
-                                                    
-
-
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </>)}   
+                        
                     </div >
 
                 </>)

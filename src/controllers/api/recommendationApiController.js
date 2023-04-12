@@ -251,7 +251,7 @@ const controller = {
         res.json(response);
     },
     findbilling: async (req, res) => {
-        let consulta = `SELECT recommendations.id as id_recommendation, recommendations.companies_id, status.id, status.status, status.date FROM recommendations INNER JOIN status ON status.status ='confirmada' OR status.status = 'canjeada' AND status.recommendations_id = recommendations.id`;
+        let consulta = `SELECT recommendations.id as id_recommendation, recommendations.companies_id, status.id, status.status, status.date FROM recommendations INNER JOIN status ON (status.status ='confirmada' OR status.status = 'canjeada') AND status.recommendations_id = recommendations.id`;
         const [recomendacionesConfirmadas, metadata] = await db.sequelize.query(consulta)
         let response = {
             meta: {

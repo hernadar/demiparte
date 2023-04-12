@@ -103,7 +103,7 @@ const controller = {
 
     profile: async (req, res) => {
 
-        let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, areas.name as areas_name, address, whatsapp from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
+        let consulta = "SELECT companies.id, companies.name, description, recomendations, image, pricePoint, fee, areas.name as areas_name, address, whatsapp from companies JOIN areas WHERE companies.id='" + req.params.idCompany + "' AND companies.areas_id = areas.id";
         const [company, metadata] = await db.sequelize.query(consulta)
         
         for ( i=0 ; i<company.length ; i++ ) {
