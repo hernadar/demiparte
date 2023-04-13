@@ -106,7 +106,7 @@ function Recommendation() {
             // Crear un elemento <a>
            
             let enlace = document.createElement('a');
-            enlace.download = `Recomendacion${company.name}`;
+            enlace.download = `Recomendacion${company[0].name + Date.now()}`;
             // Convertir la imagen a Base64
             
             enlace.href = canvas.toDataURL('image/png', 0.1);
