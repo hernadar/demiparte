@@ -109,10 +109,16 @@ router.post('/profile/delete/:idCompany',authMiddleware, companiesApiController.
 
 // Buscar Recomendaciones confirmadas o canjeadas de todas las empresas para facturar
 router.get('/recommendation/billing', recommendationApiController.findbilling);
-// Buscar detalles de facturas
-router.get('/invoices/detail', invoicesApiController.listDetail);
+
+///Facturas
 // Buscar facturas
 router.get('/invoices', invoicesApiController.list);
+// asentar fecha de pago y cambio de estado a cancelada
+router.post('/invoices/:idInvoice', invoicesApiController.update);
+// Buscar detalles de facturas
+router.get('/invoices/detail', invoicesApiController.listDetail);
+
+///////
 
 //Rutas de los productos de cada Empresa
 // Lista de Productos

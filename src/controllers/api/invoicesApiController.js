@@ -89,25 +89,19 @@ const controller = {
             })
     },
 
-    updatePresentar: async (req, res) => {
+    update: async (req, res) => {
         console.log('Estoy actualizando')
-        let date = new Date();
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        let dateToPresent = year + '-' + month + '-' + day
-        let consulta = `UPDATE recommendations SET status = 'pendiente', datePresent='` + dateToPresent + `' WHERE id='` + req.params.id + `'`;
-        const [recomendaciones, metadata] = await db.sequelize.query(consulta)
-
-        let nuevaconsulta = `INSERT INTO status (status, date, recommendations_id) VALUES ("pendiente", "` + dateToPresent + `", "` + req.params.id + `")`;
-        const [status, metadata2] = await db.sequelize.query(nuevaconsulta)
+        console.log(req.body)
+        console.log(req.params.idInvoice)
+        let consulta = `UPDATE invoices SET datePay = '` + req.body.datePay + `', status = 'cancelada' WHERE id='` + req.params.idInvoice + `'`;
+        const [factura, metadata] = await db.sequelize.query(consulta);
         let response = {
             meta: {
                 status: 200,
                 total: 1,
-                url: 'api/users/recommendation/updatePresentar/:id'
+                url: 'api/companies/invoices/:id'
             },
-            data: status
+            data: factura
         }
         res.json(response);
 

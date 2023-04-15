@@ -284,7 +284,7 @@ const controller = {
         let consultaUltimaFactura = 'SELECT MAX(id) ultimo FROM invoices; '
         const [ultimaFactura, metadata2] = await db.sequelize.query(consultaUltimaFactura)
         for ( i = 0 ; i < req.body.length ; i++ ){
-            let consultaDetalle = `INSERT INTO invoiceDetail (date, invoices_id, status_id, sutotal) VALUES ('` + req.body[i].date + `', '` + ultimaFactura[0].ultimo + `', '` + req.body[i].id + `', '` + company[0].pricePoint*company[0].fee +`')`
+            let consultaDetalle = `INSERT INTO invoiceDetail (date, invoices_id, status_id, subtotal) VALUES ('` + req.body[i].date + `', '` + ultimaFactura[0].ultimo + `', '` + req.body[i].id + `', '` + company[0].pricePoint*company[0].fee +`')`
             const [detalleFactura, metadata3] = await db.sequelize.query(consultaDetalle)
         }
     
