@@ -31,7 +31,7 @@ function Company() {
 
             setCompany(detalleDeEmpresa.data)
             setUserCompany(empresaDelUsuario.data)
-
+            
         })
 
     }, [companyId])
@@ -90,7 +90,7 @@ function Company() {
 
     var canjesFiltrados
 
-console.log(userCompany)
+  
     return (
         <>
             {!company && <div className="row justify-content-center mt-5">
@@ -136,7 +136,7 @@ console.log(userCompany)
                         <h5 className='fuente mb-1'>Productos ofrecidos para canje</h5>
 
 
-                        <ProductsList userCompany={userCompany} />
+                        <ProductsList userCompany={userCompany} company={company}/>
                         <div>
                             {(company && userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && (
                                 <>
@@ -311,11 +311,11 @@ console.log(userCompany)
                     </div>} 
                     {billing.length !== 0 && (
                         <>  <form onSubmit={handleSubmit}>
-                            <div className='row justify-content-around'>
+                            <div className='row justify-content-around m-1'>
                             <label >Desde: </label>
                             <input name="from" type="date"></input>
                             </div>
-                            <div className='row justify-content-around'>
+                            <div className='row justify-content-around m-1'>
                             <label >Hasta: </label>
                             <input name="to" type="date"></input>
                             </div>

@@ -5,11 +5,11 @@ import Products from './Products'
 
 
 
-function ProductsList(userCompany){
+function ProductsList(userCompany, company){
     const [products,setProducts] = useState([])
     const { companyId } = useParams()
  
- 
+
  
 
     useEffect(() =>{

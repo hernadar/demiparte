@@ -1,22 +1,26 @@
 
 import React, { useState } from 'react';
-import {useNavigate, NavLink } from "react-router-dom"
+import { useParams, useNavigate, NavLink } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button'
 
 
 
 function Product({ products, userCompany }) {
+    const { companyId } = useParams()
     const [empresa,setEmpresa]= useState('')
     const [productId,setproductId]= useState('')
     const [show, setShow] = useState(false);
     const navigate = useNavigate()
+    
     const handleClose = () => setShow(false);
+    
     const handleShow = (id) => {
         if (productId ===''){
           setproductId(id)  
         }
         setShow(true)};
+    
     const handleEliminate = () => {
         const productsJSON = JSON.stringify(productId)
         
@@ -33,7 +37,7 @@ function Product({ products, userCompany }) {
             .catch(function (e) {
                 console.log(e)
             })
-        console.log('se eliminó producto:' + productId)
+   
         
         setShow(false);
         setTimeout(()=>{
@@ -47,6 +51,7 @@ function Product({ products, userCompany }) {
     if (empresa ===''){
     setEmpresa(userCompany.userCompany[0].companies_id)
     }
+  
     return (
         <>
         
@@ -58,9 +63,11 @@ function Product({ products, userCompany }) {
                 return (
                     <>
                     <div className="col-sm-5 col-md-3 col-lg-2 mb-4 mx-2 justify-content-around">
-                    <div className = "column">
-                    {(userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3')) && <NavLink  className='nav-link' to={`/companies/${empresa}/product/edit/`+ product.id}><button className="btn btn-warning btn-sm ">Editar</button></NavLink>}
-                    {(userCompany && sessionStorage.userId && (sessionStorage.userPrivilege === '2' || sessionStorage.userPrivilege === '3') && product.name !== 'Dinero' ) && <button className="btn btn-warning btn-sm m-1" onClick={() => handleShow(product.id)}>Eliminar</button>}
+                    <div key={product.id +10} className = "column">
+                    {userCompany.userCompany.length !== 0 &&
+                    ((userCompany && (parseInt(companyId) === userCompany.userCompany[0].companies_id) &&  sessionStorage.userId && (sessionStorage.userPrivilege === '2') || sessionStorage.userPrivilege === '3')) && <NavLink  className='nav-link' to={`/companies/${empresa}/product/edit/`+ product.id}><button className="btn btn-warning btn-sm ">Editar</button></NavLink>}
+                    {userCompany.userCompany.length !== 0 &&
+                    ((userCompany && (parseInt(companyId) === userCompany.userCompany[0].companies_id) &&  sessionStorage.userId && (sessionStorage.userPrivilege === '2') || sessionStorage.userPrivilege === '3') && product.name !== 'Dinero' ) && <button className="btn btn-warning btn-sm m-1" onClick={() => handleShow(product.id)}>Eliminar</button>}
                     </div>
                     <div key={product.id} className="">
                         <div className='card tarjeta  h-100 '>
