@@ -19,43 +19,44 @@ import Contact from './Contact';
 import About from './About';
 import Invoices from './Invoices';
 import Terminos from './Terminos';
-
+import RegisterUserCompany from './RegisterUserCompany';
 function App() {
 
   return (
-  
-    
-      <Routes>
-        <Route path="/" element={<Layout/>}>
-          <Route index element={<Home />} />
-
-          <Route path='/users/register' element={<Register />} />
-              <Route path='/users/login' element={<Login />} />
-              <Route path='/users/profile' element={<Profile />} />
-              <Route path='/users/logout' element={<Logout />} />  
-              <Route path='/users/recoverpass' element={<RecoverPass />} />
 
 
-          <Route path='/companies/' element={<Companies />} />
-          <Route path='/companies/invoices' element={<Invoices />} />
-          <Route path='/companies/:companyId/' element ={<Company/>} /> 
-          <Route path='/companies/:companyId/product/create' element ={<ProductRegister/>} />  
-          <Route path='/companies/:companyId/product/edit/:productId' element ={<ProductEdit/>} />
-          <Route path='/companies/:companyId/recommendation' element ={<Recommendation/>} /> 
-          <Route path='/companies/:companyId/edit' element ={<CompanyEdit/>} /> 
-          <Route path='/companies/register' element ={<CompanyRegister/>} />
-          
-          <Route path='/contact' element ={<Contact/>} />
-          <Route path='/about' element ={<About/>} />
-          <Route path='/terminos' element ={<Terminos/>} />
-        </Route>
-       <Route path='*' element={<Error404 />} />  
-      
-      </Routes>
-   
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+
+        <Route path='/users/register' element={<Register />} />
+        <Route path='/users/registerUserCompany' element={<RegisterUserCompany />} />
+        <Route path='/users/login' element={<Login />} />
+        <Route path='/users/profile' element={<Profile />} />
+        <Route path='/users/logout' element={<Logout />} />
+        <Route path='/users/recoverpass' element={<RecoverPass />} />
 
 
-      );
+        <Route path='/companies/' element={<Companies />} />
+        <Route path='/companies/invoices' element={<Invoices />} />
+        <Route path='/companies/:companyId/' element={<Company />} />
+        <Route path='/companies/:companyId/product/create' element={<ProductRegister />} />
+        <Route path='/companies/:companyId/product/edit/:productId' element={<ProductEdit />} />
+        <Route path='/companies/:companyId/recommendation' element={<Recommendation />} />
+        <Route path='/companies/:companyId/edit' element={<CompanyEdit />} />
+        <Route path='/companies/register' element={<CompanyRegister />} />
+
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/terminos' element={<Terminos />} />
+      </Route>
+      <Route path='*' element={<Error404 />} />
+
+    </Routes>
+
+
+
+  );
 }
 
 export default App;

@@ -28,30 +28,30 @@ Demiparte puede compartir la información personal a las Empresas (Usuarios) reg
 <h3>5- Acceso a Otra Información Comercial</h3>
 <p>Además de lo previsto en las secciones anteriores, demiparte proporciona herramientas, aplicaciones y servicios basados en otra información comercial provista por las Personas Usuarias y/o generada al utilizar los servicios del Sitio, para ayudar a los Vendedores a optimizar sus ventas, aumentar su volumen y gestionar su negocio. También podremos usarla para ofrecer a las Personas Usuarias promociones, productos y servicios de otras empresas o de marca compartida. 
 
-6- Sanciones
-En caso que la Persona Usuaria incumpliera una ley o los Términos y Condiciones, podremos advertir, suspender, restringir o inhabilitar temporal o definitivamente su cuenta, sin perjuicio de otras sanciones que se establezcan en las reglas de uso particulares de los servicios de demiparte. 
+<h3>6- Sanciones</h3>
+<p>En caso que la Persona Usuaria incumpliera una ley o los Términos y Condiciones, podremos advertir, suspender, restringir o inhabilitar temporal o definitivamente su cuenta, sin perjuicio de otras sanciones que se establezcan en las reglas de uso particulares de los servicios de demiparte.</p> 
 
-7- Responsabilidad
-Demiparte NO es responsable por el incumplimiento en el canje puntos por productos/servicios como así también en dinero en efectivo por parte de los Usuarios Empresas que ofrecen dicho canje en nuestro Sitio a cambio de recomendaciones.
+<h3>7- Responsabilidad</h3>
+<p>Demiparte NO es responsable por el incumplimiento en el canje de puntos por productos/servicios como así también en dinero en efectivo por parte de los Usuarios Empresas que ofrecen dicho canje en nuestro Sitio a cambio de recomendaciones.
 
 Demiparte solo se ocupa brindar un servicio de registración de datos informáticos vinculados al registro de Usuarios y sus interacciones, es decir, recomendaciones emitidas, presentadas, confirmadas, canjes, etc.
 
-Demiparte será responsable por cualquier defecto en la prestación de su servicio, en la medida en que le sea imputable y con el alcance previsto en las leyes vigentes. 
-8- Tarifas
-Demiparte podrá cobrar por sus servicios y la Persona Usuaria se compromete a pagarlos a tiempo. 
+Demiparte será responsable por cualquier defecto en la prestación de su servicio, en la medida en que le sea imputable y con el alcance previsto en las leyes vigentes.</p> 
+<h3>8- Tarifas</h3>
+<p>Demiparte podrá cobrar por sus servicios y la Persona Usuaria se compromete a pagarlos a tiempo. 
 Podremos modificar o eliminar las tarifas en cualquier momento con el debido preaviso establecido en la cláusula 1 de estos Términos y Condiciones. De la misma manera, podremos modificar las tarifas temporalmente por promociones en favor de las Personas Usuarias. 
 La Persona Usuaria autoriza a demiparte a retener y/o debitar los fondos existentes y/o futuros de las cuentas bancarias que haya registrado en ella, para saldar las tarifas impagas o cualquier otra deuda que pudiera tener. 
 Para conocer el detalle de las tarifas de cada servicio, las Personas Usuarias deberán consultar los términos y condiciones correspondientes. 
-En todos los casos se emitirá la factura de conformidad con los datos fiscales que las personas tengan cargados en su cuenta. 
-9- Propiedad Intelectual
-Demiparte y/o sus sociedades relacionadas son propietarias de todos los derechos de propiedad intelectual sobre sus sitios, todo su contenido, servicios, productos, marcas, nombres comerciales, logos, diseños, imágenes, frases publicitarias, derechos de autor, dominios, programas de computación, códigos, desarrollos, software, bases de datos, información, tecnología, patentes y modelos de utilidad, diseños y modelos industriales, secretos comerciales, entre otros (“Propiedad Intelectual”) y se encuentran protegidos por leyes nacionales e internacionales.
+En todos los casos se emitirá la factura de conformidad con los datos fiscales que las personas tengan cargados en su cuenta.</p> 
+<h3>9- Propiedad Intelectual</h3>
+<p>Demiparte y/o sus sociedades relacionadas son propietarias de todos los derechos de propiedad intelectual sobre sus sitios, todo su contenido, servicios, productos, marcas, nombres comerciales, logos, diseños, imágenes, frases publicitarias, derechos de autor, dominios, programas de computación, códigos, desarrollos, software, bases de datos, información, tecnología, patentes y modelos de utilidad, diseños y modelos industriales, secretos comerciales, entre otros (“Propiedad Intelectual”) y se encuentran protegidos por leyes nacionales e internacionales.
 Aunque demiparte otorga permiso para usar sus productos y servicios conforme a lo previsto en los Términos y Condiciones, esto no implica una autorización para usar su  Propiedad Intelectual, excepto consentimiento previo y expreso de demiparte y/o sus sociedades vinculadas. En cualquier caso, los usuarios vendedores que usen dichos productos y servicios no podrán utilizar la Propiedad Intelectual de demiparte de una manera que cause confusión en el público y deberán llevar a cabo su actividad comercial bajo una marca o nombre comercial propio y distintivo, que no resulte confundible con la marca demiparte.
 Está prohibido usar nuestros productos o servicios para fines ilegales, realizar cualquier tipo de ingeniería inversa u obras derivadas, utilizar herramientas de búsqueda o de extracción de datos y contenidos de nuestra plataforma para su reutilización y/o crear bases de datos propias que incluyan en todo o en parte nuestro contenido sin nuestra expresa autorización. Está también prohibido el uso indebido, sin autorización y/o contrario a la normativa vigente y/o que genere confusión o implique uso denigratorio y/o que le cause perjuicio, daños o pérdidas a demiparte y/o a sus sociedades relacionadas. La utilización de los productos y servicios de demiparte tampoco implica la autorización para usar propiedad intelectual de terceros que pueda estar involucrada, cuyo uso quedará bajo exclusiva responsabilidad del usuario. 
-En caso que una Persona Usuaria o cualquier publicación infrinja la Propiedad Intelectual de demiparte o de terceros, demiparte podrá remover dicha publicación total o parcialmente), sancionar al usuario conforme a lo previsto en estos Términos y Condiciones y ejercer las acciones extrajudiciales y/o judiciales correspondientes.
-10- Indemnidad
-La Persona Usuaria mantendrá indemne a demiparte y sus sociedades relacionadas, así como a quienes la dirigen, suceden, administran, representan y/o trabajan en ellas, por cualquier reclamo administrativo o judicial iniciado por otras Personas Usuarias, terceros o por cualquier Organismo, relacionado con sus actividades en el Sitio.
-En virtud de esa responsabilidad, podrán realizar compensaciones, retenciones u otras medidas necesarias para la reparación de pérdidas, daños y perjuicios, cualquiera sea su naturaleza.
-11- Jurisdicción y Ley Aplicable
+En caso que una Persona Usuaria o cualquier publicación infrinja la Propiedad Intelectual de demiparte o de terceros, demiparte podrá remover dicha publicación total o parcialmente), sancionar al usuario conforme a lo previsto en estos Términos y Condiciones y ejercer las acciones extrajudiciales y/o judiciales correspondientes.</p>
+<h3>10- Indemnidad</h3>
+<p>La Persona Usuaria mantendrá indemne a demiparte y sus sociedades relacionadas, así como a quienes la dirigen, suceden, administran, representan y/o trabajan en ellas, por cualquier reclamo administrativo o judicial iniciado por otras Personas Usuarias, terceros o por cualquier Organismo, relacionado con sus actividades en el Sitio.
+En virtud de esa responsabilidad, podrán realizar compensaciones, retenciones u otras medidas necesarias para la reparación de pérdidas, daños y perjuicios, cualquiera sea su naturaleza.</p>
+<h3>11- Jurisdicción y Ley Aplicable</h3>
 Estos Términos y Condiciones se rigen por la ley argentina. Toda controversia derivada de su aplicación, interpretación, ejecución o validez será resuelta por los tribunales nacionales ordinarios competentes, con asiento en la Ciudad de Mendoza, salvo disposición específica de normas de orden público, como por ejemplo, legislación relativa al Consumidor. Para todos los efectos relacionados con estos Términos y Condiciones y con el uso del sitio, Rubén Darío Hernández. con CUIT 20-24486549-7 establece como domicilio Joaquín V. González 2174 – Godoy Cruz - Mendoza, Argentina.
 </p>
         </div>

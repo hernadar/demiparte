@@ -49,9 +49,14 @@ useEffect(() => {
               </Link>
             } 
             {  (sessionStorage.userPrivilege==='2' || sessionStorage.userPrivilege==='3') && 
-              <Link className="nav-link navbar-dark  collapsed " to="/companies/register">
-                  Crear Empresa
+              <>
+              <Link className="nav-link navbar-dark  collapsed " to="/users/registeruserCompany">
+                  Crear Usuario de Empresa
               </Link>
+               <Link className="nav-link navbar-dark  collapsed " to="/companies/register">
+               Crear Empresa
+           </Link>
+           </>
             } 
            <NavDropdown
               id="nav-dropdown-dark-example"

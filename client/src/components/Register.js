@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom"
+import {  NavLink, useNavigate } from "react-router-dom"
 import bcrypt from "bcryptjs-react";
 import emailjs from 'emailjs-com';
 function Register() {
@@ -279,14 +279,18 @@ function Register() {
 
                             <div className="col-md-6 my-1">
                                 <div className="form-group">
-                                    <label><b>Usuario de Empresa</b></label>
-                                    <label className='text-danger'>(Tilde esta casilla SOLO si es una Empresa que recibe recomendaciones)</label>
+                                <NavLink to={`/terminos`}><span className="form-check-label">
+                                Consultar Terminos y Condiciones
+                                    </span> </NavLink>
+                                    
+                                    <label><b>Acepto Terminos y Condiciones</b></label>
+                                    
                                     <input
                                         type="checkbox"
                                         name="privileges"
                                         checked={checked}
                                         onChange={handleChange}
-
+                                        className="m-1"
                                     />
 
                                     <div className="text-danger">
@@ -297,7 +301,7 @@ function Register() {
                             </div>
 
                             <div className="col-12 my-3">
-                                <button type="submit" className="btn btn-warning">Registrarse</button>
+                                <button disabled = {!checked} type="submit" className="btn btn-warning">Registrarse</button>
                             </div>
                         </div>
                     </form>

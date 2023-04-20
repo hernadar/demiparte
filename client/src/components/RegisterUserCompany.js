@@ -7,7 +7,7 @@ function Register() {
     const [errorMessages, setErrorMessages] = useState({});
 
     const [users, setUsers] = useState([])
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
 
     useEffect(() => {
 
@@ -268,7 +268,8 @@ function Register() {
                                         name="image"
                                         placeholder='solo .jpg/.png'
                                         className="form-control"
-                                    />
+
+                                        />
 
                                     <div className="text-danger">
                                         {renderErrorMessage("imagen")}
