@@ -18,6 +18,7 @@ import ProductEdit from './ProductEdit';
 import Contact from './Contact';
 import About from './About';
 import Invoices from './Invoices';
+import Terminos from './Terminos';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
           
           <Route path='/contact' element ={<Contact/>} />
           <Route path='/about' element ={<About/>} />
+          <Route path='/terminos' element ={<Terminos/>} />
         </Route>
        <Route path='*' element={<Error404 />} />  
       

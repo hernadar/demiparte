@@ -205,9 +205,9 @@ function Recommendation() {
                         </div>
                         {keyRecommend !== "" && (
                             <div className="col-sm align-middle m-1" >
-                                <QRCodeCanvas value={keyRecommend}
+                                <QRCodeCanvas className="w-75 h-75"value={keyRecommend}
                                     id="qrCode"
-                                    size={200}
+                                    
                                 />
 
 

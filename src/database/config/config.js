@@ -1,10 +1,10 @@
 module.exports = {
   "development": {
     "username": "hernadar", //hernadar
-    "password": "192611Dh",
+    "password": "192611Dh$",
     "database": "recomendame",
     "port": 3306,
-    "host": "db4free.net",//db4free.net
+    "host": "onlink.com.ar",//db4free.net
     "dialect": "mysql",
     "ssl": true,
     "dialectOptions": {
